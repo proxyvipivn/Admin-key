@@ -4,154 +4,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#04140c">
+<meta name="theme-color" content="#03110a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>⚙️ ADMIN PANEL — SHOP FF MAX</title>
+<title>⚙️ ADMIN PANEL — FF MAX</title>
 <style>
-/* ============================================================
-   BIẾN MÀU XANH LỤC BẢO (EMERALD)
-   ============================================================ */
 :root {
   color-scheme: dark;
-  --em1: #00ff88;
+  --em: #00ff88;
   --em2: #10b981;
-  --em3: #059669;
-  --em4: #047857;
-  --em5: #34d399;
-  --em6: #6ee7b7;
-  --bg: #04140c;
-  --bg2: #021a10;
-  --card: rgba(6, 40, 24, 0.75);
-  --line: rgba(0, 255, 136, 0.35);
-  --text: #d1fae5;
-  --text2: #6ee7b7;
-  --text3: #34d399;
+  --em3: #34d399;
+  --em4: #059669;
+  --bg: #03110a;
+  --card: rgba(6, 40, 24, 0.6);
+  --line: rgba(0, 255, 136, 0.28);
+  --text: #e8fff3;
+  --text2: #86efac;
+  --text3: #4ade80;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
 html, body {
-  color-scheme: dark !important;
   height: 100%;
-  background: #04140c !important;
+  background: #03110a !important;
+  color-scheme: dark !important;
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   background:
-    radial-gradient(circle at 15% 10%, rgba(4, 120, 87, 0.3) 0%, transparent 45%),
-    radial-gradient(circle at 85% 90%, rgba(5, 150, 105, 0.25) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.08) 0%, transparent 60%),
-    #04140c !important;
-  color: var(--text) !important;
+    radial-gradient(ellipse at top left, rgba(4, 120, 87, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(5, 150, 105, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at center, rgba(0, 255, 136, 0.05) 0%, transparent 70%),
+    #03110a !important;
+  color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   position: relative;
-  padding: 10px;
+  padding: 14px 14px 100px;
+  padding-top: calc(14px + env(safe-area-inset-top));
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
 }
 
 /* ============================================================
-   VIỀN NGOÀI PHÁ88T SÁNG CHUYỂN ĐỘNG
+   BACKGROUND ANIMATION — LƯỚI + ÁNH SÁNG
+   ============================================================ */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 40px 40px, 40px 40px; }
+}
+
+/* ============================================================
+   VIỀN PHÁT SÁNG CHUYỂN ĐỘNG
    ============================================================ */
 .outer-frame {
   position: fixed;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  border-radius: 18px);
-;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border-radius: 22px;
   pointer-events: none;
   z-index: 99999;
-  padding: 2.5px;
-  background: linear-gradient(90deg,
-     #00ff88, #34d399, #10b981, #6ee7b7,
-    #00ff88, #059669, #34d399, #00ff background-size: 400% 100%;
-  animation: borderRun 4s linear infinite;
+  padding: 2px;
+  background: linear-gradient(115deg,
+    #00ff88, #34d399, #10b981, #6ee7b7,
+    #00ff88, #059669, #34d399, #00ff88);
+  background-size: 400% 100%;
+  animation: borderRun 3s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
-  box-shadow:
-    0 0 25px rgba(0, 255, 136, 0.9),
-    0 0 50px rgba(16, 185, 129, 0.6),
-    inset 0 0 20px rgba(0, 255, 136, 0.4);
+  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.9))
+          drop-shadow(0 0 20px rgba(16, 185, 129, 0.6))
+          drop-shadow(0 0 40px rgba(0, 255, 136, 0.3));
 }
-
-@keyframes borderRun0 {
+@keyframes borderRun {
   0% { background-position: 0% 50%; }
   100% { background-position: 400% 50%; }
 }
 
-.outer-glow;
- {
-  position: fixed;
-  top: 0;
-  left:   width: 100%;
-  height: 100%;
-  z-index: 99998;
-  pointer-events: none;
-  box-shadow: inset 0 0 60px rgba(0, 255, 136, 0.15);
-  animation: glowPulse 3s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%, 100% { box-shadow: inset 0 0 60px rgba(0, 255, 136, 0.15); }
-  50% { box-shadow: inset 0 0 100px rgba(0, 255, 136, 0.3); }
-}
-
 /* ============================================================
-   NÚT BẤM
+   HEADER — NỔI CAO CẤP
    ============================================================ */
-.btn {
-  padding: 13px 18px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 13.5px;
-  letter-spacing: 0.6px;
-  color: #002a16;
-  background: linear-gradient(90deg, #34d399, #00ff88);
-  font-family: inherit;
-  transition: 0.22s;
-  -webkit-appearance: none;
-  width: 100%;
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-}
-.btn:hover { transform: translateY(-2px); box-shadow: 0 0 34px rgba(0, 255, 136, 0.85); }
-.btn:active { transform: scale(0.98); }
-.btn.green { background: linear-gradient(90deg, #00ff88, #10b981); }
-.btn.dark { background: linear-gradient(90deg, #047857, #059669); color: #d1fae5; }
-.btn.ghost { background: transparent; border: 1.5px solid rgba(0, 255, 136, 0.5); color: var(--text2); box-shadow: none; }
-.btn.danger { background: linear-gradient(90deg, #ff0055, #ff7a00); color: #fff; }
-.btn.sm { width: auto; padding: 8px 13px; font-size: 11.5px; border-radius: 9px; }
-
-/* ============================================================
-   HEADER + MENU 3 GẠCH
-   ============================================================ */
-.admin-head {
+.app-header {
   position: sticky;
   top: 0;
   z-index: 100;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
-  background: rgba(4, 20, 12, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1.5px solid rgba(0, 255, 136, 0.4);
-  box-shadow: 0 0 30px rgba(0, 255, 136, 0.25);
-  border-radius: 14px;
-  margin-bottom: 14px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(6, 40, 24, 0.85), rgba(2, 20, 12, 0.85));
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  border-radius: 18px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(0, 255, 136, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.burger {
+.burger-btn {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: 13px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,32 +133,30 @@ body {
   gap: 5px;
   cursor: pointer;
   flex: 0 0 auto;
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.18), rgba(5, 150, 105, 0.15));
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(5, 150, 105, 0.15));
   border: 1.5px solid rgba(0, 255, 136, 0.5);
-  transition: 0.22s;
+  box-shadow: 0 0 18px rgba(0, 255, 136, 0.3);
+  transition: all 0.25s;
 }
-.burger:active { transform: scale(0.94); }
-.burger span {
+.burger-btn:active { transform: scale(0.92); }
+.burger-btn span {
   width: 22px;
   height: 2.5px;
   border-radius: 3px;
   background: linear-gradient(90deg, #34d399, #00ff88);
   display: block;
-  transition: 0.25s;
-  box-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
 }
-.burger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-.burger.open span:nth-child(2) { opacity: 0; }
-.burger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+.burger-btn.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.burger-btn.open span:nth-child(2) { opacity: 0; }
+.burger-btn.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-.head-title {
-  flex: 1;
-  min-width: 0;
-}
-.head-title h2 {
-  font-size: clamp(13px, 3.6vw, 16px);
-  font-weight: 900;
-  letter-spacing: 1px;
+.header-info { flex: 1; min-width: 0; }
+.header-info h1 {
+  font-size: clamp(13px, 3.8vw, 16px);
+  font-weight: 800;
+  letter-spacing: 0.8px;
   background: linear-gradient(90deg, #6ee7b7, #00ff88, #34d399);
   background-size: 200% 100%;
   -webkit-background-clip: text;
@@ -195,121 +167,132 @@ body {
   text-overflow: ellipsis;
   animation: textShine 4s linear infinite;
 }
-.head-title p {
+.header-info p {
   font-size: 10px;
   color: var(--text3);
   letter-spacing: 0.5px;
   margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.status-dot {
-  width: 10px;
-  height: 10px;
+.live-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #00ff88;
-  box-shadow: 0 0 12px #00ff88;
+  box-shadow: 0 0 10px #00ff88, 0 0 20px rgba(0, 255, 136, 0.6);
   animation: pulseDot 1.5s infinite;
-  flex: 0 0 auto;
 }
 @keyframes pulseDot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
-
 @keyframes textShine {
-  to { background-position: 300% 0; }
+  to { background-position: 200% 0; }
 }
 
 /* ============================================================
-   OVERLAY + SIDEBAR (MENU 3 GẠCH)
+   SIDEBAR MENU — SLIDE TỪ TRÁI
    ============================================================ */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 200;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: 0.3s;
 }
-.overlay.show {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
+.overlay.show { opacity: 1; visibility: visible; }
 
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: min(320px, 86vw);
+  width: min(320px, 82vw);
   height: 100vh;
   z-index: 300;
-  background: linear-gradient(180deg, rgba(4, 25, 15, 0.99), rgba(2, 16, 10, 0.99));
+  background: linear-gradient(180deg, #041a10 0%, #021008 100%);
   border-right: 1.5px solid rgba(0, 255, 136, 0.5);
   transform: translateX(-105%);
-  transition: transform 0.32s cubic-bezier(0.3, 0.8, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: 8px 0 50px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 255, 136, 0.3);
+  box-shadow: 8px 0 60px rgba(0, 0, 0, 0.95), 0 0 60px rgba(0, 255, 136, 0.25);
   overflow-y: auto;
+  padding-top: env(safe-area-inset-top);
 }
 .sidebar.open { transform: translateX(0); }
 
-.side-head {
-  padding: 20px 18px;
-  border-bottom: 1px solid rgba(0, 255, 136, 0.35);
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(5, 150, 105, 0.15));
+.side-brand {
+  padding: 24px 22px 20px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(5, 150, 105, 0.08));
+  position: relative;
+  overflow: hidden;
 }
-.side-head h2 {
-  font-size: 16px;
+.side-brand::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.2), transparent 70%);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+}
+.side-brand .logo {
+  font-size: 32px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 16px rgba(0, 255, 136, 0.8));
+  display: block;
+}
+.side-brand h2 {
+  font-size: 17px;
   font-weight: 900;
   background: linear-gradient(90deg, #6ee7b7, #00ff88);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
 }
-.side-head p {
+.side-brand p {
   font-size: 11px;
   color: var(--text3);
   margin-top: 4px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
-.side-user {
-  margin: 14px;
-  padding: 13px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.7;
+.menu-label {
+  padding: 18px 22px 8px;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--text3);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.7;
 }
-.side-user b { color: #ffffff; font-size: 13.5px; }
-.side-user .em { color: var(--em1); }
 
 .menu-list {
   list-style: none;
-  padding: 8px 12px 26px;
+  padding: 4px 14px;
+  flex: 1;
 }
 .menu-list li {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 15px;
+  gap: 14px;
+  padding: 14px 16px;
   margin-bottom: 6px;
-  border-radius: 13px;
+  border-radius: 14px;
   cursor: pointer;
-  font-size: 13.8px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text2);
-  transition: 0.22s;
+  transition: all 0.25s;
   border: 1.5px solid transparent;
   position: relative;
   overflow: hidden;
@@ -323,390 +306,557 @@ body {
   width: 3px;
   background: linear-gradient(180deg, #00ff88, #34d399);
   opacity: 0;
-  transition: 0.22s;
+  transition: 0.25s;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
 }
-.menu-list li:hover {
-  background: rgba(0, 255, 136, 0.08);
-  border-color: rgba(0, 255, 136, 0.35);
-  transform: translateX(3px);
+.menu-list li:active {
+  transform: scale(0.98);
+  background: rgba(0, 255, 136, 0.1);
 }
-.menu-list li:hover::before { opacity: 1; }
 .menu-list li.active {
-  background: linear-gradient(90deg, rgba(0, 255, 136, 0.2), rgba(5, 150, 105, 0.15));
-  border-color: rgba(0, 255, 136, 0.6);
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.22), rgba(5, 150, 105, 0.12));
+  border-color: rgba(0, 255, 136, 0.55);
   color: #ffffff;
-  box-shadow: 0 0 22px rgba(0, 255, 136, 0.3);
+  box-shadow:
+    0 0 24px rgba(0, 255, 136, 0.28),
+    inset 0 0 20px rgba(0, 255, 136, 0.05);
 }
 .menu-list li.active::before { opacity: 1; }
 .menu-list .ico {
-  font-size: 18px;
-  width: 24px;
+  font-size: 20px;
+  width: 26px;
   text-align: center;
   flex: 0 0 auto;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 136, 0.4));
+}
+
+.side-footer {
+  padding: 18px 22px 24px;
+  border-top: 1px solid rgba(0, 255, 136, 0.2);
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--text3);
+  letter-spacing: 0.5px;
+  opacity: 0.75;
 }
 
 /* ============================================================
-   NỘI DUNG CHÍNH
+   PAGES
    ============================================================ */
-.admin-body {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding-bottom: 60px;
-}
-
 .page { display: none; }
-.page.active { display: block; animation: fadeIn 0.3s ease; }
+.page.active { display: block; animation: pageIn 0.4s ease; }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.page-title {
-  font-size: clamp(16px, 4.4vw, 21px);
+.page-header {
+  margin-bottom: 18px;
+  padding: 0 4px;
+}
+.page-header h2 {
+  font-size: clamp(20px, 5.5vw, 26px);
   font-weight: 900;
-  margin-bottom: 14px;
-  letter-spacing: 0.8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  letter-spacing: 1px;
   background: linear-gradient(90deg, #6ee7b7, #00ff88, #34d399, #6ee7b7);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: textShine 4s linear infinite;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  filter: drop-shadow(0 0 14px rgba(0, 255, 136, 0.3));
+}
+.page-header p {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 6px;
+  letter-spacing: 0.4px;
 }
 
-.panel {
-  background: var(--card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid var(--line);
+/* ============================================================
+   STAT CARDS — SIÊU XỊN
+   ============================================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.stat-card {
+  position: relative;
+  padding: 18px 16px;
   border-radius: 18px;
-  padding: 16px;
+  background: linear-gradient(145deg, rgba(6, 40, 24, 0.85), rgba(2, 18, 10, 0.9));
+  border: 1.5px solid rgba(0, 255, 136, 0.3);
+  overflow: hidden;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.15), transparent 70%);
+  border-radius: 50%;
+  transform: translate(35%, -35%);
+  pointer-events: none;
+}
+.stat-card:active { transform: scale(0.98); }
+
+.stat-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.6));
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--em);
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 10.5px;
+  color: var(--text3);
+  letter-spacing: 0.8px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   CARDS / PANELS
+   ============================================================ */
+.card {
+  background: linear-gradient(145deg, rgba(6, 40, 24, 0.7), rgba(2, 18, 10, 0.75));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 18px;
   margin-bottom: 14px;
   box-shadow:
-    0 0 28px rgba(0, 255, 136, 0.12),
-    inset 0 0 30px rgba(0, 0, 0, 0.3);
-  color: var(--text);
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(0, 255, 136, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.sec-title {
+.card-title {
   font-size: 14.5px;
-  font-weight: 900;
-  margin-bottom: 11px;
+  font-weight: 800;
+  margin-bottom: 14px;
   color: #ffffff;
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
 }
-
-.hint { font-size: 12px; color: var(--text2); line-height: 1.65; }
-
-/* ============================================================
-   STATS CARDS
-   ============================================================ */
-.astat {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.astat > div {
-  padding: 15px;
-  border-radius: 15px;
-  background: linear-gradient(160deg, rgba(6, 40, 24, 0.9), rgba(2, 20, 12, 0.9));
-  border: 1.5px solid rgba(0, 255, 136, 0.4);
-  text-align: center;
-  box-shadow: 0 0 22px rgba(0, 255, 136, 0.15);
-  transition: 0.25s;
-}
-.astat > div:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 34px rgba(0, 255, 136, 0.4);
-}
-.astat b {
-  display: block;
-  font-size: 22px;
+.card-title .badge-num {
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid rgba(0, 255, 136, 0.5);
+  color: var(--em);
+  font-size: 11px;
   font-weight: 900;
-  color: var(--em1);
-  text-shadow: 0 0 16px rgba(0, 255, 136, 0.8);
-  margin-bottom: 4px;
+  letter-spacing: 0.3px;
 }
-.astat span {
-  font-size: 10.5px;
-  color: var(--text3);
-  letter-spacing: 0.6px;
-  font-weight: 700;
+
+.hint {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.65;
 }
 
 /* ============================================================
    BULK DISCOUNT BOX
    ============================================================ */
 .bulk-box {
-  padding: 16px;
-  border-radius: 15px;
-  background: rgba(0, 255, 136, 0.08);
-  border: 1.5px solid rgba(0, 255, 136, 0.5);
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(5, 150, 105, 0.06));
+  border: 1.5px solid rgba(0, 255, 136, 0.45);
   margin-bottom: 14px;
-  box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.05);
+  box-shadow: inset 0 0 30px rgba(0, 255, 136, 0.05);
 }
-.bulk-box .bulk-title {
+.bulk-title {
   font-size: 13.5px;
   font-weight: 900;
-  color: var(--em1);
-  margin-bottom: 10px;
+  color: var(--em);
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+  text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
 }
-.bulk-box .bulk-row {
+.bulk-row {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
 }
-.bulk-box input {
+.bulk-row input {
   flex: 1;
   min-width: 100px;
-  padding: 12px;
-  border-radius: 11px;
-  background: rgba(0, 0, 0, 0.6);
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.65);
   border: 1.5px solid rgba(0, 255, 136, 0.5);
-  color: var(--em1);
-  -webkit-text-fill-color: var(--em1);
-  font-size: 15px;
+  color: var(--em);
+  -webkit-text-fill-color: var(--em);
+  font-size: 16px;
   font-weight: 900;
   font-family: inherit;
   outline: none;
   text-align: center;
+  letter-spacing: 1px;
 }
-.bulk-box input:focus {
-  border-color: var(--em1);
-  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
+.bulk-row input:focus {
+  border-color: var(--em);
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.25), 0 0 20px rgba(0, 255, 136, 0.4);
 }
-.bulk-box .bulk-save {
-  padding: 12px 18px;
-  border-radius: 11px;
+.btn-prime {
+  padding: 13px 20px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   font-weight: 900;
   font-size: 12.5px;
-  background: linear-gradient(90deg, #34d399, #00ff88);
+  background: linear-gradient(135deg, #34d399, #00ff88);
   color: #002a16;
   font-family: inherit;
-  box-shadow: 0 0 18px rgba(0, 255, 136, 0.5);
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 22px rgba(0, 255, 136, 0.5);
+  transition: all 0.22s;
 }
-.bulk-box .bulk-reset {
-  padding: 12px 16px;
-  border-radius: 11px;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+.btn-prime:active { transform: scale(0.96); }
+
+.btn-sec {
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   font-weight: 900;
   font-size: 11.5px;
   background: transparent;
   color: var(--text3);
   font-family: inherit;
+  letter-spacing: 0.5px;
+  transition: all 0.22s;
 }
+.btn-sec:active { transform: scale(0.96); }
+
 .bulk-status {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 12.5px;
   font-weight: 700;
   text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================================
-   PRICE ROW
+   PRICE ROWS
    ============================================================ */
-.price-row {
+.price-section-title {
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--em);
+  margin: 18px 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed rgba(0, 255, 136, 0.3);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 11px 12px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1.5px solid rgba(0, 255, 136, 0.3);
+  gap: 7px;
+  letter-spacing: 0.5px;
+}
+.price-section-title:first-child { margin-top: 0; }
+
+.price-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  padding: 12px 14px;
+  border-radius: 13px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1.5px solid rgba(0, 255, 136, 0.22);
   margin-bottom: 8px;
-  flex-wrap: wrap;
   transition: 0.2s;
 }
-.price-row:hover { border-color: rgba(0, 255, 136, 0.6); }
-.price-row .pr-info {
-  flex: 1;
-  min-width: 150px;
-  font-size: 12px;
-}
-.price-row .pr-info b {
-  color: var(--em1);
+.price-row:active { border-color: rgba(0, 255, 136, 0.6); }
+.price-info b {
+  color: var(--em);
   font-size: 13px;
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
+  font-weight: 800;
 }
-.price-row .pr-info small {
+.price-info small {
   color: var(--text2);
   font-size: 11px;
   line-height: 1.5;
+  display: block;
 }
-.price-row .pr-input {
-  width: 115px;
-  padding: 9px 10px;
-  border-radius: 9px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1.5px solid rgba(0, 255, 136, 0.5);
-  color: var(--em1);
-  -webkit-text-fill-color: var(--em1);
-  font-size: 12.5px;
+.price-input-group {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.price-input-group input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1.5px solid rgba(0, 255, 136, 0.45);
+  color: var(--em);
+  -webkit-text-fill-color: var(--em);
+  font-size: 13px;
   font-family: inherit;
   font-weight: 900;
   text-align: right;
   outline: none;
+  min-width: 0;
 }
-.price-row .pr-input:focus {
-  border-color: var(--em1);
+.price-input-group input:focus {
+  border-color: var(--em);
   box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
 }
-.price-row .pr-save {
-  padding: 9px 13px;
-  border-radius: 9px;
+.btn-save-price {
+  padding: 10px 16px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 900;
   font-size: 11.5px;
-  background: linear-gradient(90deg, #34d399, #00ff88);
+  background: linear-gradient(135deg, #34d399, #00ff88);
   color: #002a16;
   font-family: inherit;
+  white-space: nowrap;
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.4);
   transition: 0.2s;
 }
-.price-row .pr-save:hover { box-shadow: 0 0 16px rgba(0, 255, 136, 0.6); }
+.btn-save-price:active { transform: scale(0.95); }
 
-.price-group-title {
-  font-size: 13px;
+.btn-del-price {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 100, 100, 0.4);
+  cursor: pointer;
   font-weight: 900;
-  color: var(--em1);
-  margin: 16px 0 10px;
-  padding-bottom: 6px;
-  border-bottom: 1.5px dashed rgba(0, 255, 136, 0.35);
-  letter-spacing: 0.5px;
+  font-size: 11.5px;
+  background: transparent;
+  color: #ff7d96;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: 0.2s;
 }
+.btn-del-price:active { transform: scale(0.95); }
 
 /* ============================================================
    USER SELECT
    ============================================================ */
-.user-select-box {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+.select-wrap {
+  position: relative;
+  margin-bottom: 14px;
 }
-.user-select-box select {
-  flex: 1;
-  min-width: 180px;
-  padding: 13px 15px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.6);
+.select-wrap::after {
+  content: '▼';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--em);
+  font-size: 12px;
+  pointer-events: none;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+.select-wrap select {
+  width: 100%;
+  padding: 14px 40px 14px 16px;
+  border-radius: 13px;
+  background: rgba(0, 0, 0, 0.55);
   border: 1.5px solid rgba(0, 255, 136, 0.5);
-  color: var(--em1);
-  -webkit-text-fill-color: var(--em1);
-  font-size: 13.5px;
-  font-weight: 900;
+  color: var(--em);
+  -webkit-text-fill-color: var(--em);
+  font-size: 14px;
+  font-weight: 800;
   font-family: inherit;
   outline: none;
   appearance: none;
   -webkit-appearance: none;
+  letter-spacing: 0.5px;
 }
-.user-select-box select option { background: #04140c; color: var(--em1); }
+.select-wrap select option {
+  background: #04140c;
+  color: var(--em);
+  padding: 10px;
+}
 
 /* ============================================================
-   ITEM CARD
+   ITEM / USER CARD
    ============================================================ */
 .item {
-  padding: 13px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.5);
+  padding: 14px 15px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.55), rgba(0, 20, 10, 0.5));
   border: 1.5px solid rgba(0, 255, 136, 0.18);
   margin-bottom: 10px;
   font-size: 12.5px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
   color: var(--text);
-  transition: 0.2s;
+  transition: 0.22s;
+  position: relative;
+  overflow: hidden;
 }
-.item:hover { border-color: rgba(0, 255, 136, 0.45); }
-.item .l { flex: 1; min-width: 180px; }
-.item .l b {
-  color: var(--em1);
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, var(--em), transparent);
+  opacity: 0.5;
+}
+.item:active { border-color: rgba(0, 255, 136, 0.5); }
+.item-main { padding-left: 8px; }
+.item-main b {
+  color: var(--em);
   font-size: 13.5px;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
 }
-.item .l small {
+.item-main small {
   color: var(--text2);
   display: block;
-  line-height: 1.65;
-  margin-bottom: 2px;
+  line-height: 1.7;
+  margin-bottom: 3px;
+  font-size: 11.5px;
 }
-.item .l small b { display: inline; font-size: inherit; margin: 0; }
+.item-main small b { display: inline; font-size: inherit; margin: 0; }
+
+.item-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
 
 /* ============================================================
-   BADGE
+   BADGES
    ============================================================ */
 .badge {
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 10.8px;
+  font-size: 10.5px;
   font-weight: 900;
   white-space: nowrap;
   letter-spacing: 0.5px;
+  gap: 4px;
 }
 .badge.wait {
-  background: rgba(255, 200, 0, 0.15);
-  border: 1.5px solid rgba(255, 200, 0, 0.7);
+  background: rgba(255, 200, 0, 0.12);
+  border: 1.5px solid rgba(255, 200, 0, 0.6);
   color: #ffd633;
 }
 .badge.done {
-  background: rgba(0, 255, 136, 0.15);
-  border: 1.5px solid rgba(0, 255, 136, 0.7);
-  color: var(--em1);
+  background: rgba(0, 255, 136, 0.12);
+  border: 1.5px solid rgba(0, 255, 136, 0.6);
+  color: var(--em);
 }
 .badge.cancel {
-  background: rgba(255, 0, 60, 0.15);
-  border: 1.5px solid rgba(255, 0, 60, 0.7);
+  background: rgba(255, 0, 60, 0.12);
+  border: 1.5px solid rgba(255, 0, 60, 0.6);
   color: #ff7d96;
 }
 
-.empty {
-  text-align: center;
-  padding: 40px 14px;
-  color: var(--text3);
-  font-size: 13.5px;
-  letter-spacing: 0.5px;
+/* ============================================================
+   BUTTONS IN ITEMS
+   ============================================================ */
+.btn-act {
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 11.5px;
+  font-family: inherit;
+  letter-spacing: 0.4px;
+  transition: 0.2s;
+  white-space: nowrap;
+  -webkit-appearance: none;
+}
+.btn-act:active { transform: scale(0.94); }
+.btn-act.prime {
+  background: linear-gradient(135deg, #34d399, #00ff88);
+  color: #002a16;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.45);
+}
+.btn-act.warn {
+  background: linear-gradient(135deg, #ffa500, #ff7700);
+  color: #2a1600;
+  box-shadow: 0 0 16px rgba(255, 150, 0, 0.45);
+}
+.btn-act.danger {
+  background: linear-gradient(135deg, #ff0055, #cc0044);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(255, 0, 85, 0.4);
+}
+.btn-act.ghost {
+  background: transparent;
+  border: 1.5px solid rgba(0, 255, 136, 0.4);
+  color: var(--text2);
 }
 
-/* ============================================================
-   INPUT KEY
-   ============================================================ */
 .key-input {
-  padding: 9px 12px;
-  border-radius: 9px;
-  background: rgba(0, 0, 0, 0.6);
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.55);
   border: 1.5px solid rgba(0, 255, 136, 0.5);
   color: var(--text);
   -webkit-text-fill-color: var(--text);
   font-size: 12.5px;
-  width: 160px;
   font-family: inherit;
   outline: none;
+  margin-bottom: 8px;
 }
 .key-input:focus {
-  border-color: var(--em1);
+  border-color: var(--em);
   box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text3);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+.empty .icon {
+  font-size: 48px;
+  margin-bottom: 14px;
+  display: block;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 12px rgba(0, 255, 136, 0.4));
 }
 
 /* ============================================================
@@ -715,232 +865,273 @@ body {
 #toast {
   position: fixed;
   left: 50%;
-  bottom: 26px;
-  transform: translateX(-50%) translateY(140px);
+  bottom: calc(26px + env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(160px);
   z-index: 99999;
-  padding: 14px 24px;
+  padding: 15px 26px;
   border-radius: 30px;
   font-weight: 800;
   font-size: 13.5px;
-  background: linear-gradient(90deg, #00ff88, #34d399);
+  background: linear-gradient(135deg, #00ff88, #34d399);
   color: #002a16;
-  box-shadow: 0 0 34px rgba(0, 255, 136, 0.9);
-  transition: 0.4s cubic-bezier(0.3, 1.4, 0.5, 1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 34px rgba(0, 255, 136, 0.9);
+  transition: 0.45s cubic-bezier(0.3, 1.4, 0.5, 1);
   max-width: 90vw;
   text-align: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 #toast.show { transform: translateX(-50%) translateY(0); }
 #toast.err {
-  background: linear-gradient(90deg, #ff0055, #ff7a00);
+  background: linear-gradient(135deg, #ff0055, #ff7700);
   color: #fff;
-  box-shadow: 0 0 34px rgba(255, 0, 85, 0.8);
+  box-shadow: 0 0 34px rgba(255, 0, 85, 0.9);
 }
 
 /* ============================================================
-   RESPONSIVE
+   SCROLLBAR
    ============================================================ */
-@media (max-width: 520px) {
-  body { padding: 6px; }
-  .astat { grid-template-columns: repeat(2, 1fr); }
-  .price-row .pr-input { width: 95px; }
-  .key-input { width: 130px; }
-  .outer-frame { top: 4px; left: 4px; right: 4px; bottom: 4px; }
-}
-
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #04140c; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #00ff88, #047857);
-  border-radius: 8px;
+  border-radius: 6px;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET+
+   ============================================================ */
+@media (min-width: 640px) {
+  body { padding: 20px 20px 100px; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .price-row { grid-template-columns: 1fr 130px auto; }
+  .price-input-group { grid-column: auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- VIỀN PHÁT SÁNG NGOÀI -->
-<div class="outer-glow"></div>
+<div class="bg-grid"></div>
 <div class="outer-frame"></div>
 
 <!-- ============================================================
-     ADMIN APP
+     HEADER
      ============================================================ -->
-<div id="adminApp">
-
-  <!-- HEADER -->
-  <div class="admin-head">
-    <div class="burger" id="burger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="head-title">
-      <h2>⚙️ BẢNG ĐIỀU KHIỂN ADMIN</h2>
-      <p>🌿 Realtime đang kết nối</p>
-    </div>
-    <div class="status-dot" title="Realtime"></div>
+<div class="app-header">
+  <div class="burger-btn" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
   </div>
-
-  <!-- NỘI DUNG CHÍNH -->
-  <div class="admin-body">
-
-    <!-- ========== PAGE: DASHBOARD ========== -->
-    <div class="page active" id="page-dashboard">
-      <div class="page-title">📊 Tổng quan</div>
-
-      <div class="astat">
-        <div><b id="stUsers">0</b><span>NGƯỜI ĐĂNG KÝ</span></div>
-        <div><b id="stDep">0</b><span>NẠP CHỜ DUYỆT</span></div>
-        <div><b id="stOrd">0</b><span>ĐƠN CHỜ XỬ LÝ</span></div>
-        <div><b id="stRv">0</b><span>ĐÁNH GIÁ</span></div>
-      </div>
-
-      <div class="panel">
-        <div class="sec-title">🌿 Trạng thái hệ thống</div>
-        <div class="hint">
-          ✅ Đã kết nối Firebase Realtime<br>
-          ✅ Đang lắng nghe thay đổi từ trang shop<br>
-          ✅ Mọi thao tác sẽ cập nhật tức thì bên phía người dùng
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE: LỊCH SỬ ĐĂNG KÝ ========== -->
-    <div class="page" id="page-users">
-      <div class="page-title">👥 Lịch sử đăng ký</div>
-      <div class="panel">
-        <div class="sec-title">📋 Danh sách người dùng</div>
-        <div id="adUsers"></div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE: ĐƠN NẠP XỬ LÝ ========== -->
-    <div class="page" id="page-deposits">
-      <div class="page-title">💰 Đơn nạp xử lý</div>
-      <div class="panel">
-        <div class="sec-title">🏦 QR & Thẻ Car đang chờ</div>
-        <div id="adDeps"></div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE: ĐƠN KEY XỬ LÝ ========== -->
-    <div class="page" id="page-orders">
-      <div class="page-title">🔑 Đơn key xử lý</div>
-      <div class="panel">
-        <div class="sec-title">🛒 Gửi Key / Huỷ / Hoàn tiền</div>
-        <div id="adOrds"></div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE: GIẢM GIÁ TOÀN SHOP ========== -->
-    <div class="page" id="page-bulk">
-      <div class="page-title">💵 Giảm giá toàn shop</div>
-
-      <div class="panel">
-        <div class="sec-title">🔥 Giảm giá TẤT CẢ sản phẩm (%)</div>
-        <div class="hint" style="margin-bottom:12px">
-          Áp dụng cho <b style="color:#00ff88">TẤT CẢ</b> người dùng, cập nhật ngay lập tức bên trang shop.
-        </div>
-
-        <div class="bulk-box">
-          <div class="bulk-title">⚡ Nhập % giảm giá</div>
-          <div class="bulk-row">
-            <input id="bulkDiscountInput" type="number" min="0" max="100" step="1" placeholder="VD: 10">
-            <button class="bulk-save" onclick="saveBulkDiscount()">💾 LƯU</button>
-            <button class="bulk-reset" onclick="resetBulkDiscount()">✖ XOÁ</button>
-          </div>
-          <div class="bulk-status" id="bulkStatus"></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="sec-title">🏷️ Chỉnh giá từng sản phẩm (toàn shop)</div>
-        <div id="globalPrices"></div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE: GIẢM GIÁ RIÊNG ========== -->
-    <div class="page" id="page-peruser">
-      <div class="page-title">💸 Giảm giá riêng</div>
-      <div class="panel">
-        <div class="sec-title">👤 Chỉnh giá riêng cho từng người dùng</div>
-        <div class="hint" style="margin-bottom:12px">
-          Chỉ người dùng được chọn mới thấy giá riêng. Chọn user → chỉnh giá → nhấn 💾 LƯU.
-        </div>
-        <div class="user-select-box">
-          <select id="perUserSelect" onchange="renderPerUserPrices()">
-            <option value="">-- Chọn người dùng --</option>
-          </select>
-        </div>
-        <div id="perUserPriceList"></div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE: ĐÁNH GIÁ ========== -->
-    <div class="page" id="page-reviews">
-      <div class="page-title">⭐ Đánh giá</div>
-      <div class="panel">
-        <div class="sec-title">💬 Đánh giá từ khách hàng</div>
-        <div id="adRevs"></div>
-      </div>
-    </div>
-
+  <div class="header-info">
+    <h1 id="headerTitle">⚙️ ADMIN PANEL</h1>
+    <p><span class="live-dot"></span> Realtime đang kết nối</p>
   </div>
 </div>
 
 <!-- ============================================================
-     OVERLAY + SIDEBAR MENU 3 GẠCH
+     PAGES
+     ============================================================ -->
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <h2>📊 Tổng quan</h2>
+    <p>Tình trạng shop của bạn</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon">👥</span>
+      <div class="stat-value" id="stUsers">0</div>
+      <div class="stat-label">Người đăng ký</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">💰</span>
+      <div class="stat-value" id="stDep">0</div>
+      <div class="stat-label">Nạp chờ duyệt</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">🔑</span>
+      <div class="stat-value" id="stOrd">0</div>
+      <div class="stat-label">Đơn chờ xử lý</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">⭐</span>
+      <div class="stat-value" id="stRv">0</div>
+      <div class="stat-label">Đánh giá</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌿 Trạng thái hệ thống</div>
+    <div class="hint">
+      ✅ Đã kết nối Firebase Realtime<br>
+      ✅ Đang lắng nghe thay đổi từ trang shop<br>
+      ✅ Mọi thao tác sẽ cập nhật tức thì bên phía người dùng
+    </div>
+  </div>
+</div>
+
+<!-- LỊCH SỬ ĐĂNG KÝ -->
+<div class="page" id="page-users">
+  <div class="page-header">
+    <h2>👥 Lịch sử đăng ký</h2>
+    <p>Tất cả người dùng của shop</p>
+  </div>
+  <div class="card">
+    <div class="card-title">
+      📋 Danh sách người dùng
+      <span class="badge-num" id="numUsers">0</span>
+    </div>
+    <div id="adUsers"></div>
+  </div>
+</div>
+
+<!-- ĐƠN NẠP XỬ LÝ -->
+<div class="page" id="page-deposits">
+  <div class="page-header">
+    <h2>💰 Đơn nạp xử lý</h2>
+    <p>Duyệt QR & Thẻ Car</p>
+  </div>
+  <div class="card">
+    <div class="card-title">
+      🏦 Đơn đang chờ
+      <span class="badge-num" id="numDeps">0</span>
+    </div>
+    <div id="adDeps"></div>
+  </div>
+</div>
+
+<!-- ĐƠN KEY XỬ LÝ -->
+<div class="page" id="page-orders">
+  <div class="page-header">
+    <h2>🔑 Đơn key xử lý</h2>
+    <p>Gửi key / Huỷ / Hoàn tiền</p>
+  </div>
+  <div class="card">
+    <div class="card-title">
+      🛒 Đơn hàng
+      <span class="badge-num" id="numOrders">0</span>
+    </div>
+    <div id="adOrds"></div>
+  </div>
+</div>
+
+<!-- GIẢM GIÁ TOÀN SHOP -->
+<div class="page" id="page-bulk">
+  <div class="page-header">
+    <h2>💵 Giảm giá toàn shop</h2>
+    <p>Áp dụng cho mọi người dùng</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 Giảm giá TẤT CẢ sản phẩm (%)</div>
+
+    <div class="bulk-box">
+      <div class="bulk-title">⚡ Nhập % giảm giá muốn áp dụng</div>
+      <div class="bulk-row">
+        <input id="bulkDiscountInput" type="number" min="0" max="100" step="1" placeholder="VD: 10">
+        <button class="btn-prime" onclick="saveBulkDiscount()">💾 LƯU</button>
+        <button class="btn-sec" onclick="resetBulkDiscount()">✖ XOÁ</button>
+      </div>
+      <div class="bulk-status" id="bulkStatus"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ Chỉnh giá từng sản phẩm</div>
+    <div id="globalPrices"></div>
+  </div>
+</div>
+
+<!-- GIẢM GIÁ RIÊNG -->
+<div class="page" id="page-peruser">
+  <div class="page-header">
+    <h2>💸 Giảm giá riêng</h2>
+    <p>Chỉnh giá cho từng khách</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👤 Chọn người dùng cần chỉnh giá</div>
+    <div class="hint" style="margin-bottom:14px">
+      Chỉ người được chọn mới thấy giá riêng. Chọn user → chỉnh giá → nhấn 💾 LƯU.
+    </div>
+    <div class="select-wrap">
+      <select id="perUserSelect" onchange="renderPerUserPrices()">
+        <option value="">-- Chọn người dùng --</option>
+      </select>
+    </div>
+    <div id="perUserPriceList"></div>
+  </div>
+</div>
+
+<!-- ĐÁNH GIÁ -->
+<div class="page" id="page-reviews">
+  <div class="page-header">
+    <h2>⭐ Đánh giá</h2>
+    <p>Phản hồi từ khách hàng</p>
+  </div>
+  <div class="card">
+    <div class="card-title">
+      💬 Tất cả đánh giá
+      <span class="badge-num" id="numRevs">0</span>
+    </div>
+    <div id="adRevs"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SIDEBAR MENU
      ============================================================ -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <aside class="sidebar" id="sidebar">
-  <div class="side-head">
-    <h2>🌿 MENU ADMIN</h2>
+  <div class="side-brand">
+    <span class="logo">🌿</span>
+    <h2>ADMIN PANEL</h2>
     <p>SHOP ALL SẢN PHẨM FF – FFMAX</p>
   </div>
 
-  <div class="side-user">
-    🔐 Đăng nhập với quyền <b>Admin</b><br>
-    🟢 <span class="em">Realtime đang hoạt động</span>
-  </div>
-
+  <div class="menu-label">DANH MỤC</div>
   <ul class="menu-list" id="menuList">
-    <li data-page="dashboard" class="active">
+    <li data-page="dashboard" data-title="📊 Tổng quan" class="active">
       <span class="ico">📊</span> Tổng quan
     </li>
-    <li data-page="users">
+    <li data-page="users" data-title="👥 Lịch sử đăng ký">
       <span class="ico">👥</span> Lịch sử đăng ký
     </li>
-    <li data-page="deposits">
+    <li data-page="deposits" data-title="💰 Đơn nạp xử lý">
       <span class="ico">💰</span> Đơn nạp xử lý
     </li>
-    <li data-page="orders">
+    <li data-page="orders" data-title="🔑 Đơn key xử lý">
       <span class="ico">🔑</span> Đơn key xử lý
     </li>
-    <li data-page="bulk">
+    <li data-page="bulk" data-title="💵 Giảm giá toàn shop">
       <span class="ico">💵</span> Giảm giá toàn shop
     </li>
-    <li data-page="peruser">
+    <li data-page="peruser" data-title="💸 Giảm giá riêng">
       <span class="ico">💸</span> Giảm giá riêng
     </li>
-    <li data-page="reviews">
+    <li data-page="reviews" data-title="⭐ Đánh giá">
       <span class="ico">⭐</span> Đánh giá
     </li>
   </ul>
+
+  <div class="side-footer">
+    ⚡ Realtime Firebase • v2.0
+  </div>
 </aside>
 
 <!-- TOAST -->
 <div id="toast"></div>
 
-<!-- ============================================================
-     FIREBASE + JAVASCRIPT
-     ============================================================ -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
 try {
 
-  /* ============================================================
-     CONFIG FIREBASE
-     ============================================================ */
   var firebaseConfig = {
     apiKey: "AIzaSyBobP39gLfYvClCCNFIszIGc2LdeUFeI7w",
     authDomain: "shop-all-ff-ff-max.firebaseapp.com",
@@ -968,7 +1159,7 @@ try {
   };
 
   /* ============================================================
-     DỮ LIỆU SẢN PHẨM
+     SẢN PHẨM
      ============================================================ */
   var IOS = [
     {
@@ -1015,7 +1206,7 @@ try {
   ];
 
   /* ============================================================
-     HÀM TIỆN ÍCH
+     HELPERS
      ============================================================ */
   function priceKey(productName, planLabel) {
     return (productName + '||' + planLabel).replace(/[.#$\[\]\/]/g, '_');
@@ -1029,7 +1220,11 @@ try {
 
   function timeStr(t) {
     if (!t) return '-';
-    return new Date(t).toLocaleString('vi-VN');
+    var d = new Date(t);
+    return d.toLocaleString('vi-VN', {
+      hour: '2-digit', minute: '2-digit',
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
   }
 
   var toastT;
@@ -1038,43 +1233,94 @@ try {
     t.textContent = msg;
     t.className = err ? 'show err' : 'show';
     clearTimeout(toastT);
-    toastT = setTimeout(function() { t.className = ''; }, 3500);
+    toastT = setTimeout(function() { t.className = ''; }, 3200);
   }
 
   /* ============================================================
-     KHỞI TẠO REALTIME LISTENERS (chạy ngay khi mở trang)
+     MENU
+     ============================================================ */
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
+    document.getElementById('burger').classList.toggle('open');
+  }
+
+  function closeMenu() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+    document.getElementById('burger').classList.remove('open');
+  }
+
+  function navigate(page) {
+    /* Ẩn tất cả pages */
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < pages.length; i++) {
+      pages[i].classList.remove('active');
+    }
+
+    /* Hiện page được chọn */
+    var target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+
+    /* Cập nhật menu active */
+    var lis = document.querySelectorAll('#menuList li');
+    for (var j = 0; j < lis.length; j++) {
+      var isActive = lis[j].getAttribute('data-page') === page;
+      lis[j].classList.toggle('active', isActive);
+
+      /* Đổi tiêu đề header */
+      if (isActive) {
+        var title = lis[j].getAttribute('data-title') || 'ADMIN PANEL';
+        document.getElementById('headerTitle').textContent = title;
+      }
+    }
+
+    /* Đóng menu + scroll top */
+    closeMenu();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* Bind menu clicks */
+  (function() {
+    var lis = document.querySelectorAll('#menuList li');
+    for (var i = 0; i < lis.length; i++) {
+      (function(li) {
+        li.addEventListener('click', function() {
+          navigate(li.getAttribute('data-page'));
+        });
+      })(lis[i]);
+    }
+  })();
+
+  /* ============================================================
+     KHỞI TẠO REALTIME
      ============================================================ */
   function initAdmin() {
     if (!db) {
-      toast('❌ Không kết nối được Firebase', true);
+      toast('❌ Không kết nối Firebase', true);
       return;
     }
 
-    /* REALTIME: users */
     db.ref('users').on('value', function(snap) {
       DB.users = snap.val() || {};
       renderAll();
     });
 
-    /* REALTIME: deposits */
     db.ref('deposits').on('value', function(snap) {
       DB.deposits = snap.val() || [];
       renderAll();
     });
 
-    /* REALTIME: orders */
     db.ref('orders').on('value', function(snap) {
       DB.orders = snap.val() || [];
       renderAll();
     });
 
-    /* REALTIME: reviews */
     db.ref('reviews').on('value', function(snap) {
       DB.reviews = snap.val() || [];
       renderAll();
     });
 
-    /* REALTIME: config (giá + giảm giá toàn shop) */
     db.ref('config').on('value', function(snap) {
       var d = snap.val() || {};
       DB.config = {
@@ -1089,6 +1335,8 @@ try {
     var userKeys = Object.keys(DB.users);
     var stU = document.getElementById('stUsers');
     if (stU) stU.textContent = userKeys.length;
+    var nU = document.getElementById('numUsers');
+    if (nU) nU.textContent = userKeys.length;
 
     var waitDep = 0;
     for (var i = 0; i < DB.deposits.length; i++) {
@@ -1096,6 +1344,8 @@ try {
     }
     var stD = document.getElementById('stDep');
     if (stD) stD.textContent = waitDep;
+    var nD = document.getElementById('numDeps');
+    if (nD) nD.textContent = waitDep;
 
     var waitOrd = 0;
     for (var j = 0; j < DB.orders.length; j++) {
@@ -1103,9 +1353,13 @@ try {
     }
     var stO = document.getElementById('stOrd');
     if (stO) stO.textContent = waitOrd;
+    var nO = document.getElementById('numOrders');
+    if (nO) nO.textContent = DB.orders.length;
 
     var stR = document.getElementById('stRv');
     if (stR) stR.textContent = DB.reviews.length;
+    var nR = document.getElementById('numRevs');
+    if (nR) nR.textContent = DB.reviews.length;
 
     var bulkInp = document.getElementById('bulkDiscountInput');
     if (bulkInp && !bulkInp.value) {
@@ -1121,47 +1375,7 @@ try {
   }
 
   /* ============================================================
-     MENU 3 GẠCH
-     ============================================================ */
-  function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-    document.getElementById('burger').classList.toggle('open');
-  }
-
-  function navigate(page) {
-    var pages = document.querySelectorAll('.page');
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].classList.remove('active');
-    }
-    var el = document.getElementById('page-' + page);
-    if (el) el.classList.add('active');
-
-    var lis = document.querySelectorAll('#menuList li');
-    for (var j = 0; j < lis.length; j++) {
-      lis[j].classList.toggle('active', lis[j].getAttribute('data-page') === page);
-    }
-
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-    document.getElementById('burger').classList.remove('open');
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  (function bindMenuClicks() {
-    var lis = document.querySelectorAll('#menuList li');
-    for (var i = 0; i < lis.length; i++) {
-      (function(li) {
-        li.addEventListener('click', function() {
-          navigate(li.getAttribute('data-page'));
-        });
-      })(lis[i]);
-    }
-  })();
-
-  /* ============================================================
-     GIẢM GIÁ TOÀN SHOP
+     BULK DISCOUNT
      ============================================================ */
   function saveBulkDiscount() {
     var inp = document.getElementById('bulkDiscountInput');
@@ -1172,7 +1386,7 @@ try {
 
     db.ref('config/bulkDiscount').set(v)
       .then(function() {
-        toast('✅ Đã đặt giảm toàn shop: ' + v + '%');
+        toast('✅ Đã giảm toàn shop: ' + v + '%');
         DB.config.bulkDiscount = v;
         renderBulkStatus();
       })
@@ -1185,8 +1399,7 @@ try {
       .then(function() {
         toast('✖ Đã xoá giảm giá toàn shop');
         DB.config.bulkDiscount = 0;
-        var inp = document.getElementById('bulkDiscountInput');
-        if (inp) inp.value = '';
+        document.getElementById('bulkDiscountInput').value = '';
         renderBulkStatus();
       })
       .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
@@ -1196,14 +1409,19 @@ try {
     var el = document.getElementById('bulkStatus');
     if (!el) return;
     var b = Number(DB.config.bulkDiscount) || 0;
-    el.innerHTML = b > 0
-      ? '🔥 Đang giảm <b style="color:#00ff88">' + b + '%</b> cho TẤT CẢ sản phẩm'
-      : '⚪ Chưa áp dụng giảm giá toàn shop';
-    el.style.color = b > 0 ? '#00ff88' : '#34d399';
+    if (b > 0) {
+      el.innerHTML = '🔥 Đang giảm <b style="color:#00ff88">' + b + '%</b> cho tất cả sản phẩm';
+      el.style.color = '#00ff88';
+      el.style.background = 'rgba(0, 255, 136, 0.1)';
+    } else {
+      el.innerHTML = '⚪ Chưa áp dụng giảm giá toàn shop';
+      el.style.color = '#34d399';
+      el.style.background = 'rgba(0, 0, 0, 0.3)';
+    }
   }
 
   /* ============================================================
-     GIÁ TOÀN SHOP
+     GLOBAL PRICES
      ============================================================ */
   function getGlobalPrice(productName, planLabel, originalPrice) {
     var key = priceKey(productName, planLabel);
@@ -1219,7 +1437,7 @@ try {
     if (!box) return;
     var html = '';
 
-    html += '<div class="price-group-title">📱 HACK - All IOS</div>';
+    html += '<div class="price-section-title">📱 HACK — All IOS</div>';
     for (var i = 0; i < IOS.length; i++) {
       var prod = IOS[i];
       for (var j = 0; j < prod.plans.length; j++) {
@@ -1228,17 +1446,19 @@ try {
         var cur = getGlobalPrice(prod.name, p.l, p.p);
 
         html += '<div class="price-row">' +
-          '<div class="pr-info">' +
+          '<div class="price-info">' +
           '<b>' + prod.name + '</b>' +
-          '<small>Gói: ' + p.l + ' — Giá gốc: ' + fmt(p.p) + '</small>' +
+          '<small>Gói: ' + p.l + ' • Giá gốc: ' + fmt(p.p) + '</small>' +
           '</div>' +
-          '<input class="pr-input" type="number" id="gp_' + k + '" value="' + cur + '" min="0" step="1000">' +
-          '<button class="pr-save" onclick="saveGlobalPrice(\'' + prod.name.replace(/'/g, "\\'") + '\',\'' + p.l.replace(/'/g, "\\'") + '\',\'' + k + '\')">💾 LƯU</button>' +
+          '<div class="price-input-group">' +
+          '<input type="number" id="gp_' + k + '" value="' + cur + '" min="0" step="1000" placeholder="Giá mới">' +
+          '<button class="btn-save-price" onclick="saveGlobalPrice(\'' + prod.name.replace(/'/g, "\\'") + '\',\'' + p.l.replace(/'/g, "\\'") + '\',\'' + k + '\')">💾 LƯU</button>' +
+          '</div>' +
           '</div>';
       }
     }
 
-    html += '<div class="price-group-title">🔑 Esgin = IOS</div>';
+    html += '<div class="price-section-title">🔑 ESGIN = IOS</div>';
     for (var a = 0; a < ESGIN.length; a++) {
       var g = ESGIN[a];
       var label = g.name + ' - ' + g.desc;
@@ -1246,12 +1466,14 @@ try {
       var cur2 = getGlobalPrice('ESGIN = IOS', label, g.price);
 
       html += '<div class="price-row">' +
-        '<div class="pr-info">' +
+        '<div class="price-info">' +
         '<b>ESGIN = IOS</b>' +
-        '<small>Gói: ' + g.name + ' — Giá gốc: ' + fmt(g.price) + '</small>' +
+        '<small>Gói: ' + g.name + ' • Giá gốc: ' + fmt(g.price) + '</small>' +
         '</div>' +
-        '<input class="pr-input" type="number" id="gp_' + k2 + '" value="' + cur2 + '" min="0" step="1000">' +
-        '<button class="pr-save" onclick="saveGlobalPrice(\'ESGIN = IOS\',\'' + label.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">💾 LƯU</button>' +
+        '<div class="price-input-group">' +
+        '<input type="number" id="gp_' + k2 + '" value="' + cur2 + '" min="0" step="1000" placeholder="Giá mới">' +
+        '<button class="btn-save-price" onclick="saveGlobalPrice(\'ESGIN = IOS\',\'' + label.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">💾 LƯU</button>' +
+        '</div>' +
         '</div>';
     }
 
@@ -1274,7 +1496,7 @@ try {
   }
 
   /* ============================================================
-     GIÁ RIÊNG TỪNG USER
+     PER USER PRICES
      ============================================================ */
   function renderUserSelect() {
     var sel = document.getElementById('perUserSelect');
@@ -1305,10 +1527,10 @@ try {
 
     var u = DB.users[userName] || {};
     var customPrices = u.customPrices || {};
-    var html = '<div style="font-size:13px;font-weight:900;color:#00ff88;margin-bottom:12px">' +
+    var html = '<div style="font-size:13.5px;font-weight:900;color:#00ff88;margin-bottom:16px;padding:12px;border-radius:12px;background:rgba(0,255,136,0.08);border:1.5px solid rgba(0,255,136,0.35);text-align:center">' +
       '👤 Đang chỉnh giá cho: <b style="color:#fff">' + userName + '</b></div>';
 
-    html += '<div class="price-group-title">📱 HACK - All IOS</div>';
+    html += '<div class="price-section-title">📱 HACK — All IOS</div>';
     for (var i = 0; i < IOS.length; i++) {
       var prod = IOS[i];
       for (var j = 0; j < prod.plans.length; j++) {
@@ -1319,19 +1541,21 @@ try {
         var isCustom = customPrices[k] != null && customPrices[k] !== '';
 
         html += '<div class="price-row">' +
-          '<div class="pr-info">' +
+          '<div class="price-info">' +
           '<b>' + prod.name + '</b>' +
-          '<small>Gói: ' + p.l + ' — Giá shop: ' + fmt(globalPrice) +
-          (isCustom ? ' <span style="color:#00ff88">(Đã chỉnh riêng)</span>' : '') + '</small>' +
+          '<small>Gói: ' + p.l + ' • Giá shop: ' + fmt(globalPrice) +
+          (isCustom ? ' <span style="color:#00ff88">(đã chỉnh riêng)</span>' : '') + '</small>' +
           '</div>' +
-          '<input class="pr-input" type="number" id="up_' + userName + '_' + k + '" value="' + cur + '" min="0" step="1000">' +
-          '<button class="pr-save" onclick="saveUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k + '\')">💾 LƯU</button>' +
-          '<button class="pr-save" onclick="resetUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k + '\')" style="background:transparent;color:#34d399;border:1.5px solid rgba(0,255,136,0.4)">✖ XOÁ</button>' +
+          '<div class="price-input-group">' +
+          '<input type="number" id="up_' + userName + '_' + k + '" value="' + cur + '" min="0" step="1000" placeholder="Giá riêng">' +
+          '<button class="btn-save-price" onclick="saveUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k + '\')">💾</button>' +
+          '<button class="btn-del-price" onclick="resetUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k + '\')">✖</button>' +
+          '</div>' +
           '</div>';
       }
     }
 
-    html += '<div class="price-group-title">🔑 Esgin = IOS</div>';
+    html += '<div class="price-section-title">🔑 ESGIN = IOS</div>';
     for (var a = 0; a < ESGIN.length; a++) {
       var g = ESGIN[a];
       var label = g.name + ' - ' + g.desc;
@@ -1341,14 +1565,16 @@ try {
       var isCustom2 = customPrices[k2] != null && customPrices[k2] !== '';
 
       html += '<div class="price-row">' +
-        '<div class="pr-info">' +
+        '<div class="price-info">' +
         '<b>ESGIN = IOS</b>' +
-        '<small>Gói: ' + g.name + ' — Giá shop: ' + fmt(globalPrice2) +
-        (isCustom2 ? ' <span style="color:#00ff88">(Đã chỉnh riêng)</span>' : '') + '</small>' +
+        '<small>Gói: ' + g.name + ' • Giá shop: ' + fmt(globalPrice2) +
+        (isCustom2 ? ' <span style="color:#00ff88">(đã chỉnh riêng)</span>' : '') + '</small>' +
         '</div>' +
-        '<input class="pr-input" type="number" id="up_' + userName + '_' + k2 + '" value="' + cur2 + '" min="0" step="1000">' +
-        '<button class="pr-save" onclick="saveUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">💾 LƯU</button>' +
-        '<button class="pr-save" onclick="resetUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k2 + '\')" style="background:transparent;color:#34d399;border:1.5px solid rgba(0,255,136,0.4)">✖ XOÁ</button>' +
+        '<div class="price-input-group">' +
+        '<input type="number" id="up_' + userName + '_' + k2 + '" value="' + cur2 + '" min="0" step="1000" placeholder="Giá riêng">' +
+        '<button class="btn-save-price" onclick="saveUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">💾</button>' +
+        '<button class="btn-del-price" onclick="resetUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">✖</button>' +
+        '</div>' +
         '</div>';
     }
 
@@ -1380,12 +1606,12 @@ try {
       delete u.customPrices[key];
     }
     db.ref('users/' + userName).set(u)
-      .then(function() { toast('✖ Đã xoá giá riêng của ' + userName); })
+      .then(function() { toast('✖ Đã xoá giá riêng'); })
       .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
   }
 
   /* ============================================================
-     DANH SÁCH USERS
+     USERS
      ============================================================ */
   function renderUsers() {
     var userKeys = Object.keys(DB.users);
@@ -1393,15 +1619,15 @@ try {
     if (!box) return;
 
     if (!userKeys.length) {
-      box.innerHTML = '<div class="empty">Chưa có người đăng ký</div>';
+      box.innerHTML = '<div class="empty"><span class="icon">👥</span>Chưa có người đăng ký</div>';
       return;
     }
 
-    var html = '';
     userKeys.sort(function(a, b) {
       return (DB.users[b].createdAt || 0) - (DB.users[a].createdAt || 0);
     });
 
+    var html = '';
     for (var a = 0; a < userKeys.length; a++) {
       var n = userKeys[a];
       var u = DB.users[n];
@@ -1411,12 +1637,12 @@ try {
       var cpText = cpCount > 0 ? ' • 🎯 <b style="color:#00ff88">' + cpCount + ' giá riêng</b>' : '';
 
       html += '<div class="item">' +
-        '<div class="l">' +
+        '<div class="item-main">' +
         '<b>👤 ' + n + '</b>' +
-        '<small>🔑 Mật khẩu: <b style="color:#ff6ec7">' + (u.password || '-') + '</b></small>' +
+        '<small>🔑 Mật khẩu: <b style="color:#ff9dd4">' + (u.password || '-') + '</b></small>' +
         '<small>🔢 Số IB: <b style="color:#ffd633">' + (u.ib || '-') + '</b></small>' +
-        '<small>💰 Số dư: <b style="color:#00ff88">' + fmt(u.balance) + '</b> • Tổng nạp: ' +
-        fmt(u.totalDeposit) + ' • Tổng chi: ' + fmt(u.totalSpent) + dcText + cpText + '</small>' +
+        '<small>💰 Số dư: <b style="color:#00ff88">' + fmt(u.balance) + '</b></small>' +
+        '<small>📥 Tổng nạp: ' + fmt(u.totalDeposit) + ' • 📤 Tổng chi: ' + fmt(u.totalSpent) + dcText + cpText + '</small>' +
         '<small>🕐 Đăng ký: ' + timeStr(u.createdAt) + '</small>' +
         '</div>' +
         '</div>';
@@ -1425,7 +1651,7 @@ try {
   }
 
   /* ============================================================
-     ĐƠN NẠP
+     DEPOSITS
      ============================================================ */
   function renderDeps() {
     var box = document.getElementById('adDeps');
@@ -1437,7 +1663,7 @@ try {
     }
 
     if (!visibleDeps.length) {
-      box.innerHTML = '<div class="empty">Chưa có yêu cầu nạp tiền</div>';
+      box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có yêu cầu nạp tiền</div>';
       return;
     }
 
@@ -1445,33 +1671,33 @@ try {
     for (var b = 0; b < visibleDeps.length; b++) {
       var d = visibleDeps[b];
       var info = d.type === 'QR'
-        ? '🏦 QR — Nội dung: <b style="color:#ffd633">' + d.code + '</b> — Số tiền: <b style="color:#00ff88">' + fmt(d.amount) + '</b>'
+        ? '🏦 QR — Nội dung: <b style="color:#ffd633">' + d.code + '</b><br>💰 Số tiền: <b style="color:#00ff88">' + fmt(d.amount) + '</b>'
         : '💳 Thẻ ' + d.cardType + ' — Mệnh giá ' + fmt(d.amount) +
-          ' → nhận <b style="color:#00ff88">' + fmt(d.receive) + '</b><br>Mã thẻ: <b style="color:#ff6ec7">' +
-          d.cardCode + '</b> • Seri: <b style="color:#ff6ec7">' + d.cardSeri + '</b>';
+          ' → nhận <b style="color:#00ff88">' + fmt(d.receive) + '</b><br>Mã: <b style="color:#ff9dd4">' +
+          d.cardCode + '</b> • Seri: <b style="color:#ff9dd4">' + d.cardSeri + '</b>';
 
       var badge;
       if (d.status === 'wait') {
-        badge = '<div style="display:flex;gap:7px;flex-wrap:wrap">' +
-          '<button class="btn sm green" onclick="appr(\'' + d.id + '\')">✔ XÁC NHẬN</button>' +
-          '<button class="btn sm danger" onclick="cnl(\'' + d.id + '\')">✖ HUỶ</button>' +
-          '<button class="btn sm ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
+        badge = '<div class="item-actions">' +
+          '<button class="btn-act prime" onclick="appr(\'' + d.id + '\')">✔ XÁC NHẬN</button>' +
+          '<button class="btn-act danger" onclick="cnl(\'' + d.id + '\')">✖ HUỶ</button>' +
+          '<button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else if (d.status === 'done') {
-        badge = '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' +
-          '<span class="badge done">HOÀN THÀNH</span>' +
-          '<button class="btn sm ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
+        badge = '<div class="item-actions">' +
+          '<span class="badge done">✔ HOÀN THÀNH</span>' +
+          '<button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else {
-        badge = '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' +
-          '<span class="badge cancel">ĐÃ HUỶ</span>' +
-          '<button class="btn sm ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
+        badge = '<div class="item-actions">' +
+          '<span class="badge cancel">✖ ĐÃ HUỶ</span>' +
+          '<button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       }
 
       html += '<div class="item">' +
-        '<div class="l">' +
-        '<b>👤 ' + d.user + ' — Mã đơn ' + d.id + '</b>' +
+        '<div class="item-main">' +
+        '<b>👤 ' + d.user + ' — #' + d.id + '</b>' +
         '<small>' + info + '</small>' +
         '<small>🕐 ' + timeStr(d.createdAt) + '</small>' +
         '</div>' + badge +
@@ -1500,7 +1726,7 @@ try {
         u.balance = (u.balance || 0) + add;
         u.totalDeposit = (u.totalDeposit || 0) + add;
         db.ref('users/' + d.user).set(u);
-        toast('✅ Đã xác nhận nạp tiền cho ' + d.user);
+        toast('✅ Đã duyệt ' + fmt(add) + ' cho ' + d.user);
       });
     });
   }
@@ -1513,7 +1739,7 @@ try {
         if (deps[i].id === id) deps[i].status = 'cancel';
       }
       db.ref('deposits').set(deps);
-      toast('✖ Đã huỷ yêu cầu nạp tiền', true);
+      toast('✖ Đã huỷ yêu cầu', true);
     });
   }
 
@@ -1528,22 +1754,22 @@ try {
           found = true;
         }
       }
-      if (!found) return toast('❌ Không tìm thấy đơn!', true);
+      if (!found) return toast('❌ Không tìm thấy!', true);
       db.ref('deposits').set(deps).then(function() {
-        toast('🗑 Đã xoá lịch sử nạp');
+        toast('🗑 Đã xoá');
       });
     });
   }
 
   /* ============================================================
-     ĐƠN HÀNG (KEY)
+     ORDERS
      ============================================================ */
   function renderOrds() {
     var box = document.getElementById('adOrds');
     if (!box) return;
 
     if (!DB.orders.length) {
-      box.innerHTML = '<div class="empty">Chưa có đơn hàng</div>';
+      box.innerHTML = '<div class="empty"><span class="icon">🔑</span>Chưa có đơn hàng</div>';
       return;
     }
 
@@ -1553,25 +1779,25 @@ try {
       var badge2;
 
       if (o.status === 'wait') {
-        badge2 = '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' +
-          '<input class="key-input" id="key_' + o.id + '" placeholder="Nhập key..." >' +
-          '<button class="btn sm green" onclick="sendk(\'' + o.id + '\')">🔑 GỬI KEY</button>' +
-          '<button class="btn sm danger" onclick="cancelOrder(\'' + o.id + '\')">🚫 HUỶ</button>' +
-          '<button class="btn sm dark" onclick="refundOrder(\'' + o.id + '\')">💰 HOÀN</button>' +
+        badge2 = '<input class="key-input" id="key_' + o.id + '" placeholder="🔑 Nhập key để gửi...">' +
+          '<div class="item-actions">' +
+          '<button class="btn-act prime" onclick="sendk(\'' + o.id + '\')">🔑 GỬI KEY</button>' +
+          '<button class="btn-act danger" onclick="cancelOrder(\'' + o.id + '\')">🚫 HUỶ</button>' +
+          '<button class="btn-act warn" onclick="refundOrder(\'' + o.id + '\')">💰 HOÀN</button>' +
           '</div>';
       } else if (o.status === 'done') {
-        badge2 = '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' +
-          '<div><span class="badge done">HOÀN THÀNH</span>' +
-          '<div style="font-size:11.5px;color:#00ff88;margin-top:6px;word-break:break-all">🔑 ' + (o.key || '') + '</div></div>' +
-          '<button class="btn sm dark" onclick="refundOrder(\'' + o.id + '\')">💰 HOÀN</button>' +
-          '</div>';
+        badge2 = '<div class="item-actions">' +
+          '<span class="badge done">✔ HOÀN THÀNH</span>' +
+          '<button class="btn-act warn" onclick="refundOrder(\'' + o.id + '\')">💰 HOÀN</button>' +
+          '</div>' +
+          '<div style="margin-top:10px;padding:10px;border-radius:10px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);font-size:12px;color:#00ff88;word-break:break-all">🔑 ' + (o.key || '') + '</div>';
       } else if (o.status === 'refund') {
-        badge2 = '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' +
-          '<span class="badge cancel">ĐÃ HOÀN TIỀN</span>' +
-          '<div style="font-size:11.5px;color:#ffd633">💰 ' + fmt(o.refundAmount || o.price) + '</div>' +
+        badge2 = '<div class="item-actions">' +
+          '<span class="badge cancel">💰 ĐÃ HOÀN TIỀN</span>' +
+          '<span style="font-size:12px;color:#ffd633;font-weight:900">' + fmt(o.refundAmount || o.price) + '</span>' +
           '</div>';
       } else {
-        badge2 = '<span class="badge cancel">ĐÃ HUỶ</span>';
+        badge2 = '<span class="badge cancel">✖ ĐÃ HUỶ</span>';
       }
 
       var priceInfo = 'Giá: <b style="color:#ffd633">' + fmt(o.price) + '</b>';
@@ -1581,10 +1807,11 @@ try {
       }
 
       html += '<div class="item">' +
-        '<div class="l">' +
-        '<b>👤 ' + o.user + ' — ' + o.name + '</b>' +
-        '<small>Gói: ' + o.plan + ' • ' + priceInfo + '</small>' +
-        '<small>Mã đơn: ' + o.id + ' • 🕐 ' + timeStr(o.createdAt) + '</small>' +
+        '<div class="item-main">' +
+        '<b>👤 ' + o.user + '</b>' +
+        '<small>📦 ' + o.name + ' — ' + o.plan + '</small>' +
+        '<small>' + priceInfo + '</small>' +
+        '<small>🆔 #' + o.id + ' • 🕐 ' + timeStr(o.createdAt) + '</small>' +
         '</div>' + badge2 +
         '</div>';
     }
@@ -1594,7 +1821,7 @@ try {
   function sendk(id) {
     var inp = document.getElementById('key_' + id);
     var key = (inp ? inp.value : '').trim();
-    if (!key) return toast('⚠️ Vui lòng nhập key trước khi gửi', true);
+    if (!key) return toast('⚠️ Vui lòng nhập key!', true);
     if (!db) return;
 
     db.ref('orders').once('value').then(function(snap) {
@@ -1622,7 +1849,7 @@ try {
         if (ords[i].id === id) o = ords[i];
       }
       if (!o) return toast('❌ Không tìm thấy đơn!', true);
-      if (o.status !== 'wait') return toast('⚠️ Đơn này không còn ở trạng thái chờ!', true);
+      if (o.status !== 'wait') return toast('⚠️ Đơn không còn ở trạng thái chờ!', true);
 
       for (var j = 0; j < ords.length; j++) {
         if (ords[j].id === id) {
@@ -1631,7 +1858,7 @@ try {
         }
       }
       db.ref('orders').set(ords);
-      toast('🚫 Đã huỷ đơn ' + id);
+      toast('🚫 Đã huỷ đơn');
     });
   }
 
@@ -1645,11 +1872,11 @@ try {
       }
       if (!o) return toast('❌ Không tìm thấy đơn!', true);
       if (o.status === 'refund' || o.refunded) {
-        return toast('⚠️ Đơn này đã được hoàn tiền rồi!', true);
+        return toast('⚠️ Đơn đã hoàn tiền rồi!', true);
       }
 
       var refundAmt = Number(o.price) || 0;
-      if (refundAmt <= 0) return toast('⚠️ Số tiền hoàn không hợp lệ!', true);
+      if (refundAmt <= 0) return toast('⚠️ Số tiền không hợp lệ!', true);
 
       db.ref('users/' + o.user).once('value').then(function(us) {
         var u = us.val();
@@ -1675,14 +1902,14 @@ try {
   }
 
   /* ============================================================
-     ĐÁNH GIÁ
+     REVIEWS
      ============================================================ */
   function renderRevs() {
     var box = document.getElementById('adRevs');
     if (!box) return;
 
     if (!DB.reviews.length) {
-      box.innerHTML = '<div class="empty">Chưa có đánh giá</div>';
+      box.innerHTML = '<div class="empty"><span class="icon">⭐</span>Chưa có đánh giá</div>';
       return;
     }
 
@@ -1690,10 +1917,10 @@ try {
     for (var e = 0; e < DB.reviews.length; e++) {
       var r = DB.reviews[e];
       html += '<div class="item">' +
-        '<div class="l">' +
+        '<div class="item-main">' +
         '<b>👤 ' + r.user + '</b>' +
         '<small style="color:#ffd633;font-size:15px">' + Array((r.stars || 0) + 1).join('⭐') + '</small>' +
-        '<small>' + (r.text || '(Không có mô tả)') + '</small>' +
+        '<small style="font-style:italic">"' + (r.text || '(Không có mô tả)') + '"</small>' +
         '<small>🕐 ' + timeStr(r.createdAt) + '</small>' +
         '</div>' +
         '</div>';
@@ -1702,13 +1929,13 @@ try {
   }
 
   /* ============================================================
-     KHỞI ĐỘNG NGAY — VÀO THẲNG ADMIN
+     KHỞI ĐỘNG
      ============================================================ */
   initAdmin();
 
 } catch (err) {
   console.error('LỖI:', err);
-  document.body.innerHTML = '<div style="padding:30px;color:#ff7d96;font-family:monospace">LỖI: ' + err.message + '</div>';
+  document.body.innerHTML = '<div style="padding:40px 20px;color:#ff7d96;font-family:monospace;font-size:14px;line-height:1.6">❌ LỖI: ' + err.message + '</div>';
 }
 </script>
 </body>
