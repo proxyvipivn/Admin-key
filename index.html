@@ -57,9 +57,6 @@ body {
   background: transparent;
 }
 
-/* ============================================================
-   VIỀN NGOÀI — CHỈ 1 ANIMATION NHẸ
-   ============================================================ */
 .outer-frame {
   position: fixed;
   top: 6px;
@@ -86,9 +83,6 @@ body {
   100% { background-position: 300% 50%; }
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
 .app-header {
   position: sticky;
   top: 0;
@@ -170,9 +164,6 @@ body {
   box-shadow: 0 0 10px var(--cyan);
 }
 
-/* ============================================================
-   SIDEBAR MENU
-   ============================================================ */
 .overlay {
   position: fixed;
   inset: 0;
@@ -207,7 +198,6 @@ body {
   padding: 22px 20px 18px;
   border-bottom: 1px solid rgba(125, 211, 252, 0.25);
   background: linear-gradient(135deg, rgba(125, 211, 252, 0.15), rgba(14, 165, 233, 0.08));
-  position: relative;
 }
 .side-brand .logo {
   font-size: 30px;
@@ -259,9 +249,7 @@ body {
   border: 1.5px solid transparent;
   position: relative;
 }
-.menu-list li:active {
-  background: rgba(125, 211, 252, 0.15);
-}
+.menu-list li:active { background: rgba(125, 211, 252, 0.15); }
 .menu-list li.active {
   background: linear-gradient(90deg, rgba(125, 211, 252, 0.25), rgba(56, 189, 248, 0.12));
   border-color: rgba(125, 211, 252, 0.6);
@@ -294,9 +282,6 @@ body {
   opacity: 0.75;
 }
 
-/* ============================================================
-   PAGES
-   ============================================================ */
 .page { display: none; }
 .page.active { display: block; }
 
@@ -325,9 +310,6 @@ body {
   letter-spacing: 0.4px;
 }
 
-/* ============================================================
-   STAT CARDS
-   ============================================================ */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -369,9 +351,6 @@ body {
   text-transform: uppercase;
 }
 
-/* ============================================================
-   CARD / PANEL
-   ============================================================ */
 .card {
   background: var(--card-bg);
   backdrop-filter: blur(10px);
@@ -410,9 +389,6 @@ body {
   line-height: 1.65;
 }
 
-/* ============================================================
-   BULK DISCOUNT
-   ============================================================ */
 .bulk-box {
   padding: 16px;
   border-radius: 15px;
@@ -493,9 +469,6 @@ body {
   background: rgba(0, 0, 0, 0.35);
 }
 
-/* ============================================================
-   PRICE ROW
-   ============================================================ */
 .price-section-title {
   font-size: 12.5px;
   font-weight: 900;
@@ -586,9 +559,6 @@ body {
 }
 .btn-del-price:active { transform: scale(0.95); }
 
-/* ============================================================
-   SELECT
-   ============================================================ */
 .select-wrap {
   position: relative;
   margin-bottom: 14px;
@@ -623,9 +593,6 @@ body {
   color: var(--ice1);
 }
 
-/* ============================================================
-   ITEM
-   ============================================================ */
 .item {
   padding: 13px 14px;
   border-radius: 14px;
@@ -670,8 +637,87 @@ body {
 }
 
 /* ============================================================
-   BADGES
+   BALANCE (SỐ DƯ)
    ============================================================ */
+.balance-item {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(125, 211, 252, 0.25);
+  margin-bottom: 10px;
+  position: relative;
+}
+.balance-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, var(--ice1), transparent);
+  border-radius: 3px;
+  opacity: 0.6;
+}
+.balance-item-header {
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+.balance-item-header b {
+  color: var(--ice1);
+  font-size: 13.5px;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+.balance-item-header small {
+  color: var(--text2);
+  display: block;
+  line-height: 1.7;
+  margin-bottom: 3px;
+  font-size: 11.5px;
+}
+.balance-item-header small b { display: inline; font-size: inherit; margin: 0; }
+
+.balance-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-left: 8px;
+}
+.balance-input-group input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1.5px solid rgba(125, 211, 252, 0.5);
+  color: var(--ice1);
+  -webkit-text-fill-color: var(--ice1);
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 900;
+  text-align: right;
+  outline: none;
+}
+.balance-input-group input:focus {
+  border-color: var(--ice1);
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.2);
+}
+.balance-input-group button {
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 12px;
+  background: linear-gradient(135deg, var(--ice4), var(--ice1));
+  color: #06121f;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: transform 0.15s;
+}
+.balance-input-group button:active { transform: scale(0.95); }
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -699,9 +745,6 @@ body {
   color: #fda4af;
 }
 
-/* ============================================================
-   BUTTONS ACTION
-   ============================================================ */
 .btn-act {
   padding: 9px 14px;
   border-radius: 10px;
@@ -752,9 +795,6 @@ body {
   box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.2);
 }
 
-/* ============================================================
-   EMPTY
-   ============================================================ */
 .empty {
   text-align: center;
   padding: 40px 20px;
@@ -768,9 +808,6 @@ body {
   opacity: 0.6;
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
 #toast {
   position: fixed;
   left: 50%;
@@ -795,9 +832,6 @@ body {
   color: #fff;
 }
 
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -805,9 +839,6 @@ body {
   border-radius: 6px;
 }
 
-/* ============================================================
-   RESPONSIVE — TABLET+
-   ============================================================ */
 @media (min-width: 640px) {
   body { padding: 18px 20px 90px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); }
@@ -820,9 +851,6 @@ body {
 <canvas id="snowfall"></canvas>
 <div class="outer-frame"></div>
 
-<!-- ============================================================
-     HEADER
-     ============================================================ -->
 <div class="app-header">
   <div class="burger-btn" id="burger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -832,10 +860,6 @@ body {
     <p><span class="live-dot"></span> Realtime đang kết nối</p>
   </div>
 </div>
-
-<!-- ============================================================
-     PAGES
-     ============================================================ -->
 
 <!-- DASHBOARD -->
 <div class="page active" id="page-dashboard">
@@ -892,6 +916,24 @@ body {
   </div>
 </div>
 
+<!-- SỐ DƯ (MỚI) -->
+<div class="page" id="page-balance">
+  <div class="page-header">
+    <h2>💰 Số dư</h2>
+    <p>Chỉnh số dư trực tiếp cho từng người dùng</p>
+  </div>
+  <div class="card">
+    <div class="card-title">
+      💵 Danh sách số dư người dùng
+      <span class="badge-num" id="numBal">0</span>
+    </div>
+    <div class="hint" style="margin-bottom:14px">
+      Nhập số tiền mới vào ô bên dưới rồi nhấn 💾 LƯU để cập nhật số dư cho người dùng đó. Số dư sẽ cập nhật ngay lập tức bên trang shop.
+    </div>
+    <div id="adBalance"></div>
+  </div>
+</div>
+
 <!-- ĐƠN NẠP XỬ LÝ -->
 <div class="page" id="page-deposits">
   <div class="page-header">
@@ -911,12 +953,16 @@ body {
 <div class="page" id="page-orders">
   <div class="page-header">
     <h2>🔑 Đơn key xử lý</h2>
-    <p>Gửi key / Huỷ / Hoàn tiền</p>
+    <p>Gửi key — Huỷ (hoàn tiền tự động)</p>
   </div>
   <div class="card">
     <div class="card-title">
       🛒 Đơn hàng
       <span class="badge-num" id="numOrders">0</span>
+    </div>
+    <div class="hint" style="margin-bottom:14px">
+      ✅ <b style="color:#7dd3fc">GỬI KEY</b> → đơn hoàn thành, không thể hoàn tiền<br>
+      🚫 <b style="color:#fda4af">HUỶ</b> → tự động hoàn tiền vào tài khoản người dùng
     </div>
     <div id="adOrds"></div>
   </div>
@@ -985,9 +1031,6 @@ body {
   </div>
 </div>
 
-<!-- ============================================================
-     SIDEBAR
-     ============================================================ -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <aside class="sidebar" id="sidebar">
@@ -1005,8 +1048,11 @@ body {
     <li data-page="users" data-title="👥 Lịch sử đăng ký">
       <span class="ico">👥</span> Lịch sử đăng ký
     </li>
+    <li data-page="balance" data-title="💰 Chỉnh số dư">
+      <span class="ico">💰</span> Số dư
+    </li>
     <li data-page="deposits" data-title="💰 Đơn nạp xử lý">
-      <span class="ico">💰</span> Đơn nạp xử lý
+      <span class="ico">🏦</span> Đơn nạp xử lý
     </li>
     <li data-page="orders" data-title="🔑 Đơn key xử lý">
       <span class="ico">🔑</span> Đơn key xử lý
@@ -1023,13 +1069,12 @@ body {
   </ul>
 
   <div class="side-footer">
-    ❄️ Realtime Firebase • v3.0
+    ❄️ Realtime Firebase • v4.0
   </div>
 </aside>
 
 <div id="toast"></div>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -1106,9 +1151,6 @@ try {
     { name: 'GÓI 3', price: 300000, desc: 'Bảo hành 300 ngày' }
   ];
 
-  /* ============================================================
-     HELPERS
-     ============================================================ */
   function priceKey(productName, planLabel) {
     return (productName + '||' + planLabel).replace(/[.#$\[\]\/]/g, '_');
   }
@@ -1138,10 +1180,7 @@ try {
   }
 
   /* ============================================================
-     SNOWFALL — TỐI ƯU CHỐNG LAG
-     - 25 bông tuyết lớn 6 cánh
-     - 45 hạt tuyết nhỏ
-     - 15 cây noel 🎄
+     SNOWFALL ❄️🎄
      ============================================================ */
   (function initSnowfall() {
     try {
@@ -1162,7 +1201,6 @@ try {
       resize();
       addEventListener('resize', resize);
 
-      /* Bông tuyết lớn 6 cánh */
       for (var i = 0; i < 25; i++) {
         flakes.push({
           x: Math.random() * innerWidth,
@@ -1179,7 +1217,6 @@ try {
         });
       }
 
-      /* Hạt tuyết nhỏ */
       for (var j = 0; j < 45; j++) {
         flakes.push({
           x: Math.random() * innerWidth,
@@ -1194,7 +1231,6 @@ try {
         });
       }
 
-      /* Cây noel 🎄 */
       for (var k = 0; k < 15; k++) {
         trees.push({
           x: Math.random() * innerWidth,
@@ -1241,7 +1277,6 @@ try {
 
       var last = 0;
       function drawFrame(t) {
-        /* Giới hạn ~40fps để đỡ lag */
         if (t - last < 25) {
           requestAnimationFrame(drawFrame);
           return;
@@ -1250,7 +1285,6 @@ try {
 
         ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-        /* Vẽ bông tuyết */
         for (var i = 0; i < flakes.length; i++) {
           var f = flakes[i];
           f.phase += 0.02;
@@ -1284,7 +1318,6 @@ try {
         }
         ctx.globalAlpha = 1;
 
-        /* Vẽ cây noel */
         for (var k = 0; k < trees.length; k++) {
           var tr = trees[k];
           tr.phase += 0.02;
@@ -1318,9 +1351,6 @@ try {
     }
   })();
 
-  /* ============================================================
-     MENU
-     ============================================================ */
   function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('show');
@@ -1368,9 +1398,6 @@ try {
     }
   })();
 
-  /* ============================================================
-     FIREBASE LISTENERS
-     ============================================================ */
   function initAdmin() {
     if (!db) {
       toast('❌ Không kết nối Firebase', true);
@@ -1413,6 +1440,8 @@ try {
     if (stU) stU.textContent = userKeys.length;
     var nU = document.getElementById('numUsers');
     if (nU) nU.textContent = userKeys.length;
+    var nB = document.getElementById('numBal');
+    if (nB) nB.textContent = userKeys.length;
 
     var waitDep = 0;
     for (var i = 0; i < DB.deposits.length; i++) {
@@ -1445,6 +1474,7 @@ try {
     renderGlobalPrices();
     renderUserSelect();
     renderUsers();
+    renderBalance();
     renderDeps();
     renderOrds();
     renderRevs();
@@ -1687,7 +1717,7 @@ try {
   }
 
   /* ============================================================
-     USERS
+     USERS LIST
      ============================================================ */
   function renderUsers() {
     var userKeys = Object.keys(DB.users);
@@ -1725,6 +1755,68 @@ try {
     }
     box.innerHTML = html;
   }
+
+  /* ============================================================
+     BALANCE (CHỈNH SỐ DƯ)
+     ============================================================ */
+  function renderBalance() {
+    var userKeys = Object.keys(DB.users);
+    var box = document.getElementById('adBalance');
+    if (!box) return;
+
+    if (!userKeys.length) {
+      box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có người dùng</div>';
+      return;
+    }
+
+    userKeys.sort(function(a, b) {
+      return (DB.users[b].createdAt || 0) - (DB.users[a].createdAt || 0);
+    });
+
+    var html = '';
+    for (var i = 0; i < userKeys.length; i++) {
+      var n = userKeys[i];
+      var u = DB.users[n];
+      var bal = Number(u.balance) || 0;
+
+      html += '<div class="balance-item">' +
+        '<div class="balance-item-header">' +
+        '<b>👤 ' + n + '</b>' +
+        '<small>💰 Số dư hiện tại: <b style="color:#7dd3fc">' + fmt(bal) + '</b></small>' +
+        '<small>📥 Tổng nạp: ' + fmt(u.totalDeposit) + ' • 📤 Tổng chi: ' + fmt(u.totalSpent) + '</small>' +
+        '</div>' +
+        '<div class="balance-input-group">' +
+        '<input type="number" id="bal_' + n.replace(/[.#$\[\]\/]/g, '_') + '" value="' + bal + '" min="0" step="1000" placeholder="Nhập số dư mới">' +
+        '<button onclick="saveBalance(\'' + n.replace(/'/g, "\\'") + '\')">💾 LƯU</button>' +
+        '</div>' +
+        '</div>';
+    }
+    box.innerHTML = html;
+  }
+
+  function saveBalance(userName) {
+    var safeId = userName.replace(/[.#$\[\]\/]/g, '_');
+    var inp = document.getElementById('bal_' + safeId);
+    if (!inp) return;
+
+    var newBalance = Number(inp.value);
+    if (isNaN(newBalance) || newBalance < 0) return toast('⚠️ Số dư không hợp lệ!', true);
+    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
+    if (!DB.users[userName]) return toast('❌ Không tìm thấy user!', true);
+
+    var u = DB.users[userName];
+    var oldBal = Number(u.balance) || 0;
+    u.balance = newBalance;
+
+    db.ref('users/' + userName).set(u)
+      .then(function() {
+        toast('✅ ' + userName + ': ' + fmt(oldBal) + ' → ' + fmt(newBalance));
+      })
+      .catch(function(err) {
+        toast('❌ Lỗi: ' + err.message, true);
+      });
+  }
+  window.saveBalance = saveBalance;
 
   /* ============================================================
      DEPOSITS
@@ -1838,7 +1930,10 @@ try {
   }
 
   /* ============================================================
-     ORDERS
+     ORDERS — SỬA MỚI
+     - wait: [GỬI KEY] [HUỶ (tự hoàn tiền)]
+     - done: [ĐÃ XỬ LÝ] — không có hoàn
+     - cancel: [ĐÃ HUỶ + ĐÃ HOÀN TIỀN]
      ============================================================ */
   function renderOrds() {
     var box = document.getElementById('adOrds');
@@ -1858,19 +1953,22 @@ try {
         badge2 = '<input class="key-input" id="key_' + o.id + '" placeholder="🔑 Nhập key để gửi...">' +
           '<div class="item-actions">' +
           '<button class="btn-act prime" onclick="sendk(\'' + o.id + '\')">🔑 GỬI KEY</button>' +
-          '<button class="btn-act danger" onclick="cancelOrder(\'' + o.id + '\')">🚫 HUỶ</button>' +
-          '<button class="btn-act warn" onclick="refundOrder(\'' + o.id + '\')">💰 HOÀN</button>' +
+          '<button class="btn-act danger" onclick="cancelOrder(\'' + o.id + '\')">🚫 HUỶ + HOÀN</button>' +
           '</div>';
       } else if (o.status === 'done') {
         badge2 = '<div class="item-actions">' +
-          '<span class="badge done">✔ HOÀN THÀNH</span>' +
-          '<button class="btn-act warn" onclick="refundOrder(\'' + o.id + '\')">💰 HOÀN</button>' +
+          '<span class="badge done">✔ ĐÃ XỬ LÝ</span>' +
           '</div>' +
           '<div style="margin-top:10px;padding:10px;border-radius:10px;background:rgba(125,211,252,0.1);border:1px solid rgba(125,211,252,0.35);font-size:12px;color:#7dd3fc;word-break:break-all">🔑 ' + (o.key || '') + '</div>';
+      } else if (o.status === 'cancel') {
+        badge2 = '<div class="item-actions">' +
+          '<span class="badge cancel">🚫 ĐÃ HUỶ</span>' +
+          '<span style="font-size:11.5px;color:#7dd3fc;font-weight:700">💰 Đã hoàn ' + fmt(o.refundAmount || o.price) + '</span>' +
+          '</div>';
       } else if (o.status === 'refund') {
         badge2 = '<div class="item-actions">' +
           '<span class="badge cancel">💰 ĐÃ HOÀN TIỀN</span>' +
-          '<span style="font-size:12px;color:#fde047;font-weight:900">' + fmt(o.refundAmount || o.price) + '</span>' +
+          '<span style="font-size:11.5px;color:#fde047;font-weight:700">' + fmt(o.refundAmount || o.price) + '</span>' +
           '</div>';
       } else {
         badge2 = '<span class="badge cancel">✖ ĐÃ HUỶ</span>';
@@ -1916,6 +2014,7 @@ try {
     });
   }
 
+  /* HUỶ ĐƠN + TỰ ĐỘNG HOÀN TIỀN */
   function cancelOrder(id) {
     if (!db) return;
     db.ref('orders').once('value').then(function(snap) {
@@ -1927,51 +2026,43 @@ try {
       if (!o) return toast('❌ Không tìm thấy đơn!', true);
       if (o.status !== 'wait') return toast('⚠️ Đơn không còn ở trạng thái chờ!', true);
 
-      for (var j = 0; j < ords.length; j++) {
-        if (ords[j].id === id) {
-          ords[j].status = 'cancel';
-          ords[j].cancelAt = now();
-        }
-      }
-      db.ref('orders').set(ords);
-      toast('🚫 Đã huỷ đơn');
-    });
-  }
-
-  function refundOrder(id) {
-    if (!db) return;
-    db.ref('orders').once('value').then(function(snap) {
-      var ords = snap.val() || [];
-      var o = null;
-      for (var i = 0; i < ords.length; i++) {
-        if (ords[i].id === id) o = ords[i];
-      }
-      if (!o) return toast('❌ Không tìm thấy đơn!', true);
-      if (o.status === 'refund' || o.refunded) {
-        return toast('⚠️ Đơn đã hoàn tiền rồi!', true);
-      }
-
       var refundAmt = Number(o.price) || 0;
-      if (refundAmt <= 0) return toast('⚠️ Số tiền không hợp lệ!', true);
 
       db.ref('users/' + o.user).once('value').then(function(us) {
         var u = us.val();
-        if (!u) return toast('❌ Không tìm thấy user!', true);
 
+        if (!u) {
+          /* Không tìm thấy user — vẫn huỷ đơn nhưng không hoàn */
+          for (var j = 0; j < ords.length; j++) {
+            if (ords[j].id === id) {
+              ords[j].status = 'cancel';
+              ords[j].cancelAt = now();
+              ords[j].refunded = false;
+              ords[j].refundAmount = 0;
+            }
+          }
+          db.ref('orders').set(ords);
+          toast('🚫 Đã huỷ đơn (không tìm thấy user để hoàn)', true);
+          return;
+        }
+
+        /* Cộng tiền lại cho user */
         u.balance = (u.balance || 0) + refundAmt;
         u.totalSpent = Math.max(0, (u.totalSpent || 0) - refundAmt);
 
         db.ref('users/' + o.user).set(u).then(function() {
-          for (var j = 0; j < ords.length; j++) {
-            if (ords[j].id === id) {
-              ords[j].status = 'refund';
-              ords[j].refunded = true;
-              ords[j].refundAt = now();
-              ords[j].refundAmount = refundAmt;
+          for (var k = 0; k < ords.length; k++) {
+            if (ords[k].id === id) {
+              ords[k].status = 'cancel';
+              ords[k].cancelAt = now();
+              ords[k].refunded = true;
+              ords[k].refundAmount = refundAmt;
             }
           }
           db.ref('orders').set(ords);
-          toast('💰 Đã hoàn ' + fmt(refundAmt) + ' cho ' + o.user);
+          toast('🚫 Đã huỷ + hoàn ' + fmt(refundAmt) + ' cho ' + o.user);
+        }).catch(function(err) {
+          toast('❌ Lỗi hoàn tiền: ' + err.message, true);
         });
       });
     });
