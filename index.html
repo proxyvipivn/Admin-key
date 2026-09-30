@@ -636,9 +636,6 @@ body {
   margin-top: 12px;
 }
 
-/* ============================================================
-   BALANCE (SỐ DƯ)
-   ============================================================ */
 .balance-item {
   padding: 14px;
   border-radius: 14px;
@@ -916,7 +913,7 @@ body {
   </div>
 </div>
 
-<!-- SỐ DƯ (MỚI) -->
+<!-- SỐ DƯ -->
 <div class="page" id="page-balance">
   <div class="page-header">
     <h2>💰 Số dư</h2>
@@ -953,7 +950,7 @@ body {
 <div class="page" id="page-orders">
   <div class="page-header">
     <h2>🔑 Đơn key xử lý</h2>
-    <p>Gửi key — Huỷ (hoàn tiền tự động)</p>
+    <p>Gửi key — Huỷ (hoàn tiền tự động) — Xoá</p>
   </div>
   <div class="card">
     <div class="card-title">
@@ -962,7 +959,8 @@ body {
     </div>
     <div class="hint" style="margin-bottom:14px">
       ✅ <b style="color:#7dd3fc">GỬI KEY</b> → đơn hoàn thành, không thể hoàn tiền<br>
-      🚫 <b style="color:#fda4af">HUỶ</b> → tự động hoàn tiền vào tài khoản người dùng
+      🚫 <b style="color:#fda4af">HUỶ + HOÀN</b> → tự động hoàn tiền vào tài khoản người dùng<br>
+      🗑 <b style="color:#bae6fd">XOÁ</b> → ẩn đơn khỏi bảng admin (user vẫn thấy)
     </div>
     <div id="adOrds"></div>
   </div>
@@ -1069,7 +1067,7 @@ body {
   </ul>
 
   <div class="side-footer">
-    ❄️ Realtime Firebase • v4.0
+    ❄️ Realtime Firebase • v5.0
   </div>
 </aside>
 
@@ -1454,12 +1452,17 @@ try {
 
     var waitOrd = 0;
     for (var j = 0; j < DB.orders.length; j++) {
-      if (DB.orders[j].status === 'wait') waitOrd++;
+      if (DB.orders[j].status === 'wait' && !DB.orders[j].adminDeleted) waitOrd++;
     }
     var stO = document.getElementById('stOrd');
     if (stO) stO.textContent = waitOrd;
+
+    var visibleOrds = 0;
+    for (var x = 0; x < DB.orders.length; x++) {
+      if (!DB.orders[x].adminDeleted) visibleOrds++;
+    }
     var nO = document.getElementById('numOrders');
-    if (nO) nO.textContent = DB.orders.length;
+    if (nO) nO.textContent = visibleOrds;
 
     var stR = document.getElementById('stRv');
     if (stR) stR.textContent = DB.reviews.length;
@@ -1480,9 +1483,6 @@ try {
     renderRevs();
   }
 
-  /* ============================================================
-     BULK DISCOUNT
-     ============================================================ */
   function saveBulkDiscount() {
     var inp = document.getElementById('bulkDiscountInput');
     var v = Number(inp.value);
@@ -1526,9 +1526,6 @@ try {
     }
   }
 
-  /* ============================================================
-     GLOBAL PRICES
-     ============================================================ */
   function getGlobalPrice(productName, planLabel, originalPrice) {
     var key = priceKey(productName, planLabel);
     if (DB.config.prices && DB.config.prices[key] != null && DB.config.prices[key] !== '') {
@@ -1601,9 +1598,6 @@ try {
       .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
   }
 
-  /* ============================================================
-     PER USER PRICES
-     ============================================================ */
   function renderUserSelect() {
     var sel = document.getElementById('perUserSelect');
     if (!sel) return;
@@ -1716,9 +1710,6 @@ try {
       .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
   }
 
-  /* ============================================================
-     USERS LIST
-     ============================================================ */
   function renderUsers() {
     var userKeys = Object.keys(DB.users);
     var box = document.getElementById('adUsers');
@@ -1756,9 +1747,6 @@ try {
     box.innerHTML = html;
   }
 
-  /* ============================================================
-     BALANCE (CHỈNH SỐ DƯ)
-     ============================================================ */
   function renderBalance() {
     var userKeys = Object.keys(DB.users);
     var box = document.getElementById('adBalance');
@@ -1778,6 +1766,7 @@ try {
       var n = userKeys[i];
       var u = DB.users[n];
       var bal = Number(u.balance) || 0;
+      var safeId = n.replace(/[.#$\[\]\/]/g, '_');
 
       html += '<div class="balance-item">' +
         '<div class="balance-item-header">' +
@@ -1786,7 +1775,7 @@ try {
         '<small>📥 Tổng nạp: ' + fmt(u.totalDeposit) + ' • 📤 Tổng chi: ' + fmt(u.totalSpent) + '</small>' +
         '</div>' +
         '<div class="balance-input-group">' +
-        '<input type="number" id="bal_' + n.replace(/[.#$\[\]\/]/g, '_') + '" value="' + bal + '" min="0" step="1000" placeholder="Nhập số dư mới">' +
+        '<input type="number" id="bal_' + safeId + '" value="' + bal + '" min="0" step="1000" placeholder="Nhập số dư mới">' +
         '<button onclick="saveBalance(\'' + n.replace(/'/g, "\\'") + '\')">💾 LƯU</button>' +
         '</div>' +
         '</div>';
@@ -1818,9 +1807,6 @@ try {
   }
   window.saveBalance = saveBalance;
 
-  /* ============================================================
-     DEPOSITS
-     ============================================================ */
   function renderDeps() {
     var box = document.getElementById('adDeps');
     if (!box) return;
@@ -1930,23 +1916,26 @@ try {
   }
 
   /* ============================================================
-     ORDERS — SỬA MỚI
-     - wait: [GỬI KEY] [HUỶ (tự hoàn tiền)]
-     - done: [ĐÃ XỬ LÝ] — không có hoàn
-     - cancel: [ĐÃ HUỶ + ĐÃ HOÀN TIỀN]
+     ORDERS — CÓ NÚT XOÁ
      ============================================================ */
   function renderOrds() {
     var box = document.getElementById('adOrds');
     if (!box) return;
 
-    if (!DB.orders.length) {
+    /* Lọc bỏ những đơn đã bị admin xoá */
+    var visibleOrders = [];
+    for (var x = 0; x < DB.orders.length; x++) {
+      if (!DB.orders[x].adminDeleted) visibleOrders.push(DB.orders[x]);
+    }
+
+    if (!visibleOrders.length) {
       box.innerHTML = '<div class="empty"><span class="icon">🔑</span>Chưa có đơn hàng</div>';
       return;
     }
 
     var html = '';
-    for (var c = 0; c < DB.orders.length; c++) {
-      var o = DB.orders[c];
+    for (var c = 0; c < visibleOrders.length; c++) {
+      var o = visibleOrders[c];
       var badge2;
 
       if (o.status === 'wait') {
@@ -1954,24 +1943,31 @@ try {
           '<div class="item-actions">' +
           '<button class="btn-act prime" onclick="sendk(\'' + o.id + '\')">🔑 GỬI KEY</button>' +
           '<button class="btn-act danger" onclick="cancelOrder(\'' + o.id + '\')">🚫 HUỶ + HOÀN</button>' +
+          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else if (o.status === 'done') {
         badge2 = '<div class="item-actions">' +
           '<span class="badge done">✔ ĐÃ XỬ LÝ</span>' +
+          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
           '</div>' +
           '<div style="margin-top:10px;padding:10px;border-radius:10px;background:rgba(125,211,252,0.1);border:1px solid rgba(125,211,252,0.35);font-size:12px;color:#7dd3fc;word-break:break-all">🔑 ' + (o.key || '') + '</div>';
       } else if (o.status === 'cancel') {
         badge2 = '<div class="item-actions">' +
           '<span class="badge cancel">🚫 ĐÃ HUỶ</span>' +
           '<span style="font-size:11.5px;color:#7dd3fc;font-weight:700">💰 Đã hoàn ' + fmt(o.refundAmount || o.price) + '</span>' +
+          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else if (o.status === 'refund') {
         badge2 = '<div class="item-actions">' +
           '<span class="badge cancel">💰 ĐÃ HOÀN TIỀN</span>' +
           '<span style="font-size:11.5px;color:#fde047;font-weight:700">' + fmt(o.refundAmount || o.price) + '</span>' +
+          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else {
-        badge2 = '<span class="badge cancel">✖ ĐÃ HUỶ</span>';
+        badge2 = '<div class="item-actions">' +
+          '<span class="badge cancel">✖ ĐÃ HUỶ</span>' +
+          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
+          '</div>';
       }
 
       var priceInfo = 'Giá: <b style="color:#fde047">' + fmt(o.price) + '</b>';
@@ -2014,7 +2010,6 @@ try {
     });
   }
 
-  /* HUỶ ĐƠN + TỰ ĐỘNG HOÀN TIỀN */
   function cancelOrder(id) {
     if (!db) return;
     db.ref('orders').once('value').then(function(snap) {
@@ -2032,7 +2027,6 @@ try {
         var u = us.val();
 
         if (!u) {
-          /* Không tìm thấy user — vẫn huỷ đơn nhưng không hoàn */
           for (var j = 0; j < ords.length; j++) {
             if (ords[j].id === id) {
               ords[j].status = 'cancel';
@@ -2046,7 +2040,6 @@ try {
           return;
         }
 
-        /* Cộng tiền lại cho user */
         u.balance = (u.balance || 0) + refundAmt;
         u.totalSpent = Math.max(0, (u.totalSpent || 0) - refundAmt);
 
@@ -2069,8 +2062,35 @@ try {
   }
 
   /* ============================================================
-     REVIEWS
+     XOÁ ĐƠN HÀNG — CHỈ ẨN BÊN ADMIN, USER VẪN THẤY
      ============================================================ */
+  function delOrder(id) {
+    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
+
+    db.ref('orders').once('value').then(function(snap) {
+      var ords = snap.val() || [];
+      var found = false;
+
+      for (var i = 0; i < ords.length; i++) {
+        if (ords[i].id === id) {
+          ords[i].adminDeleted = true;
+          found = true;
+        }
+      }
+
+      if (!found) return toast('❌ Không tìm thấy đơn!', true);
+
+      db.ref('orders').set(ords)
+        .then(function() {
+          toast('🗑 Đã xoá đơn (user vẫn thấy)');
+        })
+        .catch(function(err) {
+          toast('❌ Lỗi: ' + err.message, true);
+        });
+    });
+  }
+  window.delOrder = delOrder;
+
   function renderRevs() {
     var box = document.getElementById('adRevs');
     if (!box) return;
