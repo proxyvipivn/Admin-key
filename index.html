@@ -917,7 +917,7 @@ try {
     var buyers = {};
     for (var bi = 0; bi < DB.orders.length; bi++) {
       var bo = DB.orders[bi];
-      if (bo.status === 'done' && bo.key) {
+      if (bo.status === 'done') {
         buyers[bo.user] = true;
       }
     }
