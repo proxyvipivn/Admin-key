@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#06121f">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>⚙️ ADMIN — FF MAX</title>
 <style>
 :root {
@@ -18,828 +17,450 @@
   --cyan: #22d3ee;
   --gold: #fde047;
   --red: #f43f5e;
-  --bg-main: #06121f;
   --card-bg: rgba(12, 30, 50, 0.75);
   --line: rgba(125, 211, 252, 0.35);
   --text: #e8f4ff;
   --text2: #93c5fd;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-html, body {
-  color-scheme: dark !important;
-  height: 100%;
-  background: #06121f !important;
-}
-
+html, body { height:100%; background:#06121f !important; color-scheme:dark !important; }
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
   background:
     radial-gradient(circle at 15% 10%, #1e3a5f 0%, transparent 45%),
     radial-gradient(circle at 85% 90%, #0c4a6e 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(125, 211, 252, 0.06) 0%, transparent 60%),
     #06121f !important;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  position: relative;
   padding: 12px 12px 90px;
   padding-top: calc(12px + env(safe-area-inset-top));
 }
-
-#snowfall {
-  position: fixed;
-  inset: 0;
-  z-index: 9000;
-  pointer-events: none;
-  background: transparent;
-}
-
+#snowfall { position:fixed; inset:0; z-index:9000; pointer-events:none; }
 .outer-frame {
-  position: fixed;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  border-radius: 20px;
-  pointer-events: none;
-  z-index: 9999;
-  padding: 2px;
-  background: linear-gradient(115deg,
-    #7dd3fc, #bae6fd, #38bdf8, #e0f2fe,
-    #7dd3fc, #0ea5e9, #bae6fd, #7dd3fc);
+  position:fixed; top:6px; left:6px; right:6px; bottom:6px;
+  border-radius:20px; pointer-events:none; z-index:9999; padding:2px;
+  background: linear-gradient(115deg, #7dd3fc, #bae6fd, #38bdf8, #e0f2fe, #7dd3fc, #0ea5e9, #bae6fd, #7dd3fc);
   background-size: 300% 100%;
   animation: borderRun 5s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
-  will-change: background-position;
 }
-@keyframes borderRun {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-}
+@keyframes borderRun { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
 
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  background: rgba(6, 18, 31, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  position: sticky; top:0; z-index:100;
+  display:flex; align-items:center; gap:12px;
+  padding:10px 14px; margin-bottom:16px;
+  background: rgba(6,18,31,0.92);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border:1px solid var(--line); border-radius:16px;
+  box-shadow:0 6px 24px rgba(0,0,0,0.5);
 }
-
 .burger-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  cursor: pointer;
-  flex: 0 0 auto;
-  background: linear-gradient(135deg, rgba(125, 211, 252, 0.2), rgba(14, 165, 233, 0.15));
-  border: 1.5px solid rgba(125, 211, 252, 0.5);
-  transition: transform 0.15s;
+  width:42px; height:42px; border-radius:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  cursor:pointer; flex:0 0 auto;
+  background: linear-gradient(135deg, rgba(125,211,252,0.2), rgba(14,165,233,0.15));
+  border:1.5px solid rgba(125,211,252,0.5); transition:transform 0.15s;
 }
-.burger-btn:active { transform: scale(0.92); }
+.burger-btn:active { transform:scale(0.92); }
 .burger-btn span {
-  width: 22px;
-  height: 2.5px;
-  border-radius: 3px;
+  width:22px; height:2.5px; border-radius:3px;
   background: linear-gradient(90deg, var(--ice1), var(--snow));
-  display: block;
-  transition: 0.25s;
+  display:block; transition:0.25s;
 }
 .burger-btn.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-.burger-btn.open span:nth-child(2) { opacity: 0; }
+.burger-btn.open span:nth-child(2) { opacity:0; }
 .burger-btn.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-.header-info { flex: 1; min-width: 0; }
+.header-info { flex:1; min-width:0; }
 .header-info h1 {
-  font-size: clamp(13px, 3.8vw, 16px);
-  font-weight: 800;
-  letter-spacing: 0.6px;
+  font-size: clamp(13px, 3.8vw, 16px); font-weight:800; letter-spacing:0.6px;
   background: linear-gradient(90deg, var(--ice4), var(--snow), var(--ice1));
   background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   animation: textShine 5s linear infinite;
 }
 .header-info p {
-  font-size: 10px;
-  color: var(--text2);
-  letter-spacing: 0.5px;
-  margin-top: 2px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  font-size:10px; color:var(--text2); letter-spacing:0.5px; margin-top:2px;
+  display:flex; align-items:center; gap:5px;
 }
-@keyframes textShine {
-  to { background-position: 200% 0; }
-}
-
-.live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 10px var(--cyan);
-}
+@keyframes textShine { to { background-position: 200% 0; } }
+.live-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 10px var(--cyan); }
 
 .overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 200;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.25s, visibility 0.25s;
+  position:fixed; inset:0; background: rgba(0,0,0,0.75); z-index:200;
+  opacity:0; visibility:hidden; transition: opacity 0.25s, visibility 0.25s;
 }
-.overlay.show { opacity: 1; visibility: visible; }
-
+.overlay.show { opacity:1; visibility:visible; }
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: min(310px, 82vw);
-  height: 100vh;
-  z-index: 300;
+  position:fixed; top:0; left:0; width:min(310px, 82vw); height:100vh; z-index:300;
   background: linear-gradient(180deg, #0a1a2c 0%, #06121f 100%);
-  border-right: 1.5px solid rgba(125, 211, 252, 0.5);
+  border-right:1.5px solid rgba(125,211,252,0.5);
   transform: translateX(-105%);
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 8px 0 40px rgba(0, 0, 0, 0.9);
-  overflow-y: auto;
+  display:flex; flex-direction:column; overflow-y:auto;
+  box-shadow: 8px 0 40px rgba(0,0,0,0.9);
   padding-top: env(safe-area-inset-top);
 }
 .sidebar.open { transform: translateX(0); }
-
 .side-brand {
-  padding: 22px 20px 18px;
-  border-bottom: 1px solid rgba(125, 211, 252, 0.25);
-  background: linear-gradient(135deg, rgba(125, 211, 252, 0.15), rgba(14, 165, 233, 0.08));
+  padding:22px 20px 18px; border-bottom:1px solid rgba(125,211,252,0.25);
+  background: linear-gradient(135deg, rgba(125,211,252,0.15), rgba(14,165,233,0.08));
 }
-.side-brand .logo {
-  font-size: 30px;
-  margin-bottom: 6px;
-  display: block;
-}
+.side-brand .logo { font-size:30px; margin-bottom:6px; display:block; }
 .side-brand h2 {
-  font-size: 16px;
-  font-weight: 900;
+  font-size:16px; font-weight:900;
   background: linear-gradient(90deg, var(--ice4), var(--snow));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  letter-spacing:1px;
 }
-.side-brand p {
-  font-size: 11px;
-  color: var(--text2);
-  margin-top: 4px;
-  letter-spacing: 0.6px;
-}
-
+.side-brand p { font-size:11px; color:var(--text2); margin-top:4px; letter-spacing:0.6px; }
 .menu-label {
-  padding: 16px 20px 6px;
-  font-size: 10.5px;
-  font-weight: 800;
-  color: var(--text2);
-  letter-spacing: 1.5px;
-  opacity: 0.7;
+  padding:16px 20px 6px; font-size:10.5px; font-weight:800;
+  color:var(--text2); letter-spacing:1.5px; opacity:0.7;
 }
-
-.menu-list {
-  list-style: none;
-  padding: 4px 12px;
-  flex: 1;
-}
+.menu-list { list-style:none; padding:4px 12px; flex:1; }
 .menu-list li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 13px 15px;
-  margin-bottom: 5px;
-  border-radius: 13px;
-  cursor: pointer;
-  font-size: 13.8px;
-  font-weight: 700;
-  color: #cbe9ff;
+  display:flex; align-items:center; gap:14px; padding:13px 15px;
+  margin-bottom:5px; border-radius:13px; cursor:pointer;
+  font-size:13.8px; font-weight:700; color:#cbe9ff;
   transition: background 0.18s, border-color 0.18s;
-  border: 1.5px solid transparent;
-  position: relative;
+  border:1.5px solid transparent; position:relative;
 }
-.menu-list li:active { background: rgba(125, 211, 252, 0.15); }
+.menu-list li:active { background: rgba(125,211,252,0.15); }
 .menu-list li.active {
-  background: linear-gradient(90deg, rgba(125, 211, 252, 0.25), rgba(56, 189, 248, 0.12));
-  border-color: rgba(125, 211, 252, 0.6);
-  color: #ffffff;
+  background: linear-gradient(90deg, rgba(125,211,252,0.25), rgba(56,189,248,0.12));
+  border-color: rgba(125,211,252,0.6); color:#ffffff;
 }
 .menu-list li.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 20%;
-  bottom: 20%;
-  width: 3px;
-  background: linear-gradient(180deg, var(--ice1), var(--ice2));
-  border-radius: 3px;
+  content:''; position:absolute; left:0; top:20%; bottom:20%; width:3px;
+  background: linear-gradient(180deg, var(--ice1), var(--ice2)); border-radius:3px;
 }
-.menu-list .ico {
-  font-size: 19px;
-  width: 24px;
-  text-align: center;
-  flex: 0 0 auto;
-}
-
+.menu-list .ico { font-size:19px; width:24px; text-align:center; flex:0 0 auto; }
 .side-footer {
-  padding: 16px 20px 22px;
-  border-top: 1px solid rgba(125, 211, 252, 0.2);
-  text-align: center;
-  font-size: 10.5px;
-  color: var(--text2);
-  letter-spacing: 0.5px;
-  opacity: 0.75;
+  padding:16px 20px 22px; border-top:1px solid rgba(125,211,252,0.2);
+  text-align:center; font-size:10.5px; color:var(--text2); letter-spacing:0.5px; opacity:0.75;
 }
 
-.page { display: none; }
-.page.active { display: block; }
-
-.page-header {
-  margin-bottom: 16px;
-  padding: 0 4px;
-}
+.page { display:none; }
+.page.active { display:block; }
+.page-header { margin-bottom:16px; padding:0 4px; }
 .page-header h2 {
-  font-size: clamp(19px, 5.2vw, 24px);
-  font-weight: 900;
-  letter-spacing: 0.8px;
+  font-size: clamp(19px, 5.2vw, 24px); font-weight:900; letter-spacing:0.8px;
   background: linear-gradient(90deg, var(--ice4), var(--snow), var(--ice1));
   background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   animation: textShine 5s linear infinite;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display:flex; align-items:center; gap:10px;
 }
-.page-header p {
-  font-size: 12px;
-  color: var(--text2);
-  margin-top: 5px;
-  letter-spacing: 0.4px;
-}
+.page-header p { font-size:12px; color:var(--text2); margin-top:5px; letter-spacing:0.4px; }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
+  display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-bottom:16px;
 }
 .stat-card {
-  padding: 16px 14px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(12, 40, 65, 0.9), rgba(6, 22, 40, 0.95));
-  border: 1.5px solid rgba(125, 211, 252, 0.35);
-  position: relative;
-  overflow: hidden;
+  padding:16px 14px; border-radius:16px;
+  background: linear-gradient(145deg, rgba(12,40,65,0.9), rgba(6,22,40,0.95));
+  border:1.5px solid rgba(125,211,252,0.35);
+  position:relative; overflow:hidden;
   transition: transform 0.15s, border-color 0.15s;
 }
-.stat-card:active {
-  transform: scale(0.98);
-  border-color: rgba(125, 211, 252, 0.7);
-}
-.stat-icon {
-  font-size: 22px;
-  margin-bottom: 6px;
-  display: block;
-}
+.stat-card:active { transform:scale(0.98); border-color: rgba(125,211,252,0.7); }
+.stat-icon { font-size:22px; margin-bottom:6px; display:block; }
 .stat-value {
-  font-size: clamp(24px, 6vw, 28px);
-  font-weight: 900;
-  color: var(--ice1);
-  letter-spacing: -0.5px;
-  line-height: 1;
-  margin-bottom: 6px;
-  text-shadow: 0 0 14px rgba(125, 211, 252, 0.6);
+  font-size: clamp(24px, 6vw, 28px); font-weight:900; color: var(--ice1);
+  letter-spacing:-0.5px; line-height:1; margin-bottom:6px;
+  text-shadow: 0 0 14px rgba(125,211,252,0.6);
 }
 .stat-label {
-  font-size: 10.5px;
-  color: var(--text2);
-  letter-spacing: 0.7px;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-size:10.5px; color: var(--text2); letter-spacing:0.7px;
+  font-weight:700; text-transform:uppercase;
 }
 
 .card {
   background: var(--card-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid var(--line);
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border:1.5px solid var(--line); border-radius:18px;
+  padding:16px; margin-bottom:14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
-
 .card-title {
-  font-size: 14.5px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  color: #ffffff;
-  letter-spacing: 0.4px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
+  font-size:14.5px; font-weight:800; margin-bottom:14px;
+  color:#ffffff; letter-spacing:0.4px;
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
 }
 .card-title .badge-num {
-  margin-left: auto;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: rgba(125, 211, 252, 0.18);
-  border: 1px solid rgba(125, 211, 252, 0.5);
-  color: var(--ice1);
-  font-size: 11px;
-  font-weight: 900;
+  margin-left:auto; padding:4px 10px; border-radius:20px;
+  background: rgba(125,211,252,0.18); border:1px solid rgba(125,211,252,0.5);
+  color: var(--ice1); font-size:11px; font-weight:900;
 }
-
-.hint {
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.65;
-}
+.hint { font-size:12px; color:var(--text2); line-height:1.65; }
 
 .bulk-box {
-  padding: 16px;
-  border-radius: 15px;
-  background: linear-gradient(135deg, rgba(125, 211, 252, 0.12), rgba(14, 165, 233, 0.06));
-  border: 1.5px solid rgba(125, 211, 252, 0.45);
-  margin-bottom: 14px;
+  padding:16px; border-radius:15px;
+  background: linear-gradient(135deg, rgba(125,211,252,0.12), rgba(14,165,233,0.06));
+  border:1.5px solid rgba(125,211,252,0.45); margin-bottom:14px;
 }
-.bulk-title {
-  font-size: 13.5px;
-  font-weight: 900;
-  color: var(--ice1);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.bulk-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
-}
+.bulk-title { font-size:13.5px; font-weight:900; color:var(--ice1); margin-bottom:12px; }
+.bulk-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .bulk-row input {
-  flex: 1;
-  min-width: 100px;
-  padding: 12px 14px;
-  border-radius: 11px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1.5px solid rgba(125, 211, 252, 0.5);
-  color: var(--ice1);
-  -webkit-text-fill-color: var(--ice1);
-  font-size: 16px;
-  font-weight: 900;
-  font-family: inherit;
-  outline: none;
-  text-align: center;
+  flex:1; min-width:100px; padding:12px 14px; border-radius:11px;
+  background: rgba(0,0,0,0.55); border:1.5px solid rgba(125,211,252,0.5);
+  color: var(--ice1); -webkit-text-fill-color: var(--ice1);
+  font-size:16px; font-weight:900; font-family:inherit; outline:none; text-align:center;
 }
-.bulk-row input:focus {
-  border-color: var(--ice1);
-  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.22);
-}
-.btn-prime {
-  padding: 12px 20px;
-  border-radius: 11px;
-  border: none;
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 12.5px;
-  background: linear-gradient(135deg, var(--ice4), var(--ice1));
-  color: #06121f;
-  font-family: inherit;
-  letter-spacing: 0.4px;
-  transition: transform 0.15s;
-}
-.btn-prime:active { transform: scale(0.95); }
-
-.btn-sec {
-  padding: 12px 16px;
-  border-radius: 11px;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 11.5px;
-  background: transparent;
-  color: var(--text2);
-  font-family: inherit;
-  transition: transform 0.15s;
-}
-.btn-sec:active { transform: scale(0.95); }
-
 .bulk-status {
-  margin-top: 12px;
-  font-size: 12.5px;
-  font-weight: 700;
-  text-align: center;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.35);
+  margin-top:12px; font-size:12.5px; font-weight:700; text-align:center;
+  padding:10px; border-radius:10px; background: rgba(0,0,0,0.35);
 }
+.btn-prime, .btn-sec, .btn-danger, .btn-edit {
+  padding:11px 18px; border-radius:11px; border:none; cursor:pointer;
+  font-weight:900; font-size:12.5px; font-family:inherit;
+  letter-spacing:0.4px; transition: transform 0.15s; white-space:nowrap;
+}
+.btn-prime { background: linear-gradient(135deg, var(--ice4), var(--ice1)); color:#06121f; }
+.btn-sec { background: transparent; border:1.5px solid rgba(255,255,255,0.22); color:var(--text2); }
+.btn-danger { background: linear-gradient(135deg, var(--red), #e11d48); color:#fff; }
+.btn-edit { background: linear-gradient(135deg, var(--gold), #facc15); color:#2a1600; }
+.btn-prime:active, .btn-sec:active, .btn-danger:active, .btn-edit:active { transform: scale(0.95); }
 
-.price-section-title {
-  font-size: 12.5px;
-  font-weight: 900;
-  color: var(--ice1);
-  margin: 18px 0 10px;
-  padding-bottom: 8px;
-  border-bottom: 1.5px dashed rgba(125, 211, 252, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 7px;
+.prod-item {
+  padding:14px; border-radius:14px;
+  background: rgba(0,0,0,0.5);
+  border:1.5px solid rgba(125,211,252,0.25);
+  margin-bottom:10px;
+  position:relative;
 }
-.price-section-title:first-child { margin-top: 0; }
-
-.price-row {
-  padding: 12px 14px;
-  border-radius: 13px;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1.5px solid rgba(125, 211, 252, 0.22);
-  margin-bottom: 8px;
-  transition: border-color 0.15s;
+.prod-item::before {
+  content:''; position:absolute; left:0; top:15%; bottom:15%; width:3px;
+  background: linear-gradient(180deg, transparent, var(--ice1), transparent);
+  border-radius:3px; opacity:0.6;
 }
-.price-row:active { border-color: rgba(125, 211, 252, 0.6); }
-.price-info b {
-  color: var(--ice1);
-  font-size: 13px;
-  display: block;
-  margin-bottom: 4px;
-  font-weight: 800;
+.prod-item-head {
+  display:flex; align-items:center; gap:10px;
+  padding-left:8px; margin-bottom:10px;
 }
-.price-info small {
-  color: var(--text2);
-  font-size: 11px;
-  line-height: 1.5;
-  display: block;
+.prod-item-head img {
+  width:50px; height:50px; border-radius:10px; object-fit:cover;
+  border:1.5px solid rgba(125,211,252,0.4); background:#0a1e33; flex:0 0 auto;
 }
-.price-input-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 10px;
+.prod-item-head .info { flex:1; min-width:0; }
+.prod-item-head .info b {
+  color: var(--ice1); font-size:13.5px; font-weight:800;
+  display:block; margin-bottom:4px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.price-input-group input {
-  flex: 1;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1.5px solid rgba(125, 211, 252, 0.45);
-  color: var(--ice1);
-  -webkit-text-fill-color: var(--ice1);
-  font-size: 13px;
-  font-family: inherit;
-  font-weight: 900;
-  text-align: right;
-  outline: none;
-  min-width: 0;
+.prod-item-head .info small {
+  color: var(--text2); font-size:11px; line-height:1.5;
+  display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.price-input-group input:focus {
-  border-color: var(--ice1);
-  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.2);
+.prod-plans {
+  display:flex; flex-wrap:wrap; gap:6px;
+  padding-left:8px; margin-bottom:10px;
 }
-.btn-save-price {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 11.5px;
-  background: linear-gradient(135deg, var(--ice4), var(--ice1));
-  color: #06121f;
-  font-family: inherit;
-  white-space: nowrap;
-  transition: transform 0.15s;
+.prod-plans span {
+  padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700;
+  background: rgba(125,211,252,0.12); border:1px solid rgba(125,211,252,0.35);
+  color: var(--ice4);
 }
-.btn-save-price:active { transform: scale(0.95); }
-
-.btn-del-price {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1.5px solid rgba(244, 63, 94, 0.45);
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 11.5px;
-  background: transparent;
-  color: #fda4af;
-  font-family: inherit;
-  white-space: nowrap;
-  transition: transform 0.15s;
-}
-.btn-del-price:active { transform: scale(0.95); }
-
-.select-wrap {
-  position: relative;
-  margin-bottom: 14px;
-}
-.select-wrap::after {
-  content: '▼';
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--ice1);
-  font-size: 12px;
-  pointer-events: none;
-}
-.select-wrap select {
-  width: 100%;
-  padding: 14px 40px 14px 16px;
-  border-radius: 13px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1.5px solid rgba(125, 211, 252, 0.5);
-  color: var(--ice1);
-  -webkit-text-fill-color: var(--ice1);
-  font-size: 14px;
-  font-weight: 800;
-  font-family: inherit;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.select-wrap select option {
-  background: #0a1a2c;
-  color: var(--ice1);
+.prod-actions {
+  display:flex; gap:7px; padding-left:8px; flex-wrap:wrap;
 }
 
 .item {
-  padding: 13px 14px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1.5px solid rgba(125, 211, 252, 0.2);
-  margin-bottom: 10px;
-  position: relative;
+  padding:13px 14px; border-radius:14px;
+  background: rgba(0,0,0,0.5);
+  border:1.5px solid rgba(125,211,252,0.2);
+  margin-bottom:10px; position:relative;
 }
 .item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 20%;
-  bottom: 20%;
-  width: 3px;
+  content:''; position:absolute; left:0; top:20%; bottom:20%; width:3px;
   background: linear-gradient(180deg, transparent, var(--ice1), transparent);
-  border-radius: 3px;
-  opacity: 0.55;
+  border-radius:3px; opacity:0.55;
 }
-.item-main { padding-left: 8px; }
+.item-main { padding-left:8px; }
 .item-main b {
-  color: var(--ice1);
-  font-size: 13.5px;
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 800;
+  color: var(--ice1); font-size:13.5px; font-weight:800;
+  display:block; margin-bottom:6px;
 }
 .item-main small {
-  color: var(--text2);
-  display: block;
-  line-height: 1.7;
-  margin-bottom: 3px;
-  font-size: 11.5px;
+  color: var(--text2); display:block; line-height:1.7;
+  margin-bottom:3px; font-size:11.5px;
 }
-.item-main small b { display: inline; font-size: inherit; margin: 0; }
-
-.item-actions {
-  display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
+.item-main small b { display:inline; font-size:inherit; margin:0; }
+.item-actions { display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; }
 
 .balance-item {
-  padding: 14px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1.5px solid rgba(125, 211, 252, 0.25);
-  margin-bottom: 10px;
-  position: relative;
+  padding:14px; border-radius:14px;
+  background: rgba(0,0,0,0.5);
+  border:1.5px solid rgba(125,211,252,0.25);
+  margin-bottom:10px; position:relative;
 }
 .balance-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 15%;
-  bottom: 15%;
-  width: 3px;
+  content:''; position:absolute; left:0; top:15%; bottom:15%; width:3px;
   background: linear-gradient(180deg, transparent, var(--ice1), transparent);
-  border-radius: 3px;
-  opacity: 0.6;
+  border-radius:3px; opacity:0.6;
 }
-.balance-item-header {
-  padding-left: 8px;
-  margin-bottom: 12px;
-}
+.balance-item-header { padding-left:8px; margin-bottom:12px; }
 .balance-item-header b {
-  color: var(--ice1);
-  font-size: 13.5px;
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 800;
+  color: var(--ice1); font-size:13.5px; font-weight:800;
+  display:block; margin-bottom:6px;
 }
-.balance-item-header small {
-  color: var(--text2);
-  display: block;
-  line-height: 1.7;
-  margin-bottom: 3px;
-  font-size: 11.5px;
-}
-.balance-item-header small b { display: inline; font-size: inherit; margin: 0; }
-
-.balance-input-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding-left: 8px;
-}
+.balance-item-header small { color: var(--text2); display:block; line-height:1.7; font-size:11.5px; }
+.balance-item-header small b { display:inline; font-size:inherit; margin:0; }
+.balance-input-group { display:flex; gap:8px; align-items:center; padding-left:8px; }
 .balance-input-group input {
-  flex: 1;
-  min-width: 0;
-  padding: 11px 14px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1.5px solid rgba(125, 211, 252, 0.5);
-  color: var(--ice1);
-  -webkit-text-fill-color: var(--ice1);
-  font-size: 14px;
-  font-family: inherit;
-  font-weight: 900;
-  text-align: right;
-  outline: none;
-}
-.balance-input-group input:focus {
-  border-color: var(--ice1);
-  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.2);
+  flex:1; min-width:0; padding:11px 14px; border-radius:10px;
+  background: rgba(0,0,0,0.55); border:1.5px solid rgba(125,211,252,0.5);
+  color: var(--ice1); -webkit-text-fill-color: var(--ice1);
+  font-size:14px; font-family:inherit; font-weight:900; text-align:right; outline:none;
 }
 .balance-input-group button {
-  padding: 11px 16px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 12px;
+  padding:11px 16px; border-radius:10px; border:none; cursor:pointer;
+  font-weight:900; font-size:12px;
   background: linear-gradient(135deg, var(--ice4), var(--ice1));
-  color: #06121f;
-  font-family: inherit;
-  white-space: nowrap;
-  transition: transform 0.15s;
+  color:#06121f; font-family:inherit; white-space:nowrap;
 }
-.balance-input-group button:active { transform: scale(0.95); }
 
 .badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 10.5px;
-  font-weight: 900;
-  white-space: nowrap;
-  letter-spacing: 0.4px;
-  gap: 4px;
+  display:inline-flex; align-items:center; padding:5px 12px; border-radius:20px;
+  font-size:10.5px; font-weight:900; white-space:nowrap; letter-spacing:0.4px; gap:4px;
 }
-.badge.wait {
-  background: rgba(253, 224, 71, 0.15);
-  border: 1.5px solid rgba(253, 224, 71, 0.6);
-  color: var(--gold);
-}
-.badge.done {
-  background: rgba(34, 211, 238, 0.15);
-  border: 1.5px solid rgba(34, 211, 238, 0.6);
-  color: var(--cyan);
-}
-.badge.cancel {
-  background: rgba(244, 63, 94, 0.15);
-  border: 1.5px solid rgba(244, 63, 94, 0.6);
-  color: #fda4af;
-}
+.badge.wait { background: rgba(253,224,71,0.15); border:1.5px solid rgba(253,224,71,0.6); color:var(--gold); }
+.badge.done { background: rgba(34,211,238,0.15); border:1.5px solid rgba(34,211,238,0.6); color:var(--cyan); }
+.badge.cancel { background: rgba(244,63,94,0.15); border:1.5px solid rgba(244,63,94,0.6); color:#fda4af; }
 
 .btn-act {
-  padding: 9px 14px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 900;
-  font-size: 11.5px;
-  font-family: inherit;
-  letter-spacing: 0.3px;
-  transition: transform 0.15s;
-  white-space: nowrap;
-  -webkit-appearance: none;
+  padding:9px 14px; border-radius:10px; border:none; cursor:pointer;
+  font-weight:900; font-size:11.5px; font-family:inherit;
+  letter-spacing:0.3px; transition: transform 0.15s; white-space:nowrap;
+  -webkit-appearance:none;
 }
 .btn-act:active { transform: scale(0.94); }
-.btn-act.prime {
-  background: linear-gradient(135deg, var(--ice4), var(--ice1));
-  color: #06121f;
-}
-.btn-act.warn {
-  background: linear-gradient(135deg, var(--gold), #facc15);
-  color: #2a1600;
-}
-.btn-act.danger {
-  background: linear-gradient(135deg, var(--red), #e11d48);
-  color: #fff;
-}
-.btn-act.ghost {
-  background: transparent;
-  border: 1.5px solid rgba(125, 211, 252, 0.45);
-  color: var(--ice4);
-}
+.btn-act.prime { background: linear-gradient(135deg, var(--ice4), var(--ice1)); color:#06121f; }
+.btn-act.warn { background: linear-gradient(135deg, var(--gold), #facc15); color:#2a1600; }
+.btn-act.danger { background: linear-gradient(135deg, var(--red), #e11d48); color:#fff; }
+.btn-act.ghost { background: transparent; border:1.5px solid rgba(125,211,252,0.45); color:var(--ice4); }
 
 .key-input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1.5px solid rgba(125, 211, 252, 0.5);
-  color: var(--text);
-  -webkit-text-fill-color: var(--text);
-  font-size: 12.5px;
-  font-family: inherit;
-  outline: none;
-  margin-bottom: 8px;
+  width:100%; padding:10px 12px; border-radius:10px;
+  background: rgba(0,0,0,0.55); border:1.5px solid rgba(125,211,252,0.5);
+  color: var(--text); -webkit-text-fill-color: var(--text);
+  font-size:12.5px; font-family:inherit; outline:none; margin-bottom:8px;
 }
-.key-input:focus {
-  border-color: var(--ice1);
-  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.2);
+
+.select-wrap { position:relative; margin-bottom:14px; }
+.select-wrap::after {
+  content:'▼'; position:absolute; right:16px; top:50%;
+  transform: translateY(-50%); color: var(--ice1); font-size:12px; pointer-events:none;
+}
+.select-wrap select {
+  width:100%; padding:14px 40px 14px 16px; border-radius:13px;
+  background: rgba(0,0,0,0.55); border:1.5px solid rgba(125,211,252,0.5);
+  color: var(--ice1); -webkit-text-fill-color: var(--ice1);
+  font-size:14px; font-weight:800; font-family:inherit; outline:none;
+  appearance:none; -webkit-appearance:none;
+}
+.select-wrap select option { background:#0a1a2c; color: var(--ice1); }
+
+.field { margin-bottom:12px; }
+.field label {
+  display:block; font-size:12px; color: var(--text2); font-weight:700;
+  letter-spacing:0.4px; margin-bottom:6px;
+}
+.field input, .field textarea, .field select {
+  width:100%; padding:12px 14px; border-radius:11px;
+  background: rgba(0,0,0,0.55);
+  border:1.5px solid rgba(125,211,252,0.4);
+  color: var(--text); -webkit-text-fill-color: var(--text);
+  font-size:13.5px; font-family:inherit; outline:none;
+  transition: border-color 0.2s;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--ice1); box-shadow: 0 0 0 3px rgba(125,211,252,0.2);
+}
+.field textarea { min-height:70px; resize:vertical; }
+.field select {
+  appearance:none; -webkit-appearance:none;
+}
+.field select option { background:#0a1a2c; color: var(--ice1); }
+
+.modal {
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  z-index:9998; display:none; align-items:flex-end; justify-content:center;
+}
+.modal.show { display:flex; }
+.modal-content {
+  width: 100%; max-width: 640px; max-height: 92vh;
+  background: linear-gradient(180deg, #0a1a2c 0%, #06121f 100%);
+  border:1.5px solid rgba(125,211,252,0.5);
+  border-radius: 22px 22px 0 0;
+  padding: 20px 18px;
+  overflow-y: auto;
+  animation: modalUp 0.3s ease;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
+@keyframes modalUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-header {
+  display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  padding-bottom:12px; border-bottom:1.5px solid rgba(125,211,252,0.25);
+}
+.modal-header h3 {
+  flex:1; font-size:16px; font-weight:900; color:#fff;
+  background: linear-gradient(90deg, var(--ice4), var(--snow));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.modal-close {
+  width:36px; height:36px; border-radius:10px; border:1.5px solid rgba(244,63,94,0.5);
+  background: transparent; color:#fda4af; cursor:pointer; font-size:16px; font-weight:900;
+}
+
+.plan-edit-row {
+  display:flex; gap:6px; margin-bottom:6px; align-items:center;
+}
+.plan-edit-row input {
+  flex:1; padding:10px 12px; border-radius:10px;
+  background: rgba(0,0,0,0.55); border:1.5px solid rgba(125,211,252,0.4);
+  color: var(--text); -webkit-text-fill-color: var(--text);
+  font-size:13px; font-family:inherit; outline:none;
+}
+.plan-edit-row input.label-part { flex: 1.3; }
+.plan-edit-row input.price-part { flex: 1; text-align:right; }
+.plan-edit-row button {
+  width:36px; height:38px; border-radius:10px; border:none;
+  background: rgba(244,63,94,0.15); color:#fda4af; cursor:pointer; font-size:15px;
 }
 
 .empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text2);
-  font-size: 13px;
+  text-align:center; padding:40px 20px; color:var(--text2); font-size:13px;
 }
-.empty .icon {
-  font-size: 44px;
-  margin-bottom: 12px;
-  display: block;
-  opacity: 0.6;
-}
+.empty .icon { font-size:44px; margin-bottom:12px; display:block; opacity:0.6; }
 
 #toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(24px + env(safe-area-inset-bottom));
+  position: fixed; left:50%; bottom: calc(24px + env(safe-area-inset-bottom));
   transform: translateX(-50%) translateY(160px);
-  z-index: 99999;
-  padding: 14px 24px;
-  border-radius: 30px;
-  font-weight: 800;
-  font-size: 13.5px;
+  z-index: 99999; padding:14px 24px; border-radius:30px;
+  font-weight:800; font-size:13.5px;
   background: linear-gradient(135deg, var(--ice4), var(--ice1));
   color: #06121f;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
   transition: transform 0.4s cubic-bezier(0.3, 1.4, 0.5, 1);
-  max-width: 90vw;
-  text-align: center;
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  max-width: 90vw; text-align:center;
 }
 #toast.show { transform: translateX(-50%) translateY(0); }
-#toast.err {
-  background: linear-gradient(135deg, var(--red), #fb7185);
-  color: #fff;
-}
+#toast.err { background: linear-gradient(135deg, var(--red), #fb7185); color:#fff; }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--ice1), var(--ice3));
-  border-radius: 6px;
-}
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--ice1), var(--ice3)); border-radius:6px; }
 
 @media (min-width: 640px) {
   body { padding: 18px 20px 90px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); }
-  .price-input-group input { max-width: 180px; }
 }
 </style>
 </head>
@@ -864,37 +485,49 @@ body {
     <h2>📊 Tổng quan</h2>
     <p>Tình trạng shop của bạn</p>
   </div>
-
   <div class="stats-grid">
-    <div class="stat-card">
-      <span class="stat-icon">👥</span>
-      <div class="stat-value" id="stUsers">0</div>
-      <div class="stat-label">Người đăng ký</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">💰</span>
-      <div class="stat-value" id="stDep">0</div>
-      <div class="stat-label">Nạp chờ duyệt</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">🔑</span>
-      <div class="stat-value" id="stOrd">0</div>
-      <div class="stat-label">Đơn chờ xử lý</div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">⭐</span>
-      <div class="stat-value" id="stRv">0</div>
-      <div class="stat-label">Đánh giá</div>
-    </div>
+    <div class="stat-card"><span class="stat-icon">👥</span><div class="stat-value" id="stUsers">0</div><div class="stat-label">Người đăng ký</div></div>
+    <div class="stat-card"><span class="stat-icon">💰</span><div class="stat-value" id="stDep">0</div><div class="stat-label">Nạp chờ duyệt</div></div>
+    <div class="stat-card"><span class="stat-icon">🔑</span><div class="stat-value" id="stOrd">0</div><div class="stat-label">Đơn chờ xử lý</div></div>
+    <div class="stat-card"><span class="stat-icon">⭐</span><div class="stat-value" id="stRv">0</div><div class="stat-label">Đánh giá</div></div>
   </div>
-
   <div class="card">
     <div class="card-title">❄️ Trạng thái hệ thống</div>
     <div class="hint">
-      ✅ Đã kết nối Firebase Realtime<br>
-      ✅ Đang lắng nghe thay đổi từ trang shop<br>
-      ✅ Mọi thao tác sẽ cập nhật tức thì bên phía người dùng
+      ✅ Kết nối Firebase Realtime<br>
+      ✅ Sản phẩm lưu trên Firebase — thêm/sửa/xoá trực tiếp<br>
+      ✅ Mọi thao tác cập nhật tức thì bên trang shop
     </div>
+  </div>
+</div>
+
+<!-- QUẢN LÝ SẢN PHẨM (MỚI) -->
+<div class="page" id="page-products">
+  <div class="page-header">
+    <h2>📦 Quản lý sản phẩm</h2>
+    <p>Thêm / Sửa / Xoá sản phẩm — tự động cập nhật bên shop</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      📱 Sản phẩm IOS
+      <span class="badge-num" id="numIOS">0</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <button class="btn-prime" onclick="openProdForm('IOS', null)">➕ Thêm sản phẩm IOS</button>
+    </div>
+    <div id="iosProdList"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      🔑 Sản phẩm ESGIN
+      <span class="badge-num" id="numEsgin">0</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <button class="btn-prime" onclick="openProdForm('ESGIN', null)">➕ Thêm gói ESGIN</button>
+    </div>
+    <div id="esginProdList"></div>
   </div>
 </div>
 
@@ -905,10 +538,7 @@ body {
     <p>Tất cả người dùng của shop</p>
   </div>
   <div class="card">
-    <div class="card-title">
-      📋 Danh sách người dùng
-      <span class="badge-num" id="numUsers">0</span>
-    </div>
+    <div class="card-title">📋 Danh sách người dùng <span class="badge-num" id="numUsers">0</span></div>
     <div id="adUsers"></div>
   </div>
 </div>
@@ -920,13 +550,8 @@ body {
     <p>Chỉnh số dư trực tiếp cho từng người dùng</p>
   </div>
   <div class="card">
-    <div class="card-title">
-      💵 Danh sách số dư người dùng
-      <span class="badge-num" id="numBal">0</span>
-    </div>
-    <div class="hint" style="margin-bottom:14px">
-      Nhập số tiền mới vào ô bên dưới rồi nhấn 💾 LƯU để cập nhật số dư cho người dùng đó. Số dư sẽ cập nhật ngay lập tức bên trang shop.
-    </div>
+    <div class="card-title">💵 Danh sách số dư <span class="badge-num" id="numBal">0</span></div>
+    <div class="hint" style="margin-bottom:14px">Nhập số tiền mới rồi nhấn 💾 LƯU. Số dư cập nhật ngay bên shop.</div>
     <div id="adBalance"></div>
   </div>
 </div>
@@ -938,10 +563,7 @@ body {
     <p>Duyệt QR & Thẻ Car</p>
   </div>
   <div class="card">
-    <div class="card-title">
-      🏦 Đơn đang chờ
-      <span class="badge-num" id="numDeps">0</span>
-    </div>
+    <div class="card-title">🏦 Đơn đang chờ <span class="badge-num" id="numDeps">0</span></div>
     <div id="adDeps"></div>
   </div>
 </div>
@@ -950,17 +572,14 @@ body {
 <div class="page" id="page-orders">
   <div class="page-header">
     <h2>🔑 Đơn key xử lý</h2>
-    <p>Gửi key — Huỷ (hoàn tiền tự động) — Xoá</p>
+    <p>Gửi key — Huỷ (hoàn tiền) — Xoá</p>
   </div>
   <div class="card">
-    <div class="card-title">
-      🛒 Đơn hàng
-      <span class="badge-num" id="numOrders">0</span>
-    </div>
+    <div class="card-title">🛒 Đơn hàng <span class="badge-num" id="numOrders">0</span></div>
     <div class="hint" style="margin-bottom:14px">
-      ✅ <b style="color:#7dd3fc">GỬI KEY</b> → đơn hoàn thành, không thể hoàn tiền<br>
-      🚫 <b style="color:#fda4af">HUỶ + HOÀN</b> → tự động hoàn tiền vào tài khoản người dùng<br>
-      🗑 <b style="color:#bae6fd">XOÁ</b> → ẩn đơn khỏi bảng admin (user vẫn thấy)
+      🔑 <b style="color:#7dd3fc">GỬI KEY</b> → hoàn thành, không hoàn tiền<br>
+      🚫 <b style="color:#fda4af">HUỶ + HOÀN</b> → hoàn tiền tự động<br>
+      🗑 <b style="color:#bae6fd">XOÁ</b> → ẩn khỏi admin (user vẫn thấy)
     </div>
     <div id="adOrds"></div>
   </div>
@@ -972,12 +591,10 @@ body {
     <h2>💵 Giảm giá toàn shop</h2>
     <p>Áp dụng cho mọi người dùng</p>
   </div>
-
   <div class="card">
     <div class="card-title">🔥 Giảm giá TẤT CẢ sản phẩm (%)</div>
-
     <div class="bulk-box">
-      <div class="bulk-title">❄️ Nhập % giảm giá muốn áp dụng</div>
+      <div class="bulk-title">❄️ Nhập % giảm giá</div>
       <div class="bulk-row">
         <input id="bulkDiscountInput" type="number" min="0" max="100" step="1" placeholder="VD: 10">
         <button class="btn-prime" onclick="saveBulkDiscount()">💾 LƯU</button>
@@ -986,9 +603,8 @@ body {
       <div class="bulk-status" id="bulkStatus"></div>
     </div>
   </div>
-
   <div class="card">
-    <div class="card-title">🏷️ Chỉnh giá từng sản phẩm</div>
+    <div class="card-title">🏷️ Chỉnh giá từng sản phẩm (toàn shop)</div>
     <div id="globalPrices"></div>
   </div>
 </div>
@@ -999,12 +615,8 @@ body {
     <h2>💸 Giảm giá riêng</h2>
     <p>Chỉnh giá cho từng khách</p>
   </div>
-
   <div class="card">
     <div class="card-title">👤 Chọn người dùng cần chỉnh giá</div>
-    <div class="hint" style="margin-bottom:14px">
-      Chỉ người được chọn mới thấy giá riêng. Chọn user → chỉnh giá → nhấn 💾 LƯU.
-    </div>
     <div class="select-wrap">
       <select id="perUserSelect" onchange="renderPerUserPrices()">
         <option value="">-- Chọn người dùng --</option>
@@ -1021,12 +633,14 @@ body {
     <p>Phản hồi từ khách hàng</p>
   </div>
   <div class="card">
-    <div class="card-title">
-      💬 Tất cả đánh giá
-      <span class="badge-num" id="numRevs">0</span>
-    </div>
+    <div class="card-title">💬 Tất cả đánh giá <span class="badge-num" id="numRevs">0</span></div>
     <div id="adRevs"></div>
   </div>
+</div>
+
+<!-- MODAL FORM SẢN PHẨM -->
+<div class="modal" id="prodModal">
+  <div class="modal-content" id="prodModalContent"></div>
 </div>
 
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -1037,38 +651,19 @@ body {
     <h2>ADMIN PANEL</h2>
     <p>SHOP ALL SẢN PHẨM FF – FFMAX</p>
   </div>
-
   <div class="menu-label">DANH MỤC</div>
   <ul class="menu-list" id="menuList">
-    <li data-page="dashboard" data-title="📊 Tổng quan" class="active">
-      <span class="ico">📊</span> Tổng quan
-    </li>
-    <li data-page="users" data-title="👥 Lịch sử đăng ký">
-      <span class="ico">👥</span> Lịch sử đăng ký
-    </li>
-    <li data-page="balance" data-title="💰 Chỉnh số dư">
-      <span class="ico">💰</span> Số dư
-    </li>
-    <li data-page="deposits" data-title="💰 Đơn nạp xử lý">
-      <span class="ico">🏦</span> Đơn nạp xử lý
-    </li>
-    <li data-page="orders" data-title="🔑 Đơn key xử lý">
-      <span class="ico">🔑</span> Đơn key xử lý
-    </li>
-    <li data-page="bulk" data-title="💵 Giảm giá toàn shop">
-      <span class="ico">💵</span> Giảm giá toàn shop
-    </li>
-    <li data-page="peruser" data-title="💸 Giảm giá riêng">
-      <span class="ico">💸</span> Giảm giá riêng
-    </li>
-    <li data-page="reviews" data-title="⭐ Đánh giá">
-      <span class="ico">⭐</span> Đánh giá
-    </li>
+    <li data-page="dashboard" data-title="📊 Tổng quan" class="active"><span class="ico">📊</span> Tổng quan</li>
+    <li data-page="products" data-title="📦 Quản lý sản phẩm"><span class="ico">📦</span> Quản lý sản phẩm</li>
+    <li data-page="users" data-title="👥 Lịch sử đăng ký"><span class="ico">👥</span> Lịch sử đăng ký</li>
+    <li data-page="balance" data-title="💰 Chỉnh số dư"><span class="ico">💰</span> Số dư</li>
+    <li data-page="deposits" data-title="🏦 Đơn nạp xử lý"><span class="ico">🏦</span> Đơn nạp xử lý</li>
+    <li data-page="orders" data-title="🔑 Đơn key xử lý"><span class="ico">🔑</span> Đơn key xử lý</li>
+    <li data-page="bulk" data-title="💵 Giảm giá toàn shop"><span class="ico">💵</span> Giảm giá toàn shop</li>
+    <li data-page="peruser" data-title="💸 Giảm giá riêng"><span class="ico">💸</span> Giảm giá riêng</li>
+    <li data-page="reviews" data-title="⭐ Đánh giá"><span class="ico">⭐</span> Đánh giá</li>
   </ul>
-
-  <div class="side-footer">
-    ❄️ Realtime Firebase • v5.0
-  </div>
+  <div class="side-footer">❄️ Realtime Firebase • v6.0</div>
 </aside>
 
 <div id="toast"></div>
@@ -1093,79 +688,53 @@ try {
   try {
     firebase.initializeApp(firebaseConfig);
     db = firebase.database();
-  } catch (err) {
-    console.error('Firebase init error:', err);
+  } catch (err) { console.error('Firebase init error:', err); }
+
+  var DB = { users:{}, deposits:[], orders:[], reviews:[], config:{ prices:{}, bulkDiscount:0 } };
+  var PRODUCTS = { IOS: [], ESGIN: [] };
+  var IMG = 'https://raw.githubusercontent.com/proxyvipivn/Shop-blox-fruit-/main/';
+
+  /* ========== DỮ LIỆU MẶC ĐỊNH LẦN ĐẦU ========== */
+  function getDefaultIOS() {
+    return [
+      { id: 'ios_1', name: 'IOS PRO ALL', img: 'https://raw.githubusercontent.com/proxyvipivn/SHOP-STORE-ALL-FF/refs/heads/main/IMG_8334.jpeg',
+        desc: 'Hỗ trợ all ios.\nCân acc chính.\nAntiban✅.',
+        plans: [{l:'1 Ngày',p:50000},{l:'7 Ngày',p:150000},{l:'30 Ngày',p:320000}], order: 1 },
+      { id: 'ios_2', name: 'TROLL MODZ IOS ADR', img: IMG+'IMG_8158.jpeg',
+        desc: 'Antiban 80-90%\nSiêu bá\nTải app để cài',
+        plans: [{l:'1 Giờ',p:10000},{l:'1 Ngày',p:25000},{l:'7 Ngày',p:100000},{l:'30 Ngày',p:170000}], order: 2 },
+      { id: 'ios_3', name: 'PROXY IOS IPA', img: IMG+'IMG_8160.jpeg',
+        desc: '<span style="color:#ff2d2d;font-weight:900;text-shadow:0 0 12px rgba(255,45,45,0.7)">HACK LỖI❌</span>\nAntiban 90%\nNhiều chức năng khác nhau\nCần esgin để cài',
+        plans: [{l:'1 Ngày',p:20000},{l:'7 Ngày',p:60000},{l:'30 Ngày',p:150000},{l:'Vĩnh viễn',p:360000}], order: 3 },
+      { id: 'ios_4', name: 'MIGUL BAGIC VN', img: IMG+'IMG_8155.jpeg',
+        desc: 'Antiban siêu bá\nCần esgin để cài\nMenu đầy đủ chức năng',
+        plans: [{l:'1 Ngày',p:70000},{l:'7 Ngày',p:200000},{l:'30 Ngày',p:420000}], order: 4 },
+      { id: 'ios_5', name: 'MIGUL PRO VN', img: IMG+'IMG_8156.jpeg',
+        desc: 'Antiban hơn magic nhiều\nCần esgin để cài\nMenu nhiều chắc chắn siêu bá',
+        plans: [{l:'1 Giờ',p:20000},{l:'1 Ngày',p:120000},{l:'7 Ngày',p:250000},{l:'30 Ngày',p:550000}], order: 5 }
+    ];
   }
 
-  var DB = {
-    users: {},
-    deposits: [],
-    orders: [],
-    reviews: [],
-    config: { prices: {}, bulkDiscount: 0 }
-  };
-
-  var IOS = [
-    {
-      name: 'TROLL MODZ IOS ADR',
-      plans: [
-        { l: '1 Giờ', p: 10000 },
-        { l: '1 Ngày', p: 25000 },
-        { l: '7 Ngày', p: 100000 },
-        { l: '30 Ngày', p: 170000 }
-      ]
-    },
-    {
-      name: 'PROXY IOS IPA',
-      plans: [
-        { l: '1 Ngày', p: 20000 },
-        { l: '7 Ngày', p: 60000 },
-        { l: '30 Ngày', p: 150000 },
-        { l: 'Vĩnh viễn', p: 360000 }
-      ]
-    },
-    {
-      name: 'MIGUL BAGIC VN',
-      plans: [
-        { l: '1 Ngày', p: 70000 },
-        { l: '7 Ngày', p: 200000 },
-        { l: '30 Ngày', p: 420000 }
-      ]
-    },
-    {
-      name: 'MIGUL PRO VN',
-      plans: [
-        { l: '1 Giờ', p: 20000 },
-        { l: '1 Ngày', p: 120000 },
-        { l: '7 Ngày', p: 250000 },
-        { l: '30 Ngày', p: 550000 }
-      ]
-    }
-  ];
-
-  var ESGIN = [
-    { name: 'GÓI 1', price: 140000, desc: 'Không bảo hành' },
-    { name: 'GÓI 2', price: 200000, desc: 'Bảo hành 40 ngày' },
-    { name: 'GÓI 3', price: 300000, desc: 'Bảo hành 300 ngày' }
-  ];
+  function getDefaultESGIN() {
+    return [
+      { id: 'eg_1', name: 'GÓI 1', desc: 'Không bảo hành', price: 140000, order: 1 },
+      { id: 'eg_2', name: 'GÓI 2', desc: 'Bảo hành 40 ngày', price: 200000, order: 2 },
+      { id: 'eg_3', name: 'GÓI 3', desc: 'Bảo hành 300 ngày', price: 300000, order: 3 }
+    ];
+  }
 
   function priceKey(productName, planLabel) {
     return (productName + '||' + planLabel).replace(/[.#$\[\]\/]/g, '_');
   }
 
-  function fmt(n) {
-    return Number(n || 0).toLocaleString('vi-VN') + 'đ';
-  }
-
+  function fmt(n) { return Number(n || 0).toLocaleString('vi-VN') + 'đ'; }
   function now() { return Date.now(); }
-
   function timeStr(t) {
     if (!t) return '-';
-    var d = new Date(t);
-    return d.toLocaleString('vi-VN', {
-      hour: '2-digit', minute: '2-digit',
-      day: '2-digit', month: '2-digit', year: 'numeric'
-    });
+    return new Date(t).toLocaleString('vi-VN', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+  function genId(prefix) {
+    return prefix + '_' + Date.now() + '_' + Math.floor(Math.random()*1000);
   }
 
   var toastT;
@@ -1174,179 +743,64 @@ try {
     t.textContent = msg;
     t.className = err ? 'show err' : 'show';
     clearTimeout(toastT);
-    toastT = setTimeout(function() { t.className = ''; }, 3000);
+    toastT = setTimeout(function(){ t.className = ''; }, 3000);
   }
 
-  /* ============================================================
-     SNOWFALL ❄️🎄
-     ============================================================ */
-  (function initSnowfall() {
-    try {
-      var canvas = document.getElementById('snowfall');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d', { alpha: true });
-      var W, H, dpr = Math.min(window.devicePixelRatio || 1, 2);
-      var flakes = [];
-      var trees = [];
-
-      function resize() {
-        W = canvas.width = innerWidth * dpr;
-        H = canvas.height = innerHeight * dpr;
-        canvas.style.width = innerWidth + 'px';
-        canvas.style.height = innerHeight + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  /* ========== SNOWFALL ========== */
+  (function() {
+    var canvas = document.getElementById('snowfall');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W, H, flakes = [], trees = [];
+    function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+    resize();
+    addEventListener('resize', resize);
+    for (var i=0;i<25;i++) flakes.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*3.5+5,speed:Math.random()*0.4+0.5,drift:(Math.random()-0.5)*0.5,phase:Math.random()*Math.PI*2,wobble:Math.random()*0.4+0.2,alpha:Math.random()*0.35+0.55,rotation:Math.random()*Math.PI*2,rotSpeed:(Math.random()-0.5)*0.015,isBig:true});
+    for (var j=0;j<45;j++) flakes.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.4,speed:Math.random()*0.7+0.3,drift:(Math.random()-0.5)*0.5,phase:Math.random()*Math.PI*2,wobble:Math.random()*0.5+0.3,alpha:Math.random()*0.5+0.3,isBig:false});
+    for (var k=0;k<15;k++) trees.push({x:Math.random()*W,y:Math.random()*H,size:Math.random()*8+14,speed:Math.random()*0.5+0.35,drift:(Math.random()-0.5)*0.4,phase:Math.random()*Math.PI*2,wobble:Math.random()*0.4+0.2,alpha:Math.random()*0.35+0.6,rotation:(Math.random()-0.5)*0.4});
+    function drawSnowflake(x,y,size,alpha,rotation) {
+      ctx.save(); ctx.translate(x,y); ctx.rotate(rotation);
+      ctx.strokeStyle = 'rgba(240,249,255,'+alpha+')';
+      ctx.lineWidth = Math.max(0.8, size*0.14); ctx.lineCap='round';
+      for (var a=0;a<6;a++) {
+        var ang = a*Math.PI/3, dx=Math.cos(ang)*size, dy=Math.sin(ang)*size;
+        ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(dx,dy);
+        var bx1=Math.cos(ang)*size*0.55, by1=Math.sin(ang)*size*0.55;
+        var perp=ang+Math.PI/2, bl=size*0.32;
+        ctx.moveTo(bx1,by1); ctx.lineTo(bx1+Math.cos(perp)*bl,by1+Math.sin(perp)*bl);
+        ctx.moveTo(bx1,by1); ctx.lineTo(bx1-Math.cos(perp)*bl,by1-Math.sin(perp)*bl);
+        ctx.stroke();
       }
-      resize();
-      addEventListener('resize', resize);
-
-      for (var i = 0; i < 25; i++) {
-        flakes.push({
-          x: Math.random() * innerWidth,
-          y: Math.random() * innerHeight,
-          r: Math.random() * 3.5 + 5,
-          speed: Math.random() * 0.4 + 0.5,
-          drift: (Math.random() - 0.5) * 0.5,
-          phase: Math.random() * Math.PI * 2,
-          wobble: Math.random() * 0.4 + 0.2,
-          alpha: Math.random() * 0.35 + 0.55,
-          rotation: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.015,
-          type: 'big'
-        });
-      }
-
-      for (var j = 0; j < 45; j++) {
-        flakes.push({
-          x: Math.random() * innerWidth,
-          y: Math.random() * innerHeight,
-          r: Math.random() * 1.6 + 0.4,
-          speed: Math.random() * 0.7 + 0.3,
-          drift: (Math.random() - 0.5) * 0.5,
-          phase: Math.random() * Math.PI * 2,
-          wobble: Math.random() * 0.5 + 0.3,
-          alpha: Math.random() * 0.5 + 0.3,
-          type: 'small'
-        });
-      }
-
-      for (var k = 0; k < 15; k++) {
-        trees.push({
-          x: Math.random() * innerWidth,
-          y: Math.random() * innerHeight,
-          size: Math.random() * 8 + 14,
-          speed: Math.random() * 0.5 + 0.35,
-          drift: (Math.random() - 0.5) * 0.4,
-          phase: Math.random() * Math.PI * 2,
-          wobble: Math.random() * 0.4 + 0.2,
-          alpha: Math.random() * 0.35 + 0.6,
-          rotation: (Math.random() - 0.5) * 0.4
-        });
-      }
-
-      function drawSnowflake(x, y, size, alpha, rotation) {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(rotation);
-        ctx.strokeStyle = 'rgba(240, 249, 255, ' + alpha + ')';
-        ctx.lineWidth = Math.max(0.8, size * 0.14);
-        ctx.lineCap = 'round';
-
-        for (var a = 0; a < 6; a++) {
-          var ang = a * Math.PI / 3;
-          var dx = Math.cos(ang) * size;
-          var dy = Math.sin(ang) * size;
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(dx, dy);
-
-          var bx1 = Math.cos(ang) * size * 0.55;
-          var by1 = Math.sin(ang) * size * 0.55;
-          var perp = ang + Math.PI / 2;
-          var branchLen = size * 0.3;
-          ctx.moveTo(bx1, by1);
-          ctx.lineTo(bx1 + Math.cos(perp) * branchLen, by1 + Math.sin(perp) * branchLen);
-          ctx.moveTo(bx1, by1);
-          ctx.lineTo(bx1 - Math.cos(perp) * branchLen, by1 - Math.sin(perp) * branchLen);
-
-          ctx.stroke();
-        }
-        ctx.restore();
-      }
-
-      var last = 0;
-      function drawFrame(t) {
-        if (t - last < 25) {
-          requestAnimationFrame(drawFrame);
-          return;
-        }
-        last = t;
-
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-        for (var i = 0; i < flakes.length; i++) {
-          var f = flakes[i];
-          f.phase += 0.02;
-
-          if (f.type === 'big') {
-            f.rotation += f.rotSpeed;
-            f.x += f.drift + Math.sin(f.phase) * f.wobble;
-            f.y += f.speed;
-            if (f.y > innerHeight + 30) {
-              f.y = -30;
-              f.x = Math.random() * innerWidth;
-            }
-            if (f.x < -30) f.x = innerWidth + 30;
-            if (f.x > innerWidth + 30) f.x = -30;
-            drawSnowflake(f.x, f.y, f.r, f.alpha, f.rotation);
-          } else {
-            f.x += f.drift + Math.sin(f.phase) * f.wobble;
-            f.y += f.speed;
-            if (f.y > innerHeight + 20) {
-              f.y = -20;
-              f.x = Math.random() * innerWidth;
-            }
-            if (f.x < -20) f.x = innerWidth + 20;
-            if (f.x > innerWidth + 20) f.x = -20;
-            ctx.globalAlpha = f.alpha;
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-        ctx.globalAlpha = 1;
-
-        for (var k = 0; k < trees.length; k++) {
-          var tr = trees[k];
-          tr.phase += 0.02;
-          tr.x += tr.drift + Math.sin(tr.phase) * tr.wobble;
-          tr.y += tr.speed;
-
-          if (tr.y > innerHeight + 30) {
-            tr.y = -30;
-            tr.x = Math.random() * innerWidth;
-          }
-          if (tr.x < -30) tr.x = innerWidth + 30;
-          if (tr.x > innerWidth + 30) tr.x = -30;
-
-          ctx.save();
-          ctx.globalAlpha = tr.alpha;
-          ctx.translate(tr.x, tr.y);
-          ctx.rotate(tr.rotation);
-          ctx.font = tr.size + 'px serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('🎄', 0, 0);
-          ctx.restore();
-        }
-
-        requestAnimationFrame(drawFrame);
-      }
-
-      requestAnimationFrame(drawFrame);
-    } catch (err) {
-      console.error('Snowfall error:', err);
+      ctx.restore();
     }
+    function frame() {
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<flakes.length;i++) {
+        var f=flakes[i]; f.phase+=0.02;
+        if (f.isBig) {
+          f.rotation+=f.rotSpeed; f.x+=f.drift+Math.sin(f.phase)*f.wobble; f.y+=f.speed;
+          if (f.y>H+30){f.y=-30;f.x=Math.random()*W;}
+          if (f.x<-30)f.x=W+30; if (f.x>W+30)f.x=-30;
+          drawSnowflake(f.x,f.y,f.r,f.alpha,f.rotation);
+        } else {
+          f.x+=f.drift+Math.sin(f.phase)*f.wobble; f.y+=f.speed;
+          if (f.y>H+20){f.y=-20;f.x=Math.random()*W;}
+          if (f.x<-20)f.x=W+20; if (f.x>W+20)f.x=-20;
+          ctx.globalAlpha=f.alpha; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fill();
+        }
+      }
+      ctx.globalAlpha=1;
+      for (var k=0;k<trees.length;k++) {
+        var tr=trees[k]; tr.phase+=0.02; tr.x+=tr.drift+Math.sin(tr.phase)*tr.wobble; tr.y+=tr.speed;
+        if (tr.y>H+30){tr.y=-30;tr.x=Math.random()*W;}
+        if (tr.x<-30)tr.x=W+30; if (tr.x>W+30)tr.x=-30;
+        ctx.save(); ctx.globalAlpha=tr.alpha; ctx.translate(tr.x,tr.y); ctx.rotate(tr.rotation);
+        ctx.font=tr.size+'px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText('🎄',0,0); ctx.restore();
+      }
+      requestAnimationFrame(frame);
+    }
+    frame();
   })();
 
   function toggleMenu() {
@@ -1354,125 +808,112 @@ try {
     document.getElementById('overlay').classList.toggle('show');
     document.getElementById('burger').classList.toggle('open');
   }
-
   function closeMenu() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
     document.getElementById('burger').classList.remove('open');
   }
-
   function navigate(page) {
     var pages = document.querySelectorAll('.page');
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].classList.remove('active');
-    }
-
-    var target = document.getElementById('page-' + page);
-    if (target) target.classList.add('active');
-
+    for (var i=0; i<pages.length; i++) pages[i].classList.remove('active');
+    var t = document.getElementById('page-'+page);
+    if (t) t.classList.add('active');
     var lis = document.querySelectorAll('#menuList li');
-    for (var j = 0; j < lis.length; j++) {
-      var isActive = lis[j].getAttribute('data-page') === page;
-      lis[j].classList.toggle('active', isActive);
-
-      if (isActive) {
-        var title = lis[j].getAttribute('data-title') || '❄️ ADMIN PANEL';
-        document.getElementById('headerTitle').textContent = title;
-      }
+    for (var j=0; j<lis.length; j++) {
+      var isA = lis[j].getAttribute('data-page') === page;
+      lis[j].classList.toggle('active', isA);
+      if (isA) document.getElementById('headerTitle').textContent = lis[j].getAttribute('data-title') || '❄️ ADMIN PANEL';
     }
-
     closeMenu();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({top:0, behavior:'smooth'});
   }
-
-  (function() {
+  (function(){
     var lis = document.querySelectorAll('#menuList li');
-    for (var i = 0; i < lis.length; i++) {
-      (function(li) {
-        li.addEventListener('click', function() {
-          navigate(li.getAttribute('data-page'));
-        });
-      })(lis[i]);
+    for (var i=0; i<lis.length; i++) {
+      (function(li){ li.addEventListener('click', function(){ navigate(li.getAttribute('data-page')); }); })(lis[i]);
     }
   })();
 
+  /* ========== FIREBASE LISTENERS ========== */
   function initAdmin() {
-    if (!db) {
-      toast('❌ Không kết nối Firebase', true);
-      return;
-    }
+    if (!db) { toast('❌ Không kết nối Firebase', true); return; }
 
-    db.ref('users').on('value', function(snap) {
-      DB.users = snap.val() || {};
-      renderAll();
+    /* Sản phẩm — QUAN TRỌNG NHẤT */
+    db.ref('products').on('value', function(snap) {
+      var d = snap.val() || {};
+      var hasIOS = d.IOS && Object.keys(d.IOS).length > 0;
+      var hasESGIN = d.ESGIN && Object.keys(d.ESGIN).length > 0;
+
+      if (!hasIOS && !hasESGIN) {
+        /* Lần đầu chạy → seed dữ liệu */
+        seedProducts();
+      } else {
+        PRODUCTS.IOS = arrayFromFirebase(d.IOS);
+        PRODUCTS.ESGIN = arrayFromFirebase(d.ESGIN);
+        renderAll();
+      }
     });
 
-    db.ref('deposits').on('value', function(snap) {
-      DB.deposits = snap.val() || [];
-      renderAll();
-    });
-
-    db.ref('orders').on('value', function(snap) {
-      DB.orders = snap.val() || [];
-      renderAll();
-    });
-
-    db.ref('reviews').on('value', function(snap) {
-      DB.reviews = snap.val() || [];
-      renderAll();
-    });
-
+    db.ref('users').on('value', function(snap) { DB.users = snap.val() || {}; renderAll(); });
+    db.ref('deposits').on('value', function(snap) { DB.deposits = snap.val() || []; renderAll(); });
+    db.ref('orders').on('value', function(snap) { DB.orders = snap.val() || []; renderAll(); });
+    db.ref('reviews').on('value', function(snap) { DB.reviews = snap.val() || []; renderAll(); });
     db.ref('config').on('value', function(snap) {
       var d = snap.val() || {};
-      DB.config = {
-        prices: d.prices || {},
-        bulkDiscount: Number(d.bulkDiscount) || 0
-      };
+      DB.config = { prices: d.prices || {}, bulkDiscount: Number(d.bulkDiscount) || 0 };
       renderAll();
     });
   }
 
+  function arrayFromFirebase(obj) {
+    if (!obj) return [];
+    if (Array.isArray(obj)) return obj.filter(Boolean);
+    var arr = [];
+    var keys = Object.keys(obj);
+    for (var i=0;i<keys.length;i++) arr.push(obj[keys[i]]);
+    arr.sort(function(a,b){ return (a.order||0) - (b.order||0); });
+    return arr;
+  }
+
+  function seedProducts() {
+    var ios = getDefaultIOS();
+    var esgin = getDefaultEsginSafe();
+    var objIOS = {}, objESGIN = {};
+    for (var i=0;i<ios.length;i++) objIOS[ios[i].id] = ios[i];
+    for (var j=0;j<esgin.length;j++) objESGIN[esgin[j].id] = esgin[j];
+    db.ref('products').set({ IOS: objIOS, ESGIN: objESGIN }).then(function(){
+      toast('✅ Đã khởi tạo 5 sản phẩm IOS + 3 ESGIN');
+    });
+  }
+  function getDefaultEsginSafe() { return getDefaultESGIN(); }
+
   function renderAll() {
-    var userKeys = Object.keys(DB.users);
-    var stU = document.getElementById('stUsers');
-    if (stU) stU.textContent = userKeys.length;
-    var nU = document.getElementById('numUsers');
-    if (nU) nU.textContent = userKeys.length;
-    var nB = document.getElementById('numBal');
-    if (nB) nB.textContent = userKeys.length;
+    var uKeys = Object.keys(DB.users);
+    document.getElementById('stUsers').textContent = uKeys.length;
+    document.getElementById('numUsers').textContent = uKeys.length;
+    document.getElementById('numBal').textContent = uKeys.length;
+    document.getElementById('numIOS').textContent = PRODUCTS.IOS.length;
+    document.getElementById('numEsgin').textContent = PRODUCTS.ESGIN.length;
 
-    var waitDep = 0;
-    for (var i = 0; i < DB.deposits.length; i++) {
-      if (DB.deposits[i].status === 'wait' && !DB.deposits[i].adminDeleted) waitDep++;
-    }
-    var stD = document.getElementById('stDep');
-    if (stD) stD.textContent = waitDep;
-    var nD = document.getElementById('numDeps');
-    if (nD) nD.textContent = waitDep;
+    var wD = 0;
+    for (var i=0;i<DB.deposits.length;i++) if (DB.deposits[i].status==='wait' && !DB.deposits[i].adminDeleted) wD++;
+    document.getElementById('stDep').textContent = wD;
+    document.getElementById('numDeps').textContent = wD;
 
-    var waitOrd = 0;
-    for (var j = 0; j < DB.orders.length; j++) {
-      if (DB.orders[j].status === 'wait' && !DB.orders[j].adminDeleted) waitOrd++;
-    }
-    var stO = document.getElementById('stOrd');
-    if (stO) stO.textContent = waitOrd;
+    var wO = 0;
+    for (var j=0;j<DB.orders.length;j++) if (DB.orders[j].status==='wait' && !DB.orders[j].adminDeleted) wO++;
+    document.getElementById('stOrd').textContent = wO;
 
-    var visibleOrds = 0;
-    for (var x = 0; x < DB.orders.length; x++) {
-      if (!DB.orders[x].adminDeleted) visibleOrds++;
-    }
-    var nO = document.getElementById('numOrders');
-    if (nO) nO.textContent = visibleOrds;
+    var visOrds = 0;
+    for (var x=0;x<DB.orders.length;x++) if (!DB.orders[x].adminDeleted) visOrds++;
+    document.getElementById('numOrders').textContent = visOrds;
 
-    var stR = document.getElementById('stRv');
-    if (stR) stR.textContent = DB.reviews.length;
-    var nR = document.getElementById('numRevs');
-    if (nR) nR.textContent = DB.reviews.length;
+    document.getElementById('stRv').textContent = DB.reviews.length;
+    document.getElementById('numRevs').textContent = DB.reviews.length;
 
-    var bulkInp = document.getElementById('bulkDiscountInput');
-    if (bulkInp && !bulkInp.value) {
-      bulkInp.value = Number(DB.config.bulkDiscount) || '';
-    }
+    var bi = document.getElementById('bulkDiscountInput');
+    if (bi && !bi.value) bi.value = Number(DB.config.bulkDiscount) || '';
+
     renderBulkStatus();
     renderGlobalPrices();
     renderUserSelect();
@@ -1481,51 +922,270 @@ try {
     renderDeps();
     renderOrds();
     renderRevs();
+    renderProductLists();
   }
 
-  function saveBulkDiscount() {
-    var inp = document.getElementById('bulkDiscountInput');
-    var v = Number(inp.value);
-    if (isNaN(v) || v < 0) return toast('⚠️ % không hợp lệ!', true);
-    if (v > 100) { v = 100; inp.value = 100; }
-    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
-
-    db.ref('config/bulkDiscount').set(v)
-      .then(function() {
-        toast('✅ Đã giảm toàn shop: ' + v + '%');
-        DB.config.bulkDiscount = v;
-        renderBulkStatus();
-      })
-      .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
-  }
-
-  function resetBulkDiscount() {
-    if (!db) return;
-    db.ref('config/bulkDiscount').set(0)
-      .then(function() {
-        toast('✖ Đã xoá giảm giá toàn shop');
-        DB.config.bulkDiscount = 0;
-        document.getElementById('bulkDiscountInput').value = '';
-        renderBulkStatus();
-      })
-      .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
-  }
-
-  function renderBulkStatus() {
-    var el = document.getElementById('bulkStatus');
-    if (!el) return;
-    var b = Number(DB.config.bulkDiscount) || 0;
-    if (b > 0) {
-      el.innerHTML = '🔥 Đang giảm <b style="color:#7dd3fc">' + b + '%</b> cho tất cả sản phẩm';
-      el.style.color = '#7dd3fc';
-      el.style.background = 'rgba(125, 211, 252, 0.12)';
+  /* ========== QUẢN LÝ SẢN PHẨM ========== */
+  function renderProductLists() {
+    /* IOS */
+    var boxIOS = document.getElementById('iosProdList');
+    if (!boxIOS) return;
+    if (!PRODUCTS.IOS.length) {
+      boxIOS.innerHTML = '<div class="empty"><span class="icon">📱</span>Chưa có sản phẩm IOS</div>';
     } else {
-      el.innerHTML = '⚪ Chưa áp dụng giảm giá toàn shop';
-      el.style.color = '#93c5fd';
-      el.style.background = 'rgba(0, 0, 0, 0.35)';
+      var h = '';
+      for (var i=0;i<PRODUCTS.IOS.length;i++) {
+        var p = PRODUCTS.IOS[i];
+        var plansH = '';
+        for (var j=0;j<(p.plans||[]).length;j++) {
+          plansH += '<span>' + p.plans[j].l + ': ' + fmt(p.plans[j].p) + '</span>';
+        }
+        h += '<div class="prod-item">' +
+          '<div class="prod-item-head">' +
+          '<img src="' + (p.img||'') + '" onerror="this.style.opacity=0.3">' +
+          '<div class="info">' +
+          '<b>' + p.name + '</b>' +
+          '<small>' + (p.desc||'').replace(/\n/g,' • ').replace(/<[^>]*>/g,'') + '</small>' +
+          '</div>' +
+          '</div>' +
+          '<div class="prod-plans">' + plansH + '</div>' +
+          '<div class="prod-actions">' +
+          '<button class="btn-edit" onclick="openProdForm(\'IOS\',\'' + p.id + '\')">✏️ Sửa</button>' +
+          '<button class="btn-danger" onclick="deleteProduct(\'IOS\',\'' + p.id + '\')">🗑 Xoá</button>' +
+          '</div>' +
+          '</div>';
+      }
+      boxIOS.innerHTML = h;
+    }
+
+    /* ESGIN */
+    var boxEG = document.getElementById('esginProdList');
+    if (!boxEG) return;
+    if (!PRODUCTS.ESGIN.length) {
+      boxEG.innerHTML = '<div class="empty"><span class="icon">🔑</span>Chưa có gói ESGIN</div>';
+    } else {
+      var h2 = '';
+      for (var k=0;k<PRODUCTS.ESGIN.length;k++) {
+        var g = PRODUCTS.ESGIN[k];
+        h2 += '<div class="prod-item">' +
+          '<div class="prod-item-head">' +
+          '<div class="info">' +
+          '<b>🔑 ' + g.name + '</b>' +
+          '<small>' + (g.desc||'') + '</small>' +
+          '</div>' +
+          '</div>' +
+          '<div class="prod-plans"><span>' + fmt(g.price) + '</span></div>' +
+          '<div class="prod-actions">' +
+          '<button class="btn-edit" onclick="openProdForm(\'ESGIN\',\'' + g.id + '\')">✏️ Sửa</button>' +
+          '<button class="btn-danger" onclick="deleteProduct(\'ESGIN\',\'' + g.id + '\')">🗑 Xoá</button>' +
+          '</div>' +
+          '</div>';
+      }
+      boxEG.innerHTML = h2;
     }
   }
 
+  var editingType = null, editingId = null, editingPlans = [];
+
+  function openProdForm(type, id) {
+    editingType = type;
+    editingId = id;
+    var prod = null;
+    if (id) {
+      var arr = type === 'IOS' ? PRODUCTS.IOS : PRODUCTS.ESGIN;
+      for (var i=0;i<arr.length;i++) if (arr[i].id === id) prod = arr[i];
+    }
+
+    if (type === 'IOS') {
+      editingPlans = prod ? JSON.parse(JSON.stringify(prod.plans||[])) : [{l:'1 Ngày', p:50000}];
+      renderIOSForm(prod);
+    } else {
+      renderESGINForm(prod);
+    }
+    document.getElementById('prodModal').classList.add('show');
+  }
+
+  function closeProdForm() {
+    document.getElementById('prodModal').classList.remove('show');
+    editingType = null; editingId = null; editingPlans = [];
+  }
+
+  function renderIOSForm(prod) {
+    var content = document.getElementById('prodModalContent');
+    var h = '<div class="modal-header">' +
+      '<h3>' + (editingId ? '✏️ Sửa sản phẩm IOS' : '➕ Thêm sản phẩm IOS') + '</h3>' +
+      '<button class="modal-close" onclick="closeProdForm()">✕</button>' +
+      '</div>' +
+      '<div class="field"><label>Tên sản phẩm</label><input id="pf_name" value="' + (prod ? (prod.name||'').replace(/"/g,'&quot;') : '') + '" placeholder="VD: IOS PRO ALL"></div>' +
+      '<div class="field"><label>Link ảnh (URL)</label><input id="pf_img" value="' + (prod ? (prod.img||'').replace(/"/g,'&quot;') : '') + '" placeholder="https://..."></div>' +
+      '<div class="field"><label>Mô tả (mỗi dòng 1 ý — có thể dùng HTML)</label><textarea id="pf_desc" placeholder="Hỗ trợ all ios.&#10;Cân acc chính.">' + (prod ? (prod.desc||'') : '') + '</textarea></div>' +
+      '<div class="field"><label>Các gói</label><div id="pf_plans"></div>' +
+      '<button class="btn-sec" onclick="addPlanRow()" style="margin-top:8px;width:100%">➕ Thêm gói</button></div>' +
+      '<div style="display:flex;gap:8px;margin-top:16px">' +
+      '<button class="btn-prime" onclick="saveIOSProduct()" style="flex:2">💾 LƯU</button>' +
+      '<button class="btn-sec" onclick="closeProdForm()" style="flex:1">✖ Huỷ</button>' +
+      '</div>';
+    content.innerHTML = h;
+    renderPlanRows();
+  }
+
+  function renderPlanRows() {
+    var box = document.getElementById('pf_plans');
+    if (!box) return;
+    var h = '';
+    for (var i=0;i<editingPlans.length;i++) {
+      h += '<div class="plan-edit-row">' +
+        '<input class="label-part" value="' + (editingPlans[i].l||'').replace(/"/g,'&quot;') + '" placeholder="VD: 1 Ngày" oninput="updatePlan(' + i + ',\'l\',this.value)">' +
+        '<input class="price-part" type="number" value="' + (editingPlans[i].p||0) + '" placeholder="Giá" oninput="updatePlan(' + i + ',\'p\',this.value)">' +
+        '<button onclick="removePlanRow(' + i + ')">✕</button>' +
+        '</div>';
+    }
+    box.innerHTML = h;
+  }
+
+  function addPlanRow() {
+    editingPlans.push({l:'', p:0});
+    renderPlanRows();
+  }
+  function removePlanRow(i) {
+    editingPlans.splice(i,1);
+    renderPlanRows();
+  }
+  function updatePlan(i, field, val) {
+    if (field === 'p') editingPlans[i].p = Number(val) || 0;
+    else editingPlans[i].l = val;
+  }
+
+  function saveIOSProduct() {
+    var name = (document.getElementById('pf_name').value || '').trim();
+    var img = (document.getElementById('pf_img').value || '').trim();
+    var desc = document.getElementById('pf_desc').value || '';
+    if (!name) return toast('⚠️ Nhập tên sản phẩm', true);
+    if (editingPlans.length === 0) return toast('⚠️ Cần ít nhất 1 gói', true);
+    for (var i=0;i<editingPlans.length;i++) {
+      if (!editingPlans[i].l) return toast('⚠️ Gói ' + (i+1) + ' thiếu tên', true);
+      if (!editingPlans[i].p || editingPlans[i].p <= 0) return toast('⚠️ Gói ' + (i+1) + ' thiếu giá', true);
+    }
+    if (!db) return;
+
+    var arr = JSON.parse(JSON.stringify(PRODUCTS.IOS));
+    if (editingId) {
+      for (var j=0;j<arr.length;j++) {
+        if (arr[j].id === editingId) {
+          arr[j].name = name; arr[j].img = img; arr[j].desc = desc;
+          arr[j].plans = JSON.parse(JSON.stringify(editingPlans));
+        }
+      }
+    } else {
+      arr.push({
+        id: genId('ios'), name: name, img: img, desc: desc,
+        plans: JSON.parse(JSON.stringify(editingPlans)),
+        order: arr.length + 1
+      });
+    }
+    var obj = {};
+    for (var k=0;k<arr.length;k++) obj[arr[k].id] = arr[k];
+    db.ref('products/IOS').set(obj).then(function() {
+      toast(editingId ? '✅ Đã cập nhật sản phẩm' : '✅ Đã thêm sản phẩm mới');
+      closeProdForm();
+    }).catch(function(err){ toast('❌ Lỗi: '+err.message, true); });
+  }
+
+  function renderESGINForm(g) {
+    var content = document.getElementById('prodModalContent');
+    var h = '<div class="modal-header">' +
+      '<h3>' + (editingId ? '✏️ Sửa gói ESGIN' : '➕ Thêm gói ESGIN') + '</h3>' +
+      '<button class="modal-close" onclick="closeProdForm()">✕</button>' +
+      '</div>' +
+      '<div class="field"><label>Tên gói</label><input id="eg_name" value="' + (g ? (g.name||'').replace(/"/g,'&quot;') : '') + '" placeholder="VD: GÓI 1"></div>' +
+      '<div class="field"><label>Mô tả</label><input id="eg_desc" value="' + (g ? (g.desc||'').replace(/"/g,'&quot;') : '') + '" placeholder="VD: Không bảo hành"></div>' +
+      '<div class="field"><label>Giá (VNĐ)</label><input id="eg_price" type="number" value="' + (g ? (g.price||0) : 0) + '" placeholder="VD: 140000"></div>' +
+      '<div style="display:flex;gap:8px;margin-top:16px">' +
+      '<button class="btn-prime" onclick="saveESGINProduct()" style="flex:2">💾 LƯU</button>' +
+      '<button class="btn-sec" onclick="closeProdForm()" style="flex:1">✖ Huỷ</button>' +
+      '</div>';
+    content.innerHTML = h;
+  }
+
+  function saveESGINProduct() {
+    var name = (document.getElementById('eg_name').value || '').trim();
+    var desc = (document.getElementById('eg_desc').value || '').trim();
+    var price = Number(document.getElementById('eg_price').value) || 0;
+    if (!name) return toast('⚠️ Nhập tên gói', true);
+    if (price <= 0) return toast('⚠️ Giá phải > 0', true);
+    if (!db) return;
+
+    var arr = JSON.parse(JSON.stringify(PRODUCTS.ESGIN));
+    if (editingId) {
+      for (var j=0;j<arr.length;j++) {
+        if (arr[j].id === editingId) {
+          arr[j].name = name; arr[j].desc = desc; arr[j].price = price;
+        }
+      }
+    } else {
+      arr.push({ id: genId('eg'), name: name, desc: desc, price: price, order: arr.length + 1 });
+    }
+    var obj = {};
+    for (var k=0;k<arr.length;k++) obj[arr[k].id] = arr[k];
+    db.ref('products/ESGIN').set(obj).then(function() {
+      toast(editingId ? '✅ Đã cập nhật gói' : '✅ Đã thêm gói mới');
+      closeProdForm();
+    }).catch(function(err){ toast('❌ Lỗi: '+err.message, true); });
+  }
+
+  function deleteProduct(type, id) {
+    if (!confirm('Bạn có chắc muốn xoá sản phẩm này không?')) return;
+    if (!db) return;
+    var arr = type === 'IOS' ? PRODUCTS.IOS : PRODUCTS.ESGIN;
+    var newArr = [];
+    for (var i=0;i<arr.length;i++) if (arr[i].id !== id) newArr.push(arr[i]);
+    var obj = {};
+    for (var k=0;k<newArr.length;k++) obj[newArr[k].id] = newArr[k];
+    db.ref('products/' + type).set(obj).then(function() {
+      toast('🗑 Đã xoá sản phẩm');
+    }).catch(function(err){ toast('❌ Lỗi: '+err.message, true); });
+  }
+
+  window.openProdForm = openProdForm;
+  window.closeProdForm = closeProdForm;
+  window.addPlanRow = addPlanRow;
+  window.removePlanRow = removePlanRow;
+  window.updatePlan = updatePlan;
+  window.saveIOSProduct = saveIOSProduct;
+  window.saveESGINProduct = saveESGINProduct;
+  window.deleteProduct = deleteProduct;
+
+  /* ========== BULK DISCOUNT ========== */
+  function saveBulkDiscount() {
+    var v = Number(document.getElementById('bulkDiscountInput').value);
+    if (isNaN(v) || v < 0) return toast('⚠️ % không hợp lệ!', true);
+    if (v > 100) v = 100;
+    if (!db) return;
+    db.ref('config/bulkDiscount').set(v).then(function() {
+      toast('✅ Đã giảm toàn shop: ' + v + '%');
+      DB.config.bulkDiscount = v;
+      renderBulkStatus();
+    });
+  }
+  function resetBulkDiscount() {
+    if (!db) return;
+    db.ref('config/bulkDiscount').set(0).then(function() {
+      toast('✖ Đã xoá giảm giá');
+      DB.config.bulkDiscount = 0;
+      document.getElementById('bulkDiscountInput').value = '';
+      renderBulkStatus();
+    });
+  }
+  function renderBulkStatus() {
+    var el = document.getElementById('bulkStatus');
+    var b = Number(DB.config.bulkDiscount) || 0;
+    el.innerHTML = b > 0 ? '🔥 Đang giảm <b style="color:#7dd3fc">'+b+'%</b> cho tất cả' : '⚪ Chưa áp dụng giảm giá';
+    el.style.color = b > 0 ? '#7dd3fc' : '#93c5fd';
+  }
+  window.saveBulkDiscount = saveBulkDiscount;
+  window.resetBulkDiscount = resetBulkDiscount;
+
+  /* ========== GLOBAL PRICES ========== */
   function getGlobalPrice(productName, planLabel, originalPrice) {
     var key = priceKey(productName, planLabel);
     if (DB.config.prices && DB.config.prices[key] != null && DB.config.prices[key] !== '') {
@@ -1538,581 +1198,372 @@ try {
   function renderGlobalPrices() {
     var box = document.getElementById('globalPrices');
     if (!box) return;
-    var html = '';
-
-    html += '<div class="price-section-title">📱 HACK — All IOS</div>';
-    for (var i = 0; i < IOS.length; i++) {
-      var prod = IOS[i];
-      for (var j = 0; j < prod.plans.length; j++) {
+    var h = '';
+    h += '<div style="font-size:13px;font-weight:900;color:#7dd3fc;margin:14px 0 8px;padding-bottom:6px;border-bottom:1.5px dashed rgba(125,211,252,0.3)">📱 HACK — All IOS</div>';
+    for (var i=0;i<PRODUCTS.IOS.length;i++) {
+      var prod = PRODUCTS.IOS[i];
+      for (var j=0;j<(prod.plans||[]).length;j++) {
         var p = prod.plans[j];
         var k = priceKey(prod.name, p.l);
         var cur = getGlobalPrice(prod.name, p.l, p.p);
-
-        html += '<div class="price-row">' +
-          '<div class="price-info">' +
-          '<b>' + prod.name + '</b>' +
-          '<small>Gói: ' + p.l + ' • Giá gốc: ' + fmt(p.p) + '</small>' +
-          '</div>' +
-          '<div class="price-input-group">' +
-          '<input type="number" id="gp_' + k + '" value="' + cur + '" min="0" step="1000" placeholder="Giá mới">' +
-          '<button class="btn-save-price" onclick="saveGlobalPrice(\'' + prod.name.replace(/'/g, "\\'") + '\',\'' + p.l.replace(/'/g, "\\'") + '\',\'' + k + '\')">💾 LƯU</button>' +
-          '</div>' +
-          '</div>';
+        h += '<div class="item" style="align-items:flex-start;flex-direction:column;gap:8px">' +
+          '<div style="width:100%"><b style="color:#7dd3fc;font-size:13px">' + prod.name + '</b><small style="color:#93c5fd;display:block;margin-top:4px">Gói: ' + p.l + ' • Giá gốc: ' + fmt(p.p) + '</small></div>' +
+          '<div style="display:flex;gap:6px;width:100%;align-items:center">' +
+          '<input type="number" id="gp_' + k + '" value="' + cur + '" style="flex:1;padding:10px;border-radius:10px;background:rgba(0,0,0,0.55);border:1.5px solid rgba(125,211,252,0.5);color:#7dd3fc;-webkit-text-fill-color:#7dd3fc;font-weight:900;font-family:inherit;text-align:right;outline:none">' +
+          '<button class="btn-prime" onclick="saveGlobalPrice(\'' + prod.name.replace(/'/g,"\\'") + '\',\'' + p.l.replace(/'/g,"\\'") + '\',\'' + k + '\')">💾 LƯU</button>' +
+          '</div></div>';
       }
     }
-
-    html += '<div class="price-section-title">🔑 ESGIN = IOS</div>';
-    for (var a = 0; a < ESGIN.length; a++) {
-      var g = ESGIN[a];
+    h += '<div style="font-size:13px;font-weight:900;color:#7dd3fc;margin:18px 0 8px;padding-bottom:6px;border-bottom:1.5px dashed rgba(125,211,252,0.3)">🔑 Esgin = IOS</div>';
+    for (var a=0;a<PRODUCTS.ESGIN.length;a++) {
+      var g = PRODUCTS.ESGIN[a];
       var label = g.name + ' - ' + g.desc;
       var k2 = priceKey('ESGIN = IOS', label);
       var cur2 = getGlobalPrice('ESGIN = IOS', label, g.price);
-
-      html += '<div class="price-row">' +
-        '<div class="price-info">' +
-        '<b>ESGIN = IOS</b>' +
-        '<small>Gói: ' + g.name + ' • Giá gốc: ' + fmt(g.price) + '</small>' +
-        '</div>' +
-        '<div class="price-input-group">' +
-        '<input type="number" id="gp_' + k2 + '" value="' + cur2 + '" min="0" step="1000" placeholder="Giá mới">' +
-        '<button class="btn-save-price" onclick="saveGlobalPrice(\'ESGIN = IOS\',\'' + label.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">💾 LƯU</button>' +
-        '</div>' +
-        '</div>';
+      h += '<div class="item" style="align-items:flex-start;flex-direction:column;gap:8px">' +
+        '<div style="width:100%"><b style="color:#7dd3fc;font-size:13px">🔑 ' + g.name + '</b><small style="color:#93c5fd;display:block;margin-top:4px">' + (g.desc||'') + ' • Giá gốc: ' + fmt(g.price) + '</small></div>' +
+        '<div style="display:flex;gap:6px;width:100%;align-items:center">' +
+        '<input type="number" id="gp_' + k2 + '" value="' + cur2 + '" style="flex:1;padding:10px;border-radius:10px;background:rgba(0,0,0,0.55);border:1.5px solid rgba(125,211,252,0.5);color:#7dd3fc;-webkit-text-fill-color:#7dd3fc;font-weight:900;font-family:inherit;text-align:right;outline:none">' +
+        '<button class="btn-prime" onclick="saveGlobalPrice(\'ESGIN = IOS\',\'' + label.replace(/'/g,"\\'") + '\',\'' + k2 + '\')">💾 LƯU</button>' +
+        '</div></div>';
     }
-
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
 
   function saveGlobalPrice(productName, planLabel, key) {
     var inp = document.getElementById('gp_' + key);
-    if (!inp) return;
     var newPrice = Number(inp.value);
     if (isNaN(newPrice) || newPrice < 0) return toast('⚠️ Giá không hợp lệ!', true);
-    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
-
-    db.ref('config/prices/' + key).set(newPrice)
-      .then(function() {
-        toast('✅ Đã đổi giá: ' + fmt(newPrice));
-        DB.config.prices[key] = newPrice;
-      })
-      .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
+    if (!db) return;
+    db.ref('config/prices/' + key).set(newPrice).then(function() {
+      toast('✅ Đã đổi giá: ' + fmt(newPrice));
+      DB.config.prices[key] = newPrice;
+    });
   }
+  window.saveGlobalPrice = saveGlobalPrice;
 
+  /* ========== PER USER PRICES ========== */
   function renderUserSelect() {
     var sel = document.getElementById('perUserSelect');
-    if (!sel) return;
     var oldVal = sel.value;
-    var userKeys = Object.keys(DB.users);
-
-    var html = '<option value="">-- Chọn người dùng --</option>';
-    for (var i = 0; i < userKeys.length; i++) {
-      html += '<option value="' + userKeys[i].replace(/"/g, '&quot;') + '">' + userKeys[i] + '</option>';
-    }
-    sel.innerHTML = html;
-
+    var uKeys = Object.keys(DB.users);
+    var h = '<option value="">-- Chọn người dùng --</option>';
+    for (var i=0;i<uKeys.length;i++) h += '<option value="' + uKeys[i].replace(/"/g,'&quot;') + '">' + uKeys[i] + '</option>';
+    sel.innerHTML = h;
     if (oldVal && DB.users[oldVal]) sel.value = oldVal;
   }
 
   function renderPerUserPrices() {
     var sel = document.getElementById('perUserSelect');
     var box = document.getElementById('perUserPriceList');
-    if (!sel || !box) return;
-
     var userName = sel.value;
     if (!userName) { box.innerHTML = ''; return; }
-    if (!DB.users[userName]) {
-      box.innerHTML = '<div class="empty">Không tìm thấy user</div>';
-      return;
-    }
+    if (!DB.users[userName]) { box.innerHTML = '<div class="empty">Không tìm thấy</div>'; return; }
 
-    var u = DB.users[userName] || {};
-    var customPrices = u.customPrices || {};
-    var html = '<div style="font-size:13.5px;font-weight:900;color:#7dd3fc;margin-bottom:16px;padding:12px;border-radius:12px;background:rgba(125,211,252,0.1);border:1.5px solid rgba(125,211,252,0.4);text-align:center">' +
-      '👤 Đang chỉnh giá cho: <b style="color:#fff">' + userName + '</b></div>';
+    var customPrices = DB.users[userName].customPrices || {};
+    var h = '<div style="font-size:13px;font-weight:900;color:#7dd3fc;margin-bottom:14px;padding:12px;border-radius:12px;background:rgba(125,211,252,0.1);border:1.5px solid rgba(125,211,252,0.4);text-align:center">👤 ' + userName + '</div>';
 
-    html += '<div class="price-section-title">📱 HACK — All IOS</div>';
-    for (var i = 0; i < IOS.length; i++) {
-      var prod = IOS[i];
-      for (var j = 0; j < prod.plans.length; j++) {
+    h += '<div style="font-size:13px;font-weight:900;color:#7dd3fc;margin:14px 0 8px;padding-bottom:6px;border-bottom:1.5px dashed rgba(125,211,252,0.3)">📱 All IOS</div>';
+    for (var i=0;i<PRODUCTS.IOS.length;i++) {
+      var prod = PRODUCTS.IOS[i];
+      for (var j=0;j<(prod.plans||[]).length;j++) {
         var p = prod.plans[j];
         var k = priceKey(prod.name, p.l);
-        var globalPrice = getGlobalPrice(prod.name, p.l, p.p);
-        var cur = (customPrices[k] != null && customPrices[k] !== '') ? customPrices[k] : globalPrice;
-        var isCustom = customPrices[k] != null && customPrices[k] !== '';
-
-        html += '<div class="price-row">' +
-          '<div class="price-info">' +
-          '<b>' + prod.name + '</b>' +
-          '<small>Gói: ' + p.l + ' • Giá shop: ' + fmt(globalPrice) +
-          (isCustom ? ' <span style="color:#7dd3fc">(đã chỉnh riêng)</span>' : '') + '</small>' +
-          '</div>' +
-          '<div class="price-input-group">' +
-          '<input type="number" id="up_' + userName + '_' + k + '" value="' + cur + '" min="0" step="1000" placeholder="Giá riêng">' +
-          '<button class="btn-save-price" onclick="saveUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k + '\')">💾</button>' +
-          '<button class="btn-del-price" onclick="resetUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k + '\')">✖</button>' +
-          '</div>' +
-          '</div>';
+        var gp = getGlobalPrice(prod.name, p.l, p.p);
+        var cur = (customPrices[k] != null && customPrices[k] !== '') ? customPrices[k] : gp;
+        var isC = customPrices[k] != null && customPrices[k] !== '';
+        h += '<div class="item" style="align-items:flex-start;flex-direction:column;gap:8px">' +
+          '<div style="width:100%"><b style="color:#7dd3fc;font-size:13px">' + prod.name + '</b><small style="color:#93c5fd;display:block;margin-top:4px">' + p.l + ' • Giá shop: ' + fmt(gp) + (isC ? ' <span style="color:#7dd3fc">(đã chỉnh)</span>' : '') + '</small></div>' +
+          '<div style="display:flex;gap:6px;width:100%;align-items:center;flex-wrap:wrap">' +
+          '<input type="number" id="up_' + userName + '_' + k + '" value="' + cur + '" style="flex:1;min-width:80px;padding:10px;border-radius:10px;background:rgba(0,0,0,0.55);border:1.5px solid rgba(125,211,252,0.5);color:#7dd3fc;-webkit-text-fill-color:#7dd3fc;font-weight:900;font-family:inherit;text-align:right;outline:none">' +
+          '<button class="btn-prime" onclick="saveUserPrice(\'' + userName.replace(/'/g,"\\'") + '\',\'' + k + '\')">💾</button>' +
+          '<button class="btn-danger" onclick="resetUserPrice(\'' + userName.replace(/'/g,"\\'") + '\',\'' + k + '\')">✖</button>' +
+          '</div></div>';
       }
     }
 
-    html += '<div class="price-section-title">🔑 ESGIN = IOS</div>';
-    for (var a = 0; a < ESGIN.length; a++) {
-      var g = ESGIN[a];
+    h += '<div style="font-size:13px;font-weight:900;color:#7dd3fc;margin:18px 0 8px;padding-bottom:6px;border-bottom:1.5px dashed rgba(125,211,252,0.3)">🔑 Esgin</div>';
+    for (var a=0;a<PRODUCTS.ESGIN.length;a++) {
+      var g = PRODUCTS.ESGIN[a];
       var label = g.name + ' - ' + g.desc;
       var k2 = priceKey('ESGIN = IOS', label);
-      var globalPrice2 = getGlobalPrice('ESGIN = IOS', label, g.price);
-      var cur2 = (customPrices[k2] != null && customPrices[k2] !== '') ? customPrices[k2] : globalPrice2;
-      var isCustom2 = customPrices[k2] != null && customPrices[k2] !== '';
-
-      html += '<div class="price-row">' +
-        '<div class="price-info">' +
-        '<b>ESGIN = IOS</b>' +
-        '<small>Gói: ' + g.name + ' • Giá shop: ' + fmt(globalPrice2) +
-        (isCustom2 ? ' <span style="color:#7dd3fc">(đã chỉnh riêng)</span>' : '') + '</small>' +
-        '</div>' +
-        '<div class="price-input-group">' +
-        '<input type="number" id="up_' + userName + '_' + k2 + '" value="' + cur2 + '" min="0" step="1000" placeholder="Giá riêng">' +
-        '<button class="btn-save-price" onclick="saveUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">💾</button>' +
-        '<button class="btn-del-price" onclick="resetUserPrice(\'' + userName.replace(/'/g, "\\'") + '\',\'' + k2 + '\')">✖</button>' +
-        '</div>' +
-        '</div>';
+      var gp2 = getGlobalPrice('ESGIN = IOS', label, g.price);
+      var cur2 = (customPrices[k2] != null && customPrices[k2] !== '') ? customPrices[k2] : gp2;
+      var isC2 = customPrices[k2] != null && customPrices[k2] !== '';
+      h += '<div class="item" style="align-items:flex-start;flex-direction:column;gap:8px">' +
+        '<div style="width:100%"><b style="color:#7dd3fc;font-size:13px">🔑 ' + g.name + '</b><small style="color:#93c5fd;display:block;margin-top:4px">Giá shop: ' + fmt(gp2) + (isC2 ? ' <span style="color:#7dd3fc">(đã chỉnh)</span>' : '') + '</small></div>' +
+        '<div style="display:flex;gap:6px;width:100%;align-items:center;flex-wrap:wrap">' +
+        '<input type="number" id="up_' + userName + '_' + k2 + '" value="' + cur2 + '" style="flex:1;min-width:80px;padding:10px;border-radius:10px;background:rgba(0,0,0,0.55);border:1.5px solid rgba(125,211,252,0.5);color:#7dd3fc;-webkit-text-fill-color:#7dd3fc;font-weight:900;font-family:inherit;text-align:right;outline:none">' +
+        '<button class="btn-prime" onclick="saveUserPrice(\'' + userName.replace(/'/g,"\\'") + '\',\'' + k2 + '\')">💾</button>' +
+        '<button class="btn-danger" onclick="resetUserPrice(\'' + userName.replace(/'/g,"\\'") + '\',\'' + k2 + '\')">✖</button>' +
+        '</div></div>';
     }
-
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
 
   function saveUserPrice(userName, key) {
     var inp = document.getElementById('up_' + userName + '_' + key);
-    if (!inp) return;
     var newPrice = Number(inp.value);
     if (isNaN(newPrice) || newPrice < 0) return toast('⚠️ Giá không hợp lệ!', true);
-    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
-    if (!DB.users[userName]) return toast('❌ Không tìm thấy user!', true);
-
-    var u = DB.users[userName];
-    if (!u.customPrices) u.customPrices = {};
-    u.customPrices[key] = newPrice;
-
-    db.ref('users/' + userName).set(u)
-      .then(function() { toast('✅ Đã đặt giá riêng cho ' + userName); })
-      .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
-  }
-
-  function resetUserPrice(userName, key) {
     if (!db) return;
     if (!DB.users[userName]) return;
     var u = DB.users[userName];
-    if (u.customPrices && u.customPrices[key] != null) {
-      delete u.customPrices[key];
-    }
-    db.ref('users/' + userName).set(u)
-      .then(function() { toast('✖ Đã xoá giá riêng'); })
-      .catch(function(err) { toast('❌ Lỗi: ' + err.message, true); });
+    if (!u.customPrices) u.customPrices = {};
+    u.customPrices[key] = newPrice;
+    db.ref('users/' + userName).set(u).then(function() { toast('✅ Đã lưu giá riêng'); });
   }
+  function resetUserPrice(userName, key) {
+    if (!db) return;
+    var u = DB.users[userName];
+    if (!u) return;
+    if (u.customPrices && u.customPrices[key] != null) delete u.customPrices[key];
+    db.ref('users/' + userName).set(u).then(function() { toast('✖ Đã xoá giá riêng'); });
+  }
+  window.renderPerUserPrices = renderPerUserPrices;
+  window.saveUserPrice = saveUserPrice;
+  window.resetUserPrice = resetUserPrice;
 
+  /* ========== USERS ========== */
   function renderUsers() {
-    var userKeys = Object.keys(DB.users);
+    var uKeys = Object.keys(DB.users);
     var box = document.getElementById('adUsers');
-    if (!box) return;
-
-    if (!userKeys.length) {
-      box.innerHTML = '<div class="empty"><span class="icon">👥</span>Chưa có người đăng ký</div>';
-      return;
-    }
-
-    userKeys.sort(function(a, b) {
-      return (DB.users[b].createdAt || 0) - (DB.users[a].createdAt || 0);
-    });
-
-    var html = '';
-    for (var a = 0; a < userKeys.length; a++) {
-      var n = userKeys[a];
-      var u = DB.users[n];
-      var dc = Number(u.discount) || 0;
-      var cpCount = u.customPrices ? Object.keys(u.customPrices).length : 0;
-      var dcText = dc > 0 ? ' • 💸 Giảm: <b style="color:#7dd3fc">' + dc + '%</b>' : '';
-      var cpText = cpCount > 0 ? ' • 🎯 <b style="color:#7dd3fc">' + cpCount + ' giá riêng</b>' : '';
-
-      html += '<div class="item">' +
-        '<div class="item-main">' +
+    if (!uKeys.length) { box.innerHTML = '<div class="empty"><span class="icon">👥</span>Chưa có người dùng</div>'; return; }
+    uKeys.sort(function(a,b){ return (DB.users[b].createdAt||0) - (DB.users[a].createdAt||0); });
+    var h = '';
+    for (var i=0;i<uKeys.length;i++) {
+      var n = uKeys[i], u = DB.users[n];
+      var dc = Number(u.discount)||0;
+      var cp = u.customPrices ? Object.keys(u.customPrices).length : 0;
+      h += '<div class="item"><div class="item-main">' +
         '<b>👤 ' + n + '</b>' +
-        '<small>🔑 Mật khẩu: <b style="color:#f9a8d4">' + (u.password || '-') + '</b></small>' +
-        '<small>🔢 Số IB: <b style="color:#fde047">' + (u.ib || '-') + '</b></small>' +
+        '<small>🔑 MK: <b style="color:#f9a8d4">' + (u.password||'-') + '</b></small>' +
+        '<small>🔢 IB: <b style="color:#fde047">' + (u.ib||'-') + '</b></small>' +
         '<small>💰 Số dư: <b style="color:#7dd3fc">' + fmt(u.balance) + '</b></small>' +
-        '<small>📥 Tổng nạp: ' + fmt(u.totalDeposit) + ' • 📤 Tổng chi: ' + fmt(u.totalSpent) + dcText + cpText + '</small>' +
-        '<small>🕐 Đăng ký: ' + timeStr(u.createdAt) + '</small>' +
-        '</div>' +
-        '</div>';
+        '<small>📥 Nạp: ' + fmt(u.totalDeposit) + ' • 📤 Chi: ' + fmt(u.totalSpent) + (dc>0?' • 💸 -'+dc+'%':'') + (cp>0?' • 🎯 '+cp+' riêng':'') + '</small>' +
+        '<small>🕐 ' + timeStr(u.createdAt) + '</small>' +
+        '</div></div>';
     }
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
 
+  /* ========== BALANCE ========== */
   function renderBalance() {
-    var userKeys = Object.keys(DB.users);
+    var uKeys = Object.keys(DB.users);
     var box = document.getElementById('adBalance');
-    if (!box) return;
-
-    if (!userKeys.length) {
-      box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có người dùng</div>';
-      return;
-    }
-
-    userKeys.sort(function(a, b) {
-      return (DB.users[b].createdAt || 0) - (DB.users[a].createdAt || 0);
-    });
-
-    var html = '';
-    for (var i = 0; i < userKeys.length; i++) {
-      var n = userKeys[i];
-      var u = DB.users[n];
-      var bal = Number(u.balance) || 0;
+    if (!uKeys.length) { box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có người dùng</div>'; return; }
+    uKeys.sort(function(a,b){ return (DB.users[b].createdAt||0) - (DB.users[a].createdAt||0); });
+    var h = '';
+    for (var i=0;i<uKeys.length;i++) {
+      var n = uKeys[i], u = DB.users[n];
+      var bal = Number(u.balance)||0;
       var safeId = n.replace(/[.#$\[\]\/]/g, '_');
-
-      html += '<div class="balance-item">' +
+      h += '<div class="balance-item">' +
         '<div class="balance-item-header">' +
         '<b>👤 ' + n + '</b>' +
-        '<small>💰 Số dư hiện tại: <b style="color:#7dd3fc">' + fmt(bal) + '</b></small>' +
-        '<small>📥 Tổng nạp: ' + fmt(u.totalDeposit) + ' • 📤 Tổng chi: ' + fmt(u.totalSpent) + '</small>' +
+        '<small>💰 Số dư: <b style="color:#7dd3fc">' + fmt(bal) + '</b></small>' +
+        '<small>📥 Nạp: ' + fmt(u.totalDeposit) + ' • 📤 Chi: ' + fmt(u.totalSpent) + '</small>' +
         '</div>' +
         '<div class="balance-input-group">' +
-        '<input type="number" id="bal_' + safeId + '" value="' + bal + '" min="0" step="1000" placeholder="Nhập số dư mới">' +
-        '<button onclick="saveBalance(\'' + n.replace(/'/g, "\\'") + '\')">💾 LƯU</button>' +
-        '</div>' +
-        '</div>';
+        '<input type="number" id="bal_' + safeId + '" value="' + bal + '" min="0" step="1000">' +
+        '<button onclick="saveBalance(\'' + n.replace(/'/g,"\\'") + '\')">💾 LƯU</button>' +
+        '</div></div>';
     }
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
-
   function saveBalance(userName) {
     var safeId = userName.replace(/[.#$\[\]\/]/g, '_');
     var inp = document.getElementById('bal_' + safeId);
-    if (!inp) return;
-
-    var newBalance = Number(inp.value);
-    if (isNaN(newBalance) || newBalance < 0) return toast('⚠️ Số dư không hợp lệ!', true);
-    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
-    if (!DB.users[userName]) return toast('❌ Không tìm thấy user!', true);
-
+    var newBal = Number(inp.value);
+    if (isNaN(newBal) || newBal < 0) return toast('⚠️ Số dư không hợp lệ!', true);
+    if (!db) return;
     var u = DB.users[userName];
-    var oldBal = Number(u.balance) || 0;
-    u.balance = newBalance;
-
-    db.ref('users/' + userName).set(u)
-      .then(function() {
-        toast('✅ ' + userName + ': ' + fmt(oldBal) + ' → ' + fmt(newBalance));
-      })
-      .catch(function(err) {
-        toast('❌ Lỗi: ' + err.message, true);
-      });
+    if (!u) return;
+    var old = Number(u.balance)||0;
+    u.balance = newBal;
+    db.ref('users/' + userName).set(u).then(function() {
+      toast('✅ ' + userName + ': ' + fmt(old) + ' → ' + fmt(newBal));
+    });
   }
   window.saveBalance = saveBalance;
 
+  /* ========== DEPOSITS ========== */
   function renderDeps() {
     var box = document.getElementById('adDeps');
-    if (!box) return;
-
-    var visibleDeps = [];
-    for (var x = 0; x < DB.deposits.length; x++) {
-      if (!DB.deposits[x].adminDeleted) visibleDeps.push(DB.deposits[x]);
-    }
-
-    if (!visibleDeps.length) {
-      box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có yêu cầu nạp tiền</div>';
-      return;
-    }
-
-    var html = '';
-    for (var b = 0; b < visibleDeps.length; b++) {
-      var d = visibleDeps[b];
+    var vis = [];
+    for (var x=0;x<DB.deposits.length;x++) if (!DB.deposits[x].adminDeleted) vis.push(DB.deposits[x]);
+    if (!vis.length) { box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có yêu cầu nạp</div>'; return; }
+    var h = '';
+    for (var b=0;b<vis.length;b++) {
+      var d = vis[b];
       var info = d.type === 'QR'
-        ? '🏦 QR — Nội dung: <b style="color:#fde047">' + d.code + '</b><br>💰 Số tiền: <b style="color:#7dd3fc">' + fmt(d.amount) + '</b>'
-        : '💳 Thẻ ' + d.cardType + ' — Mệnh giá ' + fmt(d.amount) +
-          ' → nhận <b style="color:#7dd3fc">' + fmt(d.receive) + '</b><br>Mã: <b style="color:#f9a8d4">' +
-          d.cardCode + '</b> • Seri: <b style="color:#f9a8d4">' + d.cardSeri + '</b>';
-
-      var badge;
+        ? '🏦 QR — ND: <b style="color:#fde047">' + d.code + '</b><br>💰 Tiền: <b style="color:#7dd3fc">' + fmt(d.amount) + '</b>'
+        : '💳 Thẻ ' + d.cardType + ' — MG ' + fmt(d.amount) + ' → nhận <b style="color:#7dd3fc">' + fmt(d.receive) + '</b><br>Mã: <b style="color:#f9a8d4">' + d.cardCode + '</b> • Seri: <b style="color:#f9a8d4">' + d.cardSeri + '</b>';
+      var b2;
       if (d.status === 'wait') {
-        badge = '<div class="item-actions">' +
+        b2 = '<div class="item-actions">' +
           '<button class="btn-act prime" onclick="appr(\'' + d.id + '\')">✔ XÁC NHẬN</button>' +
           '<button class="btn-act danger" onclick="cnl(\'' + d.id + '\')">✖ HUỶ</button>' +
           '<button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else if (d.status === 'done') {
-        badge = '<div class="item-actions">' +
-          '<span class="badge done">✔ HOÀN THÀNH</span>' +
-          '<button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
-          '</div>';
+        b2 = '<div class="item-actions"><span class="badge done">✔ HOÀN THÀNH</span><button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button></div>';
       } else {
-        badge = '<div class="item-actions">' +
-          '<span class="badge cancel">✖ ĐÃ HUỶ</span>' +
-          '<button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button>' +
-          '</div>';
+        b2 = '<div class="item-actions"><span class="badge cancel">✖ ĐÃ HUỶ</span><button class="btn-act ghost" onclick="delDep(\'' + d.id + '\')">🗑 XOÁ</button></div>';
       }
-
-      html += '<div class="item">' +
-        '<div class="item-main">' +
-        '<b>👤 ' + d.user + ' — #' + d.id + '</b>' +
-        '<small>' + info + '</small>' +
-        '<small>🕐 ' + timeStr(d.createdAt) + '</small>' +
-        '</div>' + badge +
-        '</div>';
+      h += '<div class="item"><div class="item-main"><b>👤 ' + d.user + ' — #' + d.id + '</b><small>' + info + '</small><small>🕐 ' + timeStr(d.createdAt) + '</small></div>' + b2 + '</div>';
     }
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
-
   function appr(id) {
     if (!db) return;
     db.ref('deposits').once('value').then(function(snap) {
       var deps = snap.val() || [];
       var d = null;
-      for (var i = 0; i < deps.length; i++) {
-        if (deps[i].id === id) d = deps[i];
-      }
+      for (var i=0;i<deps.length;i++) if (deps[i].id === id) d = deps[i];
       if (!d || d.status !== 'wait') return;
-
       d.status = 'done';
       db.ref('deposits').set(deps);
-
       db.ref('users/' + d.user).once('value').then(function(us) {
         var u = us.val();
         if (!u) return;
         var add = d.type === 'QR' ? d.amount : d.receive;
-        u.balance = (u.balance || 0) + add;
-        u.totalDeposit = (u.totalDeposit || 0) + add;
+        u.balance = (u.balance||0) + add;
+        u.totalDeposit = (u.totalDeposit||0) + add;
         db.ref('users/' + d.user).set(u);
         toast('✅ Đã duyệt ' + fmt(add) + ' cho ' + d.user);
       });
     });
   }
-
   function cnl(id) {
     if (!db) return;
     db.ref('deposits').once('value').then(function(snap) {
       var deps = snap.val() || [];
-      for (var i = 0; i < deps.length; i++) {
-        if (deps[i].id === id) deps[i].status = 'cancel';
-      }
+      for (var i=0;i<deps.length;i++) if (deps[i].id === id) deps[i].status = 'cancel';
       db.ref('deposits').set(deps);
       toast('✖ Đã huỷ yêu cầu', true);
     });
   }
-
   function delDep(id) {
     if (!db) return;
     db.ref('deposits').once('value').then(function(snap) {
       var deps = snap.val() || [];
-      var found = false;
-      for (var i = 0; i < deps.length; i++) {
-        if (deps[i].id === id) {
-          deps[i].adminDeleted = true;
-          found = true;
-        }
-      }
-      if (!found) return toast('❌ Không tìm thấy!', true);
-      db.ref('deposits').set(deps).then(function() {
-        toast('🗑 Đã xoá');
-      });
+      var ok = false;
+      for (var i=0;i<deps.length;i++) if (deps[i].id === id) { deps[i].adminDeleted = true; ok = true; }
+      if (!ok) return toast('❌ Không tìm thấy', true);
+      db.ref('deposits').set(deps).then(function(){ toast('🗑 Đã xoá'); });
     });
   }
+  window.appr = appr;
+  window.cnl = cnl;
+  window.delDep = delDep;
 
-  /* ============================================================
-     ORDERS — CÓ NÚT XOÁ
-     ============================================================ */
+  /* ========== ORDERS ========== */
   function renderOrds() {
     var box = document.getElementById('adOrds');
-    if (!box) return;
-
-    /* Lọc bỏ những đơn đã bị admin xoá */
-    var visibleOrders = [];
-    for (var x = 0; x < DB.orders.length; x++) {
-      if (!DB.orders[x].adminDeleted) visibleOrders.push(DB.orders[x]);
-    }
-
-    if (!visibleOrders.length) {
-      box.innerHTML = '<div class="empty"><span class="icon">🔑</span>Chưa có đơn hàng</div>';
-      return;
-    }
-
-    var html = '';
-    for (var c = 0; c < visibleOrders.length; c++) {
-      var o = visibleOrders[c];
-      var badge2;
-
+    var vis = [];
+    for (var x=0;x<DB.orders.length;x++) if (!DB.orders[x].adminDeleted) vis.push(DB.orders[x]);
+    if (!vis.length) { box.innerHTML = '<div class="empty"><span class="icon">🔑</span>Chưa có đơn</div>'; return; }
+    var h = '';
+    for (var c=0;c<vis.length;c++) {
+      var o = vis[c], b2;
       if (o.status === 'wait') {
-        badge2 = '<input class="key-input" id="key_' + o.id + '" placeholder="🔑 Nhập key để gửi...">' +
+        b2 = '<input class="key-input" id="key_' + o.id + '" placeholder="🔑 Nhập key...">' +
           '<div class="item-actions">' +
           '<button class="btn-act prime" onclick="sendk(\'' + o.id + '\')">🔑 GỬI KEY</button>' +
           '<button class="btn-act danger" onclick="cancelOrder(\'' + o.id + '\')">🚫 HUỶ + HOÀN</button>' +
           '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
           '</div>';
       } else if (o.status === 'done') {
-        badge2 = '<div class="item-actions">' +
-          '<span class="badge done">✔ ĐÃ XỬ LÝ</span>' +
-          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
-          '</div>' +
-          '<div style="margin-top:10px;padding:10px;border-radius:10px;background:rgba(125,211,252,0.1);border:1px solid rgba(125,211,252,0.35);font-size:12px;color:#7dd3fc;word-break:break-all">🔑 ' + (o.key || '') + '</div>';
+        b2 = '<div class="item-actions"><span class="badge done">✔ ĐÃ XỬ LÝ</span><button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button></div>' +
+          '<div style="margin-top:10px;padding:10px;border-radius:10px;background:rgba(125,211,252,0.1);border:1px solid rgba(125,211,252,0.35);font-size:12px;color:#7dd3fc;word-break:break-all">🔑 ' + (o.key||'') + '</div>';
       } else if (o.status === 'cancel') {
-        badge2 = '<div class="item-actions">' +
-          '<span class="badge cancel">🚫 ĐÃ HUỶ</span>' +
-          '<span style="font-size:11.5px;color:#7dd3fc;font-weight:700">💰 Đã hoàn ' + fmt(o.refundAmount || o.price) + '</span>' +
-          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
-          '</div>';
+        b2 = '<div class="item-actions"><span class="badge cancel">🚫 ĐÃ HUỶ</span><span style="font-size:11.5px;color:#7dd3fc;font-weight:700">💰 Đã hoàn ' + fmt(o.refundAmount||o.price) + '</span><button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button></div>';
       } else if (o.status === 'refund') {
-        badge2 = '<div class="item-actions">' +
-          '<span class="badge cancel">💰 ĐÃ HOÀN TIỀN</span>' +
-          '<span style="font-size:11.5px;color:#fde047;font-weight:700">' + fmt(o.refundAmount || o.price) + '</span>' +
-          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
-          '</div>';
+        b2 = '<div class="item-actions"><span class="badge cancel">💰 ĐÃ HOÀN</span><span style="font-size:11.5px;color:#fde047;font-weight:700">' + fmt(o.refundAmount||o.price) + '</span><button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button></div>';
       } else {
-        badge2 = '<div class="item-actions">' +
-          '<span class="badge cancel">✖ ĐÃ HUỶ</span>' +
-          '<button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button>' +
-          '</div>';
+        b2 = '<div class="item-actions"><span class="badge cancel">✖ ĐÃ HUỶ</span><button class="btn-act ghost" onclick="delOrder(\'' + o.id + '\')">🗑 XOÁ</button></div>';
       }
-
-      var priceInfo = 'Giá: <b style="color:#fde047">' + fmt(o.price) + '</b>';
+      var pi = 'Giá: <b style="color:#fde047">' + fmt(o.price) + '</b>';
       if (o.originalPrice && o.originalPrice > o.price) {
-        priceInfo = 'Giá gốc: <span style="text-decoration:line-through;color:#fda4af">' +
-          fmt(o.originalPrice) + '</span> → <b style="color:#7dd3fc">' + fmt(o.price) + '</b>';
+        pi = 'Giá gốc: <span style="text-decoration:line-through;color:#fda4af">' + fmt(o.originalPrice) + '</span> → <b style="color:#7dd3fc">' + fmt(o.price) + '</b>';
       }
-
-      html += '<div class="item">' +
-        '<div class="item-main">' +
-        '<b>👤 ' + o.user + '</b>' +
-        '<small>📦 ' + o.name + ' — ' + o.plan + '</small>' +
-        '<small>' + priceInfo + '</small>' +
-        '<small>🆔 #' + o.id + ' • 🕐 ' + timeStr(o.createdAt) + '</small>' +
-        '</div>' + badge2 +
-        '</div>';
+      h += '<div class="item"><div class="item-main"><b>👤 ' + o.user + '</b><small>📦 ' + o.name + ' — ' + o.plan + '</small><small>' + pi + '</small><small>🆔 #' + o.id + ' • 🕐 ' + timeStr(o.createdAt) + '</small></div>' + b2 + '</div>';
     }
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
-
   function sendk(id) {
     var inp = document.getElementById('key_' + id);
     var key = (inp ? inp.value : '').trim();
-    if (!key) return toast('⚠️ Vui lòng nhập key!', true);
+    if (!key) return toast('⚠️ Nhập key!', true);
     if (!db) return;
-
     db.ref('orders').once('value').then(function(snap) {
       var ords = snap.val() || [];
       var o = null;
-      for (var i = 0; i < ords.length; i++) {
-        if (ords[i].id === id) o = ords[i];
-      }
+      for (var i=0;i<ords.length;i++) if (ords[i].id === id) o = ords[i];
       if (!o) return;
-
-      o.key = key;
-      o.status = 'done';
-      o.doneAt = now();
+      o.key = key; o.status = 'done'; o.doneAt = now();
       db.ref('orders').set(ords);
       toast('🔑 Đã gửi key cho ' + o.user);
     });
   }
-
   function cancelOrder(id) {
     if (!db) return;
     db.ref('orders').once('value').then(function(snap) {
       var ords = snap.val() || [];
       var o = null;
-      for (var i = 0; i < ords.length; i++) {
-        if (ords[i].id === id) o = ords[i];
-      }
-      if (!o) return toast('❌ Không tìm thấy đơn!', true);
-      if (o.status !== 'wait') return toast('⚠️ Đơn không còn ở trạng thái chờ!', true);
-
-      var refundAmt = Number(o.price) || 0;
-
+      for (var i=0;i<ords.length;i++) if (ords[i].id === id) o = ords[i];
+      if (!o) return toast('❌ Không tìm thấy', true);
+      if (o.status !== 'wait') return toast('⚠️ Đơn không ở trạng thái chờ', true);
+      var amt = Number(o.price)||0;
       db.ref('users/' + o.user).once('value').then(function(us) {
         var u = us.val();
-
         if (!u) {
-          for (var j = 0; j < ords.length; j++) {
-            if (ords[j].id === id) {
-              ords[j].status = 'cancel';
-              ords[j].cancelAt = now();
-              ords[j].refunded = false;
-              ords[j].refundAmount = 0;
-            }
-          }
+          for (var j=0;j<ords.length;j++) if (ords[j].id === id) { ords[j].status='cancel'; ords[j].cancelAt=now(); }
           db.ref('orders').set(ords);
-          toast('🚫 Đã huỷ đơn (không tìm thấy user để hoàn)', true);
+          toast('🚫 Đã huỷ (không tìm thấy user)', true);
           return;
         }
-
-        u.balance = (u.balance || 0) + refundAmt;
-        u.totalSpent = Math.max(0, (u.totalSpent || 0) - refundAmt);
-
+        u.balance = (u.balance||0) + amt;
+        u.totalSpent = Math.max(0, (u.totalSpent||0) - amt);
         db.ref('users/' + o.user).set(u).then(function() {
-          for (var k = 0; k < ords.length; k++) {
-            if (ords[k].id === id) {
-              ords[k].status = 'cancel';
-              ords[k].cancelAt = now();
-              ords[k].refunded = true;
-              ords[k].refundAmount = refundAmt;
-            }
+          for (var k=0;k<ords.length;k++) if (ords[k].id === id) {
+            ords[k].status='cancel'; ords[k].cancelAt=now(); ords[k].refunded=true; ords[k].refundAmount=amt;
           }
           db.ref('orders').set(ords);
-          toast('🚫 Đã huỷ + hoàn ' + fmt(refundAmt) + ' cho ' + o.user);
-        }).catch(function(err) {
-          toast('❌ Lỗi hoàn tiền: ' + err.message, true);
+          toast('🚫 Đã huỷ + hoàn ' + fmt(amt));
         });
       });
     });
   }
-
-  /* ============================================================
-     XOÁ ĐƠN HÀNG — CHỈ ẨN BÊN ADMIN, USER VẪN THẤY
-     ============================================================ */
   function delOrder(id) {
-    if (!db) return toast('❌ Chưa kết nối máy chủ', true);
-
+    if (!db) return;
     db.ref('orders').once('value').then(function(snap) {
       var ords = snap.val() || [];
-      var found = false;
-
-      for (var i = 0; i < ords.length; i++) {
-        if (ords[i].id === id) {
-          ords[i].adminDeleted = true;
-          found = true;
-        }
-      }
-
-      if (!found) return toast('❌ Không tìm thấy đơn!', true);
-
-      db.ref('orders').set(ords)
-        .then(function() {
-          toast('🗑 Đã xoá đơn (user vẫn thấy)');
-        })
-        .catch(function(err) {
-          toast('❌ Lỗi: ' + err.message, true);
-        });
+      var ok = false;
+      for (var i=0;i<ords.length;i++) if (ords[i].id === id) { ords[i].adminDeleted = true; ok = true; }
+      if (!ok) return toast('❌ Không tìm thấy', true);
+      db.ref('orders').set(ords).then(function(){ toast('🗑 Đã xoá'); });
     });
   }
+  window.sendk = sendk;
+  window.cancelOrder = cancelOrder;
   window.delOrder = delOrder;
 
+  /* ========== REVIEWS ========== */
   function renderRevs() {
     var box = document.getElementById('adRevs');
-    if (!box) return;
-
-    if (!DB.reviews.length) {
-      box.innerHTML = '<div class="empty"><span class="icon">⭐</span>Chưa có đánh giá</div>';
-      return;
-    }
-
-    var html = '';
-    for (var e = 0; e < DB.reviews.length; e++) {
+    if (!DB.reviews.length) { box.innerHTML = '<div class="empty"><span class="icon">⭐</span>Chưa có đánh giá</div>'; return; }
+    var h = '';
+    for (var e=0;e<DB.reviews.length;e++) {
       var r = DB.reviews[e];
-      html += '<div class="item">' +
-        '<div class="item-main">' +
+      h += '<div class="item"><div class="item-main">' +
         '<b>👤 ' + r.user + '</b>' +
-        '<small style="color:#fde047;font-size:15px">' + Array((r.stars || 0) + 1).join('⭐') + '</small>' +
-        '<small style="font-style:italic">"' + (r.text || '(Không có mô tả)') + '"</small>' +
+        '<small style="color:#fde047;font-size:15px">' + Array((r.stars||0)+1).join('⭐') + '</small>' +
+        '<small style="font-style:italic">"' + (r.text||'(Không có mô tả)') + '"</small>' +
         '<small>🕐 ' + timeStr(r.createdAt) + '</small>' +
-        '</div>' +
-        '</div>';
+        '</div></div>';
     }
-    box.innerHTML = html;
+    box.innerHTML = h;
   }
 
   initAdmin();
