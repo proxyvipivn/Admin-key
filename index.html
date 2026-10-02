@@ -490,6 +490,8 @@ body {
     <div class="stat-card"><span class="stat-icon">💰</span><div class="stat-value" id="stDep">0</div><div class="stat-label">Nạp chờ duyệt</div></div>
     <div class="stat-card"><span class="stat-icon">🔑</span><div class="stat-value" id="stOrd">0</div><div class="stat-label">Đơn chờ xử lý</div></div>
     <div class="stat-card"><span class="stat-icon">⭐</span><div class="stat-value" id="stRv">0</div><div class="stat-label">Đánh giá</div></div>
+    <div class="stat-card"><span class="stat-icon">🛒</span><div class="stat-value" id="stBuyers">0</div><div class="stat-label">Người mua key</div></div>
+  <div class="stat-card"><span class="stat-icon">💵</span><div class="stat-value" id="stTotalDep">0đ</div><div class="stat-label">Tổng nạp</div></div>
   </div>
   <div class="card">
     <div class="card-title">❄️ Trạng thái hệ thống</div>
@@ -910,6 +912,28 @@ try {
 
     document.getElementById('stRv').textContent = DB.reviews.length;
     document.getElementById('numRevs').textContent = DB.reviews.length;
+    
+    /* Đếm số người mua key (user có ít nhất 1 đơn done có key) */
+    var buyers = {};
+    for (var bi = 0; bi < DB.orders.length; bi++) {
+      var bo = DB.orders[bi];
+      if (bo.status === 'done' && bo.key) {
+        buyers[bo.user] = true;
+      }
+    }
+    var stB = document.getElementById('stBuyers');
+    if (stB) stB.textContent = Object.keys(buyers).length;
+
+    /* Tổng nạp = tổng tiền tất cả deposit đã duyệt (status done) */
+    var totalDep = 0;
+    for (var di = 0; di < DB.deposits.length; di++) {
+      var dp = DB.deposits[di];
+      if (dp.status === 'done') {
+        totalDep += Number(dp.type === 'QR' ? dp.amount : dp.receive) || 0;
+      }
+    }
+    var stTD = document.getElementById('stTotalDep');
+    if (stTD) stTD.textContent = fmt(totalDep);
 
     var bi = document.getElementById('bulkDiscountInput');
     if (bi && !bi.value) bi.value = Number(DB.config.bulkDiscount) || '';
