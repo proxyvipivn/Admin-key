@@ -954,38 +954,41 @@ try {
   }
 
   /* ========== QUẢN LÝ SẢN PHẨM ========== */
-  function renderProductLists() {
-    /* IOS */
-    var boxIOS = document.getElementById('iosProdList');
-    if (!boxIOS) return;
-    if (!PRODUCTS.IOS.length) {
-      boxIOS.innerHTML = '<div class="empty"><span class="icon">📱</span>Chưa có sản phẩm IOS</div>';
-    } else {
-      var h = '';
-      for (var i=0;i<PRODUCTS.IOS.length;i++) {
-        var p = PRODUCTS.IOS[i];
-        var plansH = '';
-        for (var j=0;j<(p.plans||[]).length;j++) {
-          plansH += '<span>' + p.plans[j].l + ': ' + fmt(p.plans[j].p) + '</span>';
-        }
-        h += '<div class="prod-item">' +
-          '<div class="prod-item-head">' +
-          '<img src="' + (p.img||'') + '" onerror="this.style.opacity=0.3">' +
-          '<div class="info">' +
-          '<b>' + p.name + '</b>' +
-          '<small>' + (p.desc||'').replace(/\n/g,' • ').replace(/<[^>]*>/g,'') + '</small>' +
-          '</div>' +
-          '</div>' +
-          '<div class="prod-plans">' + plansH + '</div>' +
-          '<div class="prod-actions">' +
-          '<button class="btn-edit" onclick="openProdForm(\'IOS\',\'' + p.id + '\')">✏️ Sửa</button>' +
-          '<button class="btn-danger" onclick="deleteProduct(\'IOS\',\'' + p.id + '\')">🗑 Xoá</button>' +
-          '</div>' +
-          '</div>';
-      }
-      boxIOS.innerHTML = h;
+  function renderBalance() {
+    var uKeys = Object.keys(DB.users);
+    var box = document.getElementById('adBalance');
+    if (!uKeys.length) { box.innerHTML = '<div class="empty"><span class="icon">💰</span>Chưa có người dùng</div>'; return; }
+    uKeys.sort(function(a,b){ return (DB.users[b].createdAt||0) - (DB.users[a].createdAt||0); });
+    var h = '';
+    for (var i=0;i<uKeys.length;i++) {
+      var n = uKeys[i], u = DB.users[n];
+      var bal = Number(u.balance)||0;
+      var tdep = Number(u.totalDeposit)||0;
+      var tspent = Number(u.totalSpent)||0;
+      var safeId = n.replace(/[.#$\[\]\/]/g, '_');
+      h += '<div class="balance-item">' +
+        '<div class="balance-item-header">' +
+        '<b>👤 ' + n + '</b>' +
+        '<small>💰 Số dư: <b style="color:#7dd3fc">' + fmt(bal) + '</b></small>' +
+        '<small>📥 Tổng nạp: <b style="color:#fde047">' + fmt(tdep) + '</b> • 📤 Tổng chi: ' + fmt(tspent) + '</small>' +
+        '</div>' +
+        /* Ô SỐ DƯ */
+        '<div class="balance-input-group" style="margin-bottom:8px">' +
+        '<span style="color:#93c5fd;font-size:11px;font-weight:700;min-width:60px">💰 Số dư</span>' +
+        '<input type="number" id="bal_' + safeId + '" value="' + bal + '" min="0" step="1000">' +
+        '<button onclick="saveBalance(\'' + n.replace(/'/g,"\\'") + '\')">💾 LƯU</button>' +
+        '</div>' +
+        /* Ô TỔNG NẠP */
+        '<div class="balance-input-group">' +
+        '<span style="color:#93c5fd;font-size:11px;font-weight:700;min-width:60px">📥 Tổng nạp</span>' +
+        '<input type="number" id="tdep_' + safeId + '" value="' + tdep + '" min="0" step="1000">' +
+        '<button onclick="saveTotalDep(\'' + n.replace(/'/g,"\\'") + '\')">💾 LƯU</button>' +
+        '</div>' +
+        '</div>';
     }
-
+    box.innerHTML = h;
+  }
+  
     /* ESGIN */
     var boxEG = document.getElementById('esginProdList');
     if (!boxEG) return;
@@ -995,7 +998,7 @@ try {
       var h2 = '';
       for (var k=0;k<PRODUCTS.ESGIN.length;k++) {
         var g = PRODUCTS.ESGIN[k];
-        h2 += '<div class="prod-item">' +
+        ch2 += '<div class="prod-item">' +
           '<div class="prod-item-head">' +
           '<div class="info">' +
           '<b>🔑 ' + g.name + '</b>' +
