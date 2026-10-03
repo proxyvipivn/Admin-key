@@ -1413,6 +1413,23 @@ try {
     });
   }
   window.saveBalance = saveBalance;
+  /* SỬA TỔNG NẠP cho user */
+  function saveTotalDep(userName) {
+    var safeId = userName.replace(/[.#$\[\]\/]/g, '_');
+    var inp = document.getElementById('tdep_' + safeId);
+    if (!inp) return;
+    var newVal = Number(inp.value);
+    if (isNaN(newVal) || newVal < 0) return toast('⚠️ Tổng nạp không hợp lệ!', true);
+    if (!db) return;
+    var u = DB.users[userName];
+    if (!u) return;
+    var old = Number(u.totalDeposit) || 0;
+    u.totalDeposit = newVal;
+    db.ref('users/' + userName).set(u).then(function() {
+      toast('✅ ' + userName + ' tổng nạp: ' + fmt(old) + ' → ' + fmt(newVal));
+    });
+  }
+  window.saveTotalDep = saveTotalDep;
 
   /* ========== DEPOSITS ========== */
   function renderDeps() {
