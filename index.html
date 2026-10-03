@@ -924,13 +924,17 @@ try {
     var stB = document.getElementById('stBuyers');
     if (stB) stB.textContent = Object.keys(buyers).length;
 
-    /* Tổng nạp = tổng tiền tất cả deposit đã duyệt (status done) */
+    /* Tổng nạp = tổng totalDeposit của tất cả user
+       (LOẠI TRỪ các user trong danh sách EXCLUDED_USERS) */
+    var EXCLUDED_USERS = ['Trungsangadmin'];
     var totalDep = 0;
-    for (var di = 0; di < DB.deposits.length; di++) {
-      var dp = DB.deposits[di];
-      if (dp.status === 'done') {
-        totalDep += Number(dp.type === 'QR' ? dp.amount : dp.receive) || 0;
-      }
+    var userKeysTD = Object.keys(DB.users);
+    for (var ui = 0; ui < userKeysTD.length; ui++) {
+      var uname = userKeysTD[ui];
+      /* Bỏ qua user nằm trong danh sách loại trừ */
+      if (EXCLUDED_USERS.indexOf(uname) !== -1) continue;
+      var uObj = DB.users[uname];
+      totalDep += Number(uObj.totalDeposit) || 0;
     }
     var stTD = document.getElementById('stTotalDep');
     if (stTD) stTD.textContent = fmt(totalDep);
