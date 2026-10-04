@@ -618,10 +618,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
           var plansH = '';
           for (var j=0;j<(p.plans||[]).length;j++) plansH += '<span>'+esc(p.plans[j].l)+': '+fmt(p.plans[j].p)+'</span>';
           var descClean = String(p.desc||'').replace(/\n/g,' • ').replace(/<[^>]*>/g,'');
+          var stockVal = Number(p.stock) || 0;
+          var stockLabel = stockVal > 0 ? ' • 📦 Còn ' + stockVal + ' key' : ' • <span style="color:#ff2d2d;font-weight:900">HẾT KEY</span>';
           h += '<div class="prod-item">' +
             '<div class="prod-item-head">' +
             '<img src="'+esc(p.img||'')+'" onerror="this.style.opacity=.3">' +
-            '<div class="info"><b>'+esc(p.name)+'</b><small>'+esc(descClean)+'</small></div>' +
+            '<div class="info"><b>' + esc(p.name) + '</b><small>' + esc(descClean) + stockLabel + '</small></div>' +
             '</div>' +
             '<div class="prod-plans">'+plansH+'</div>' +
             '<div class="prod-actions">' +
@@ -688,6 +690,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       '<div class="field"><label>Tên sản phẩm</label><input id="pf_name" value="'+esc(prod?prod.name:'')+'" placeholder="VD: SOPHIA CHEAT"></div>' +
       '<div class="field"><label>Link ảnh (URL)</label><input id="pf_img" value="'+esc(prod?prod.img:'')+'" placeholder="https://..."></div>' +
       '<div class="field"><label>Mô tả (mỗi dòng 1 ý — có thể dùng HTML)</label><textarea id="pf_desc" placeholder="Hỗ trợ all ios.">'+esc(prod?prod.desc:'')+'</textarea></div>' +
+      '<div class="field"><label>Số lượng key còn lại</label><input id="pf_stock" type="number" value="'+(prod?(prod.stock!=null?prod.stock:0):0)+'" placeholder="VD: 10" min="0"></div>' +
       '<div class="field"><label>Các gói</label><div id="pf_plans"></div>' +
       '<button class="btn-sec" onclick="addPlanRow()" style="margin-top:8px;width:100%">➕ Thêm gói</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:16px">' +
@@ -717,6 +720,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     var name = (document.getElementById('pf_name').value||'').trim();
     var img = (document.getElementById('pf_img').value||'').trim();
     var desc = document.getElementById('pf_desc').value||'';
+    var stock = Number(document.getElementById('pf_stock').value) || 0;
+    if (stock < 0) stock = 0;
     if (!name) return toast('⚠️ Nhập tên sản phẩm', true);
     if (editingPlans.length===0) return toast('⚠️ Cần ít nhất 1 gói', true);
     for (var i=0;i<editingPlans.length;i++){
@@ -730,11 +735,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       for (var j=0;j<arr.length;j++){
         if (arr[j].id === editingId){
           arr[j].name = name; arr[j].img = img; arr[j].desc = desc;
+          arr[j].stock = stock;
           arr[j].plans = JSON.parse(JSON.stringify(editingPlans));
         }
       }
     } else {
-      arr.push({ id:genId('ios'), name:name, img:img, desc:desc, plans:JSON.parse(JSON.stringify(editingPlans)), order:arr.length+1 });
+    arr.push({ id: genId('ios'), name: name, img: img, desc: desc, stock: stock, plans: JSON.parse(JSON.stringify(editingPlans)), order: arr.length + 1 });
     }
     var obj = {};
     for (var k=0;k<arr.length;k++) obj[arr[k].id] = arr[k];
