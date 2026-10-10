@@ -253,30 +253,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
   </div>
 </div>
 
-<!-- GIẢM GIÁ TOÀN SHOP -->
-<div class="page" id="page-bulk">
-  <div class="page-header">
-    <h2>💵 Giảm giá toàn shop</h2>
-    <p>Áp dụng cho mọi người dùng</p>
-  </div>
-  <div class="card">
-    <div class="card-title">🔥 Giảm giá TẤT CẢ sản phẩm (%)</div>
-    <div class="bulk-box">
-      <div class="bulk-title">❄️ Nhập % giảm giá</div>
-      <div class="bulk-row">
-        <input id="bulkDiscountInput" type="number" min="0" max="100" step="1" placeholder="VD: 10">
-        <button class="btn-prime" onclick="saveBulkDiscount()">💾 LƯU</button>
-        <button class="btn-sec" onclick="resetBulkDiscount()">✖ XOÁ</button>
-      </div>
-      <div class="bulk-status" id="bulkStatus"></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title">🏷️ Chỉnh giá từng sản phẩm (toàn shop)</div>
-    <div id="globalPrices"></div>
-  </div>
-</div>
-
 <!-- GIẢM GIÁ RIÊNG -->
 <div class="page" id="page-peruser">
   <div class="page-header">
@@ -327,7 +303,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     <li data-page="balance" data-title="💰 Chỉnh số dư"><span class="ico">💰</span> Số dư</li>
     <li data-page="deposits" data-title="🏦 Đơn nạp xử lý"><span class="ico">🏦</span> Đơn nạp xử lý</li>
     <li data-page="orders" data-title="🔑 Đơn key xử lý"><span class="ico">🔑</span> Đơn key xử lý</li>
-    <li data-page="bulk" data-title="💵 Giảm giá toàn shop"><span class="ico">💵</span> Giảm giá toàn shop</li>
     <li data-page="peruser" data-title="💸 Giảm giá riêng"><span class="ico">💸</span> Giảm giá riêng</li>
     <li data-page="reviews" data-title="⭐ Đánh giá"><span class="ico">⭐</span> Đánh giá</li>
   </ul>
@@ -590,12 +565,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     setTxt('stTotalDep', fmt(totalDep));
 
     /* BULK INPUT */
-    var bulkInp = document.getElementById('bulkDiscountInput');
-    if (bulkInp && !bulkInp.value) bulkInp.value = Number(DB.config.bulkDiscount) || '';
 
     /* RENDER CÁC MỤC */
-    renderBulkStatus();
-    renderGlobalPrices();
     renderUserSelect();
     renderUsers();
     renderBalance();
