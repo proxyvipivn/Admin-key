@@ -815,11 +815,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
 
   /* ========== GLOBAL PRICES ========== */
   function getGlobalPrice(pn, pl, orig){
-    var key = priceKey(pn, pl);
-    if (DB.config.prices && DB.config.prices[key]!=null && DB.config.prices[key]!==''){
-      var gp = Number(DB.config.prices[key]);
-      if (!isNaN(gp) && gp>0) return gp;
-    }
     return orig;
   }
   function renderGlobalPrices(){
