@@ -253,6 +253,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
   </div>
 </div>
 
+<!-- ĐƠN HOÀN TIỀN -->
+<div class="page" id="page-refunds">
+  <div class="page-header">
+    <h2>🔄 Đơn hoàn tiền</h2>
+    <p>Yêu cầu hoàn tiền từ khách hàng — Phí 60%</p>
+  </div>
+  <div class="card">
+    <div class="card-title">🔄 Yêu cầu hoàn tiền <span class="badge-num" id="numRefunds">0</span></div>
+    <div class="hint" style="margin-bottom:14px">
+      ✅ <b style="color:#22d3ee">XÁC NHẬN</b> → trừ số dư user + đánh dấu đã hoàn<br>
+      ✖ <b style="color:#fda4af">HUỶ</b> → huỷ yêu cầu, không trừ số dư<br>
+      🗑 <b style="color:#bae6fd">XOÁ</b> → ẩn khỏi admin
+    </div>
+    <div id="adRefunds"></div>
+  </div>
+</div>
+
 <!-- GIẢM GIÁ RIÊNG -->
 <div class="page" id="page-peruser">
   <div class="page-header">
@@ -302,6 +319,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     <li data-page="users" data-title="👥 Lịch sử đăng ký"><span class="ico">👥</span> Lịch sử đăng ký</li>
     <li data-page="balance" data-title="💰 Chỉnh số dư"><span class="ico">💰</span> Số dư</li>
     <li data-page="deposits" data-title="🏦 Đơn nạp xử lý"><span class="ico">🏦</span> Đơn nạp xử lý</li>
+    <li data-page="refunds" data-title="🔄 Đơn hoàn tiền"><span class="ico">🔄</span> Đơn hoàn tiền</li>
     <li data-page="orders" data-title="🔑 Đơn key xử lý"><span class="ico">🔑</span> Đơn key xử lý</li>
     <li data-page="peruser" data-title="💸 Giảm giá riêng"><span class="ico">💸</span> Giảm giá riêng</li>
     <li data-page="reviews" data-title="⭐ Đánh giá"><span class="ico">⭐</span> Đánh giá</li>
@@ -339,7 +357,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     db = firebase.database();
   } catch(err) { console.error('Firebase init error:', err); }
 
-  var DB = { users:{}, deposits:[], orders:[], reviews:[], config:{ prices:{}, bulkDiscount:0 } };
+  var DB = { users:{}, deposits:[], orders:[], reviews:[], refunds:[], config:{ prices:{}, bulkDiscount:0 } };
   var PRODUCTS = { IOS: [], ESGIN: [] };
   var IMG = 'https://raw.githubusercontent.com/proxyvipivn/Shop-blox-fruit-/main/';
   var EXCLUDED_USERS = ['Trungsangadmin'];
@@ -507,6 +525,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     db.ref('deposits').on('value', function(snap){ DB.deposits = snap.val() || []; renderAll(); });
     db.ref('orders').on('value', function(snap){ DB.orders = snap.val() || []; renderAll(); });
     db.ref('reviews').on('value', function(snap){ DB.reviews = snap.val() || []; renderAll(); });
+    db.ref('refunds').on('value', function(snap){ DB.refunds = snap.val() || []; renderAll(); });
     db.ref('config').on('value', function(snap){
       var d = snap.val() || {};
       DB.config = { prices: d.prices || {}, bulkDiscount: Number(d.bulkDiscount) || 0 };
@@ -572,6 +591,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     renderBalance();
     renderDeps();
     renderOrds();
+    renderRefunds();
     renderRevs();
     renderProductLists();
   }
@@ -1184,6 +1204,114 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       db.ref('orders').set(ords).then(function(){ toast('🗑 Đã xoá'); });
     });
   }
+
+/* ============================================================
+     ĐƠN HOÀN TIỀN
+     ============================================================ */
+  function renderRefunds(){
+    var box = document.getElementById('adRefunds');
+    if (!box) return;
+    var refunds = DB.refunds || [];
+    if (!Array.isArray(refunds)) refunds = [];
+    var vis = [];
+    for (var x = 0; x < refunds.length; x++) {
+      if (!refunds[x].adminDeleted) vis.push(refunds[x]);
+    }
+    var n = document.getElementById('numRefunds');
+    if (n) n.textContent = vis.length;
+    if (!vis.length) {
+      box.innerHTML = '<div class="empty"><span class="icon">🔄</span>Chưa có yêu cầu hoàn tiền</div>';
+      return;
+    }
+    var h = '';
+    for (var i = 0; i < vis.length; i++) {
+      var r = vis[i];
+      var info = '🏦 Ngân hàng: <b style="color:#fde047">' + esc(r.bank) + '</b><br>' +
+        '💳 Số TK: <b style="color:#f9a8d4">' + esc(r.account) + '</b><br>' +
+        '👤 Tên: <b style="color:#f9a8d4">' + esc(r.name) + '</b><br>' +
+        '💰 Muốn hoàn: <b style="color:#7dd3fc">' + fmt(r.amount) + '</b><br>' +
+        '💸 Phí 60%: <b style="color:#ff2d2d">' + fmt(r.fee) + '</b><br>' +
+        '✅ Thực nhận: <b style="color:#22d3ee">' + fmt(r.receive) + '</b>';
+      var badge2;
+      if (r.status === 'wait') {
+        badge2 = '<div class="item-actions">' +
+          '<button class="btn-act prime" onclick="refundAppr(\'' + esc(r.id) + '\')">✅ ĐÃ HOÀN</button>' +
+          '<button class="btn-act danger" onclick="refundCnl(\'' + esc(r.id) + '\')">✖ HUỶ</button>' +
+          '<button class="btn-act ghost" onclick="refundDel(\'' + esc(r.id) + '\')">🗑 XOÁ</button>' +
+          '</div>';
+      } else if (r.status === 'done') {
+        badge2 = '<div class="item-actions"><span class="badge done">✅ ĐÃ HOÀN</span><button class="btn-act ghost" onclick="refundDel(\'' + esc(r.id) + '\')">🗑 XOÁ</button></div>';
+      } else {
+        badge2 = '<div class="item-actions"><span class="badge cancel">✖ ĐÃ HUỶ</span><button class="btn-act ghost" onclick="refundDel(\'' + esc(r.id) + '\')">🗑 XOÁ</button></div>';
+      }
+      h += '<div class="item"><div class="item-main"><b>👤 ' + esc(r.user) + ' — #' + esc(r.id) + '</b><small>' + info + '</small><small>🕐 ' + timeStr(r.createdAt) + '</small></div>' + badge2 + '</div>';
+    }
+    box.innerHTML = h;
+  }
+
+  function refundAppr(id){
+    if (!db) return;
+    db.ref('refunds').once('value').then(function(snap){
+      var refunds = snap.val() || [];
+      if (!Array.isArray(refunds)) refunds = [];
+      var r = null;
+      for (var i = 0; i < refunds.length; i++) if (refunds[i].id === id) r = refunds[i];
+      if (!r) return toast('❌ Không tìm thấy', true);
+      if (r.status !== 'wait') return toast('⚠️ Đã xử lý rồi', true);
+
+      db.ref('users/' + r.user).once('value').then(function(us){
+        var u = us.val();
+        if (!u) { toast('❌ Không tìm thấy user', true); return; }
+        if ((u.balance || 0) < r.amount) {
+          toast('❌ Số dư user không đủ! Hiện có ' + fmt(u.balance), true);
+          return;
+        }
+        u.balance = (u.balance || 0) - r.amount;
+        db.ref('users/' + r.user).set(u).then(function(){
+          for (var j = 0; j < refunds.length; j++) {
+            if (refunds[j].id === id) {
+              refunds[j].status = 'done';
+              refunds[j].doneAt = now();
+            }
+          }
+          db.ref('refunds').set(refunds);
+          toast('✅ Đã xác nhận — chuyển ' + fmt(r.receive) + ' cho ' + r.user);
+        });
+      });
+    });
+  }
+  window.refundAppr = refundAppr;
+
+  function refundCnl(id){
+    if (!db) return;
+    db.ref('refunds').once('value').then(function(snap){
+      var refunds = snap.val() || [];
+      if (!Array.isArray(refunds)) refunds = [];
+      for (var i = 0; i < refunds.length; i++) {
+        if (refunds[i].id === id) {
+          refunds[i].status = 'cancel';
+          refunds[i].cancelAt = now();
+        }
+      }
+      db.ref('refunds').set(refunds);
+      toast('✖ Đã huỷ yêu cầu', true);
+    });
+  }
+  window.refundCnl = refundCnl;
+
+  function refundDel(id){
+    if (!db) return;
+    db.ref('refunds').once('value').then(function(snap){
+      var refunds = snap.val() || [];
+      if (!Array.isArray(refunds)) refunds = [];
+      for (var i = 0; i < refunds.length; i++) {
+        if (refunds[i].id === id) refunds[i].adminDeleted = true;
+      }
+      db.ref('refunds').set(refunds);
+      toast('🗑 Đã xoá');
+    });
+  }
+  window.refundDel = refundDel;
 
   /* ========== REVIEWS ========== */
   function renderRevs(){
