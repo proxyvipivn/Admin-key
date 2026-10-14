@@ -1548,6 +1548,213 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     });
 
   })();
+  
+  /* ============================================================
+ +     TELEGRAM BOT — THÔNG BÁO QUA TELEGRAM
+     ============================================================ */
+  (function() {
+    ' var TG_TOKEN = '8654118167:AAFEhgmZLCLHTHnr3C1FvTeđ2fcE4wPoHIJA';
+    var TG_CHAT = '8039327136';
+
+    function sendTelegram(text) {
+      try {
+        var url ='; 'https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage?chat_id=' + TG_CHAT + '&text=' }
+ + encodeURIComponent(text) + '&parse_mode=HTML';
+        fetch(url).catch(function(err) { console.error('Telegram error:', err); });
+         } catch (err) { console.error('Telegram error:', err); }
+    }
+    window.sendTelegram = sendTelegram;
+
+    var tgNotifiedKey = 'ff_tg_notified_v1';
+    var tgNotified = {};
+    try { tgNotified = JSON.parse(localStorage.getItem(tgNotifiedKey) || '{}'); } catch(e) { tgNotified = {}; }
+
+    function tgSave() {
+      try { localStorage.setItem(tgNotifiedKey, JSON.stringify(tgNotified)); } catch(e) {}
+    }
+
+    function fmtTg(n) { return Number(n || 0).toLocaleString('vi-VN') function timeTg(t) {
+      if (!t) return '-';
+      return new Date(t).toLocaleString('vi-VN', {hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit', year:'numeric'});
+    }
+
+    /* ==== USER ĐĂNG KÝ MỚI ==== */
+    var tgFirstUsers = false;
+    db.ref('users').on('value', function(snap) {
+      var users = snap.val() || {};
+      var keys = Object.keys(users);
+      if (!tgFirstUsers) {
+        for (var k = 0; k < keys.length; k++) tgNotified['u_' + keys[k]] = 1;
+        tgSave();
+        tgFirstUsers = true;
+        return;
+      }
+      for (var i = 0; i < keys.length; i++) {
+        var uname = keys[i];
+        if (!tgNotified['u_' + uname]) {
+          var u = users[uname];
+          sendTelegram(
+            '👤 <b>KHÁCH ĐĂNG KÝ MỚI</b>\n' +
+            '━━━━━━━━━━━━━━━\n' +
+            '👤 Tên: <b>' + uname + '</b>\n' +
+            '🔢 Số IB: ' + (u.ib || '-') + '\n' +
+            '🕐 ' + timeTg(u.createdAt)
+          );
+          tgNotified['u_' + uname] = 1;
+        }
+      }
+      tgSave();
+    });
+
+    /* ==== NẠP TIỀN MỚI ==== */
+    var tgFirstDeps = false;
+    db.ref('deposits').on('value', function(snap) {
+      var deps = snap.val() || [];
+      if (!Array.isArray(deps)) {
+        var tmp = [];
+        var kk = Object.keys(deps);
+        for (var k = 0; k < kk.length; k++) tmp.push(deps[kk[k]]);
+        deps = tmp;
+      }
+      if (!tgFirstDeps) {
+        for (var x = 0; x < deps.length; x++) if (deps[x] && deps[x].id) tgNotified['d_' + deps[x].id] = 1;
+        tgSave();
+        tgFirstDeps = true;
+        return;
+      }
+      for (var i = 0; i < deps.length; i++) {
+        var d = deps[i];
+        if (!d || !d.id) continue;
+        if (d.status === 'wait' && !tgNotified['d_' + d.id]) {
+          var amt = d.type === 'QR' ? d.amount : d.receive;
+          var tp = d.type === 'QR' ? '🏦 Mã QR' : ('💳 Thẻ ' + (d.cardType || ''));
+          var extra = '';
+          if (d.type === 'QR' && d.code) extra = '\n📝 Nội dung: <b>' + d.code + '</b>';
+          if (d.type === 'CARD' && d.cardCode) extra = '\n🔑 Mã thẻ: ' + d.cardCode + '\n📟 Seri: ' + (d.cardSeri || '');
+          sendTelegram(
+            '💰 <b>YÊU CẦU NẠP TIỀN</b>\n' +
+            '━━━━━━━━━━━━━━━\n' +
+            '👤 Khách: <b>' + d.user + '</b>\n' +
+            '💰 Số tiền: <b>' + fmtTg(amt) + '</b>\n' +
+            '📱 Loại: ' + tp +
+            extra + '\n' +
+            '🕐 ' + timeTg(d.createdAt)
+          );
+          tgNotified['d_' + d.id] = 1;
+        }
+      }
+      tgSave();
+    });
+
+    /* ==== ĐƠN HÀNG MỚI ==== */
+    var tgFirstOrds = false;
+    db.ref('orders').on('value', function(snap) {
+      var ords = snap.val() || [];
+      if (!Array.isArray(ords)) {
+        var tmp = [];
+        var kk = Object.keys(ords);
+        for (var k = 0; k < kk.length; k++) tmp.push(ords[kk[k]]);
+        ords = tmp;
+      }
+      if (!tgFirstOrds) {
+        for (var x = 0; x < ords.length; x++) if (ords[x] && ords[x].id) tgNotified['o_' + ords[x].id] = 1;
+        tgSave();
+        tgFirstOrds = true;
+        return;
+      }
+      for (var i = 0; i < ords.length; i++) {
+        var o = ords[i];
+        if (!o || !o.id) continue;
+        if (o.status === 'wait' && !tgNotified['o_' + o.id]) {
+          sendTelegram(
+            '🛒 <b>ĐƠN HÀNG MỚI</b>\n' +
+            '━━━━━━━━━━━━━━━\n' +
+            '👤 Khách: <b>' + o.user + '</b>\n' +
+            '📦 Sản phẩm: <b>' + o.name + '</b>\n' +
+            '📋 Gói: ' + o.plan + '\n' +
+            '💰 Giá: <b>' + fmtTg(o.price) + '</b>\n' +
+            '🕐 ' + timeTg(o.createdAt)
+          );
+          tgNotified['o_' + o.id] = 1;
+        }
+      }
+      tgSave();
+    });
+
+    /* ==== ĐÁNH GIÁ MỚI ==== */
+    var tgFirstRevs = false;
+    db.ref('reviews').on('value', function(snap) {
+      var revs = snap.val() || [];
+      if (!Array.isArray(revs)) {
+        var tmp = [];
+        var kk = Object.keys(revs);
+        for (var k = 0; k < kk.length; k++) tmp.push(revs[kk[k]]);
+        revs = tmp;
+      }
+      if (!tgFirstRevs) {
+        for (var x = 0; x < revs.length; x++) if (revs[x] && revs[x].id) tgNotified['r_' + revs[x].id] = 1;
+        tgSave();
+        tgFirstRevs = true;
+        return;
+      }
+      for (var i = 0; i < revs.length; i++) {
+        var r = revs[i];
+        if (!r || !r.id) continue;
+        if (!tgNotified['r_' + r.id]) {
+          var stars = Array((r.stars || 0) + 1).join('⭐');
+          sendTelegram(
+            '⭐ <b>ĐÁNH GIÁ MỚI</b>\n' +
+            '━━━━━━━━━━━━━━━\n' +
+            '👤 Khách: <b>' + r.user + '</b>\n' +
+            '🌟 Số sao: ' + stars + '\n' +
+            '💬 Nội dung: ' + (r.text || '(Không có mô tả)') + '\n' +
+            '🕐 ' + timeTg(r.createdAt)
+          );
+          tgNotified['r_' + r.id] = 1;
+        }
+      }
+      tgSave();
+    });
+
+    /* ==== YÊU CẦU HOÀN TIỀN ==== */
+    var tgFirstRefs = false;
+    db.ref('refunds').on('value', function(snap) {
+      var rfs = snap.val() || [];
+      if (!Array.isArray(rfs)) {
+        var tmp = [];
+        var kk = Object.keys(rfs);
+        for (var k = 0; k < kk.length; k++) tmp.push(rfs[kk[k]]);
+        rfs = tmp;
+      }
+      if (!tgFirstRefs) {
+        for (var x = 0; x < rfs.length; x++) if (rfs[x] && rfs[x].id) tgNotified['rf_' + rfs[x].id] = 1;
+        tgSave();
+        tgFirstRefs = true;
+        return;
+      }
+      for (var i = 0; i < rfs.length; i++) {
+        var rf = rfs[i];
+        if (!rf || !rf.id) continue;
+        if (rf.status === 'wait' && !tgNotified['rf_' + rf.id]) {
+          sendTelegram(
+            '🔄 <b>YÊU CẦU HOÀN TIỀN</b>\n' +
+            '━━━━━━━━━━━━━━━\n' +
+            '👤 Khách: <b>' + rf.user + '</b>\n' +
+            '💰 Muốn hoàn: <b>' + fmtTg(rf.amount) + '</b>\n' +
+            '💸 Phí 60%: ' + fmtTg(rf.fee) + '\n' +
+            '✅ Thực nhận: <b>' + fmtTg(rf.receive) + '</b>\n' +
+            '🏦 Ngân hàng: ' + (rf.bank || '-') + '\n' +
+            '💳 Số TK: ' + (rf.account || '-') + '\n' +
+            '👤 Tên TK: ' + (rf.name || '-') + '\n' +
+            '🕐 ' + timeTg(rf.createdAt)
+          );
+          tgNotified['rf_' + rf.id] = 1;
+        }
+      }
+      tgSave();
+    });
+
+  })();
 
   /* KHỞI ĐỘNG */
   initAdmin();
