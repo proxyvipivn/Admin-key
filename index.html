@@ -1366,7 +1366,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
   })();
   
   /* ============================================================
-     THÔNG BÁO KIỂU MESSENGER
+     THÔNG BÁO KIỂU MESSENGER (V2 - ĐÃ FIX)
      ============================================================ */
   (function() {
     /* CSS */
@@ -1388,13 +1388,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
     container.id = 'msgNotifications';
     document.body.appendChild(container);
 
-    var notifiedKey = 'ff_admin_notified';
+    var notifiedKey = 'ff_admin_notified_v2';
     var notified = {};
     try { notified = JSON.parse(localStorage.getItem(notifiedKey) || '{}'); } catch(e) { notified = {}; }
-    var firstRun = Object.keys(notified).length === 0;
 
     function pop(icon, title, text) {
-      /* Giữ tối đa 3 popup */
       while (container.children.length >= 3) {
         container.removeChild(container.children[0]);
       }
@@ -1417,28 +1415,43 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       try { localStorage.setItem(notifiedKey, JSON.stringify(notified)); } catch(e) {}
     }
 
-    /* User đăng ký mới */
+    /* USERS */
     var firstUsers = false;
     db.ref('users').on('value', function(snap) {
       var users = snap.val() || {};
-      if (firstRun || !firstUsers) { firstUsers = true; return; }
       var keys = Object.keys(users);
+      if (!firstUsers) {
+        for (var k = 0; k < keys.length; k++) notified['u_' + keys[k]] = 1;
+        save();
+        firstUsers = true;
+        return;
+      }
       for (var i = 0; i < keys.length; i++) {
-        var u = users[keys[i]];
-        if (!notified['u_' + keys[i]] && u.createdAt && (Date.now() - u.createdAt) < 120000) {
-          pop('👤', 'Khách đăng ký mới', '<b>' + keys[i] + '</b> vừa tạo tài khoản');
-          notified['u_' + keys[i]] = 1;
+        var uname = keys[i];
+        if (!notified['u_' + uname]) {
+          pop('👤', 'Khách đăng ký mới', '<b>' + uname + '</b> vừa tạo tài khoản');
+          notified['u_' + uname] = 1;
         }
       }
       save();
     });
 
-    /* Nạp tiền mới */
+    /* DEPOSITS */
     var firstDeps = false;
     db.ref('deposits').on('value', function(snap) {
       var deps = snap.val() || [];
-      if (!Array.isArray(deps)) deps = Object.values(deps);
-      if (firstRun || !firstDeps) { firstDeps = true; return; }
+      if (!Array.isArray(deps)) {
+        var tmp = [];
+        var kk = Object.keys(deps);
+        for (var k = 0; k < kk.length; k++) tmp.push(deps[kk[k]]);
+        deps = tmp;
+      }
+      if (!firstDeps) {
+        for (var x = 0; x < deps.length; x++) if (deps[x] && deps[x].id) notified['d_' + deps[x].id] = 1;
+        save();
+        firstDeps = true;
+        return;
+      }
       for (var i = 0; i < deps.length; i++) {
         var d = deps[i];
         if (!d || !d.id) continue;
@@ -1452,12 +1465,22 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       save();
     });
 
-    /* Đơn hàng mới */
+    /* ORDERS */
     var firstOrds = false;
     db.ref('orders').on('value', function(snap) {
       var ords = snap.val() || [];
-      if (!Array.isArray(ords)) ords = Object.values(ords);
-      if (firstRun || !firstOrds) { firstOrds = true; return; }
+      if (!Array.isArray(ords)) {
+        var tmp = [];
+        var kk = Object.keys(ords);
+        for (var k = 0; k < kk.length; k++) tmp.push(ords[kk[k]]);
+        ords = tmp;
+      }
+      if (!firstOrds) {
+        for (var x = 0; x < ords.length; x++) if (ords[x] && ords[x].id) notified['o_' + ords[x].id] = 1;
+        save();
+        firstOrds = true;
+        return;
+      }
       for (var i = 0; i < ords.length; i++) {
         var o = ords[i];
         if (!o || !o.id) continue;
@@ -1469,12 +1492,22 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       save();
     });
 
-    /* Đánh giá mới */
+    /* REVIEWS */
     var firstRevs = false;
     db.ref('reviews').on('value', function(snap) {
       var revs = snap.val() || [];
-      if (!Array.isArray(revs)) revs = Object.values(revs);
-      if (firstRun || !firstRevs) { firstRevs = true; return; }
+      if (!Array.isArray(revs)) {
+        var tmp = [];
+        var kk = Object.keys(revs);
+        for (var k = 0; k < kk.length; k++) tmp.push(revs[kk[k]]);
+        revs = tmp;
+      }
+      if (!firstRevs) {
+        for (var x = 0; x < revs.length; x++) if (revs[x] && revs[x].id) notified['r_' + revs[x].id] = 1;
+        save();
+        firstRevs = true;
+        return;
+      }
       for (var i = 0; i < revs.length; i++) {
         var r = revs[i];
         if (!r || !r.id) continue;
@@ -1487,12 +1520,22 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       save();
     });
 
-    /* Yêu cầu hoàn tiền */
+    /* REFUNDS */
     var firstRefs = false;
     db.ref('refunds').on('value', function(snap) {
       var rfs = snap.val() || [];
-      if (!Array.isArray(rfs)) rfs = Object.values(rfs);
-      if (firstRun || !firstRefs) { firstRefs = true; return; }
+      if (!Array.isArray(rfs)) {
+        var tmp = [];
+        var kk = Object.keys(rfs);
+        for (var k = 0; k < kk.length; k++) tmp.push(rfs[kk[k]]);
+        rfs = tmp;
+      }
+      if (!firstRefs) {
+        for (var x = 0; x < rfs.length; x++) if (rfs[x] && rfs[x].id) notified['rf_' + rfs[x].id] = 1;
+        save();
+        firstRefs = true;
+        return;
+      }
       for (var i = 0; i < rfs.length; i++) {
         var rf = rfs[i];
         if (!rf || !rf.id) continue;
