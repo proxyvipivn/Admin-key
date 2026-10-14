@@ -1364,6 +1364,147 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background
       (function(li){ li.addEventListener('click', function(){ navigate(li.getAttribute('data-page')); }); })(lis[i]);
     }
   })();
+  
+  /* ============================================================
+     THÔNG BÁO KIỂU MESSENGER
+     ============================================================ */
+  (function() {
+    /* CSS */
+    var style = document.createElement('style');
+    style.textContent = '#msgNotifications{position:fixed;top:70px;right:10px;z-index:99999;width:min(330px,90vw);display:flex;flex-direction:column;gap:8px;pointer-events:none;max-height:calc(100vh - 100px);overflow:hidden}' +
+      '.msg-pop{background:linear-gradient(135deg,rgba(12,40,65,.98),rgba(6,22,40,.98));border:1.5px solid rgba(125,211,252,.55);border-radius:14px;padding:12px 14px;box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 25px rgba(125,211,252,.3);display:flex;gap:10px;align-items:flex-start;transform:translateX(120%);animation:msgSlideIn .4s cubic-bezier(.3,1.4,.5,1) forwards;pointer-events:auto}' +
+      '.msg-pop.out{animation:msgSlideOut .3s ease forwards}' +
+      '@keyframes msgSlideIn{to{transform:translateX(0)}}' +
+      '@keyframes msgSlideOut{to{transform:translateX(120%);opacity:0}}' +
+      '.msg-pop-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7dd3fc,#22d3ee);display:flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto;box-shadow:0 0 15px rgba(125,211,252,.5)}' +
+      '.msg-pop-body{flex:1;min-width:0}' +
+      '.msg-pop-title{font-size:12.5px;font-weight:900;color:#7dd3fc;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center;gap:6px}' +
+      '.msg-pop-time{font-size:10px;color:#64748b;font-weight:600;white-space:nowrap}' +
+      '.msg-pop-text{font-size:12.5px;color:#e8f4ff;line-height:1.5;word-break:break-word}' +
+      '.msg-pop-text b{color:#fde047}';
+    document.head.appendChild(style);
+
+    var container = document.createElement('div');
+    container.id = 'msgNotifications';
+    document.body.appendChild(container);
+
+    var notifiedKey = 'ff_admin_notified';
+    var notified = {};
+    try { notified = JSON.parse(localStorage.getItem(notifiedKey) || '{}'); } catch(e) { notified = {}; }
+    var firstRun = Object.keys(notified).length === 0;
+
+    function pop(icon, title, text) {
+      /* Giữ tối đa 3 popup */
+      while (container.children.length >= 3) {
+        container.removeChild(container.children[0]);
+      }
+      var el = document.createElement('div');
+      el.className = 'msg-pop';
+      var time = new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+      el.innerHTML = '<div class="msg-pop-avatar">' + icon + '</div>' +
+        '<div class="msg-pop-body">' +
+        '<div class="msg-pop-title"><span>' + title + '</span><span class="msg-pop-time">' + time + '</span></div>' +
+        '<div class="msg-pop-text">' + text + '</div>' +
+        '</div>';
+      container.appendChild(el);
+      setTimeout(function() {
+        el.classList.add('out');
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
+      }, 4500);
+    }
+
+    function save() {
+      try { localStorage.setItem(notifiedKey, JSON.stringify(notified)); } catch(e) {}
+    }
+
+    /* User đăng ký mới */
+    var firstUsers = false;
+    db.ref('users').on('value', function(snap) {
+      var users = snap.val() || {};
+      if (firstRun || !firstUsers) { firstUsers = true; return; }
+      var keys = Object.keys(users);
+      for (var i = 0; i < keys.length; i++) {
+        var u = users[keys[i]];
+        if (!notified['u_' + keys[i]] && u.createdAt && (Date.now() - u.createdAt) < 120000) {
+          pop('👤', 'Khách đăng ký mới', '<b>' + keys[i] + '</b> vừa tạo tài khoản');
+          notified['u_' + keys[i]] = 1;
+        }
+      }
+      save();
+    });
+
+    /* Nạp tiền mới */
+    var firstDeps = false;
+    db.ref('deposits').on('value', function(snap) {
+      var deps = snap.val() || [];
+      if (!Array.isArray(deps)) deps = Object.values(deps);
+      if (firstRun || !firstDeps) { firstDeps = true; return; }
+      for (var i = 0; i < deps.length; i++) {
+        var d = deps[i];
+        if (!d || !d.id) continue;
+        if (d.status === 'wait' && !notified['d_' + d.id]) {
+          var amt = d.type === 'QR' ? d.amount : d.receive;
+          var tp = d.type === 'QR' ? 'Mã QR' : ('Thẻ ' + (d.cardType || ''));
+          pop('💰', 'Yêu cầu nạp tiền', '<b>' + d.user + '</b> vừa nạp <b>' + Number(amt || 0).toLocaleString('vi-VN') + 'đ</b> qua ' + tp);
+          notified['d_' + d.id] = 1;
+        }
+      }
+      save();
+    });
+
+    /* Đơn hàng mới */
+    var firstOrds = false;
+    db.ref('orders').on('value', function(snap) {
+      var ords = snap.val() || [];
+      if (!Array.isArray(ords)) ords = Object.values(ords);
+      if (firstRun || !firstOrds) { firstOrds = true; return; }
+      for (var i = 0; i < ords.length; i++) {
+        var o = ords[i];
+        if (!o || !o.id) continue;
+        if (o.status === 'wait' && !notified['o_' + o.id]) {
+          pop('🛒', 'Đơn hàng mới', '<b>' + o.user + '</b> đặt <b>' + o.name + '</b> (' + o.plan + ')');
+          notified['o_' + o.id] = 1;
+        }
+      }
+      save();
+    });
+
+    /* Đánh giá mới */
+    var firstRevs = false;
+    db.ref('reviews').on('value', function(snap) {
+      var revs = snap.val() || [];
+      if (!Array.isArray(revs)) revs = Object.values(revs);
+      if (firstRun || !firstRevs) { firstRevs = true; return; }
+      for (var i = 0; i < revs.length; i++) {
+        var r = revs[i];
+        if (!r || !r.id) continue;
+        if (!notified['r_' + r.id]) {
+          var stars = Array((r.stars || 0) + 1).join('⭐');
+          pop('⭐', 'Đánh giá mới', '<b>' + r.user + '</b> đánh giá ' + stars);
+          notified['r_' + r.id] = 1;
+        }
+      }
+      save();
+    });
+
+    /* Yêu cầu hoàn tiền */
+    var firstRefs = false;
+    db.ref('refunds').on('value', function(snap) {
+      var rfs = snap.val() || [];
+      if (!Array.isArray(rfs)) rfs = Object.values(rfs);
+      if (firstRun || !firstRefs) { firstRefs = true; return; }
+      for (var i = 0; i < rfs.length; i++) {
+        var rf = rfs[i];
+        if (!rf || !rf.id) continue;
+        if (rf.status === 'wait' && !notified['rf_' + rf.id]) {
+          pop('🔄', 'Yêu cầu hoàn tiền', '<b>' + rf.user + '</b> muốn hoàn <b>' + Number(rf.amount || 0).toLocaleString('vi-VN') + 'đ</b>');
+          notified['rf_' + rf.id] = 1;
+        }
+      }
+      save();
+    });
+
+  })();
 
   /* KHỞI ĐỘNG */
   initAdmin();
